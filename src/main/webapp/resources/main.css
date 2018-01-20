@@ -1,0 +1,107 @@
+html {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    -webkit-box-sizing: inherit;
+    -moz-box-sizing: inherit;
+    box-sizing: inherit;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #E8E8E8;
+    /* Background grey */
+}
+
+::-moz-placeholder { /* Firefox 19+ */
+    color: #E8E8E8;
+    /* Background grey */
+}
+
+:-ms-input-placeholder { /* IE 10+ */
+    color: #E8E8E8;
+    /* Background grey */
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: #E8E8E8;
+    /* Background grey */
+}
+
+body {
+    /* Background grey */
+    background-color: #FAFAFA;
+    /*font-family: 'SamsungOne', sans-serif;*/
+    font-size: 16px;
+    line-height: 1.4;
+    text-align:center;
+}
+
+img {
+    max-width:100%;
+}
+
+label {
+    font-weight: 500;
+}
+
+.center {
+    text-align: center;
+}
+
+.left {
+    text-align: left;
+}
+
+.logo{
+    max-width:150px;
+    margin: 30px auto;
+}
+
+.big-icon{
+    font-size:30px;
+    color:#CACACA;
+    margin:10px;
+}
+
+.content {
+    min-width:350px;
+    padding:25px;
+    background: #FFF;
+    display: inline-block;
+    border:1px solid #F0F0EE;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 3px 5px  rgba(128,128,128,0.5);  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+    -moz-box-shadow:    0 3px 5px  rgba(128,128,128,0.5);  /* Firefox 3.5 - 3.6 */
+    box-shadow:         0 3px 5px  rgba(128,128,128,0.5);  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+
+.submit-button{
+
+    width:100%;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 10px 30px;
+    border:none;
+    border-radius: 5px;
+    background-color: #1428A0;
+    /* Samsung blue */
+    color: #FFF;
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 14px;
+    cursor:pointer;
+}
+
+.page-title{
+
+    font-weight: 100;
+    font-size:20px;
+    margin-bottom:10px;
+
+}

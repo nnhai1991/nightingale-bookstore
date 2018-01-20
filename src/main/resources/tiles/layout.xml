@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+
+	<!-- Master Template Page Admin -->
+	<definition name="admin-template" template="/WEB-INF/views/template/master-admin-default.jsp">
+		<put-attribute name="htmlhead" value="/WEB-INF/views/template/htmlhead-admin-default.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/template/body.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/template/footer-admin-default.jsp" />
+	</definition>
+	
+	<!-- Master Template Page Normal --> 
+	<definition name="default-template" template="/WEB-INF/views/template/master-default.jsp">
+		<put-attribute name="htmlhead" value="/WEB-INF/views/template/htmlhead-default.jsp" /> 
+    	<put-attribute name="body" value="/WEB-INF/views/template/body.jsp" />
+    	<put-attribute name="footer" value="/WEB-INF/views/template/footer-default.jsp" />
+	</definition>
+	
+</tiles-definitions>
