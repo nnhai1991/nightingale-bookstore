@@ -13,11 +13,11 @@
 
         <div class="container">
             <div class="logo">
-                <c:url var="imgSrc" value="/resources/images/preorder/img/samsung-logo-blue.png"/>
+                <c:url var="imgSrc" value="/resources/images/logo.png"/>
                 <img src="${imgSrc}" alt="logo"/>
             </div>
 
-            <div class="page-title">Shop Dashboard Collection Center</div>
+            <div class="page-title">Nightingale Bookstore</div>
 
             <div class="content">
 

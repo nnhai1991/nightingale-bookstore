@@ -8,39 +8,18 @@
 
 <fmt:setLocale value="en_us" scope="session"/>
 
-<!-- Favicon -->
-<link rel="shortcut icon" href="<c:url value="/resources/images/preorder/img/favicon.ico"/>">
+<!-- vendor style-->
+<link href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css"/>"/>
+<link href="<c:url value="/resources/vendor/metisMenu/css/metisMenu.min.css"/>"/>
+<link href="<c:url value="/resources/vendor/font-awesome/css/font-awesome.min.css"/>"/>
 
-<!-- Omniture -->
-<script src="<c:url value="/resources/library/omniture/s_code_microsite.js"/>"></script>
+<!-- vendor script -->
+<script src="<c:url value="/resources/vendor/jquery/jquery.min.js"/>"></script>
+<script src="<c:url value="/resources/vendor/bootstrap/js/bootstrap.min.js"/>"></script>
+<script src="<c:url value="/resources/vendor/metisMenu/js/metisMenu.min.js"/>"></script>
 
-<!-- Admin Template START -->
 
-<link href="<c:url value="/resources/library/admin-template/third-party/bootstrap/css/bootstrap.min.css"/>" rel="stylesheet">
-<!-- Custom fonts for this template-->
-<link href="<c:url value="/resources/library/admin-template/third-party/font-awesome/css/font-awesome.min.css"/>" rel="stylesheet" type="text/css">
-<!-- Page level plugin CSS-->
-<link href="<c:url value="/resources/library/admin-template/third-party/datatables/dataTables.bootstrap4.css"/>" rel="stylesheet">
-<!-- Custom styles for this template-->
-<link href="<c:url value="/resources/library/admin-template/css/sd-admin.css"/>" rel="stylesheet">
-<link href="<c:url value="/resources/library/admin-template/css/main-admin.css"/>" rel="stylesheet">
-
-<!-- Custom javascript for this template-->
-<script src="<c:url value="/resources/library/admin-template/js/main-admin.js"/>"></script>
-
-<script src="<c:url value="/resources/library/admin-template/third-party/jquery/jquery.min.js"/>"></script>
-
-<script src="<c:url value="/resources/library/admin-template/third-party/bootstrap/js/bootstrap.bundle.min.js"/>"></script>
-<!-- Core plugin JavaScript-->
-<script src="<c:url value="/resources/library/admin-template/third-party/jquery-easing/jquery.easing.min.js"/>"></script>
-<!-- Page level plugin JavaScript-->
-<script src="<c:url value="/resources/library/admin-template/third-party/chart.js/Chart.min.js"/>"></script>
-<script src="<c:url value="/resources/library/admin-template/third-party/datatables/jquery.dataTables.js"/>"></script>
-<script src="<c:url value="/resources/library/admin-template/third-party/datatables/dataTables.bootstrap4.js"/>"></script>
-
-<!-- Date Picker -->
-<script src="<c:url value="/resources/library/moment/moment.js"/>"></script>
-<script src="<c:url value="/resources/library/bootstrap-datepicker/js/bootstrap-datepicker.js"/>"></script>
-<link href="<c:url value="/resources/library/bootstrap-datepicker/css/bootstrap-datepicker.css"/>" rel="stylesheet" />
-
-<!-- Admin Template END -->
+<!-- template style -->
+<link href="<c:url value="/resources/admin/css/sb-admin-2.css"/>"/>
+<!-- template script -->
+<script src="<c:url value="/resources/admin/js/sb-admin-2.js"/>"></script>

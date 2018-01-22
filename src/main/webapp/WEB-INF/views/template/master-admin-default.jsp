@@ -34,13 +34,8 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-		<c:url value="/shop" var="shopURL" />
-		<c:url value="/model" var="modelURL" />
+		<c:url value="/article" var="articleURL" />
 		<c:url value="/user" var="userURL" />
-		<c:url value="/inventory" var="inventoryURL" />
-		<c:url value="/delivery" var="deliveryURL" />
-		<c:url value="/payment" var="paymentURL" />
-		<c:url value="/report/payment/paymentInfoByDate" var="paymentInfoByDateURL" />
 
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
@@ -65,11 +60,11 @@
 				
 				<security:authorize access="hasAnyRole('SA')">
 					<li
-						class="nav-item <c:if test="${currentTab eq 'model'}">active</c:if>"
+						class="nav-item <c:if test="${currentTab eq 'article'}">active</c:if>"
 						data-toggle="tooltip" data-placement="right"><a
-						class="nav-link" href="${modelURL}"> <i
+						class="nav-link" href="${articleURL}"> <i
 							class="fa fa-fw fa-tablet"></i> <span class="nav-link-text"><spring:message
-									code="model" /></span>
+									code="article" /></span>
 						</a>
 					</li>
 				</security:authorize>
@@ -85,48 +80,6 @@
 					</li>
 				</security:authorize>
 				
-				<security:authorize access="hasAnyRole('AD,IN,INPADE')">
-					<li
-						class="nav-item <c:if test="${currentTab eq 'inventory'}">active</c:if>"
-						data-toggle="tooltip" data-placement="right"><a
-						class="nav-link" href="${inventoryURL}"> <i
-							class="fa fa-fw fa-database"></i> <span class="nav-link-text"><spring:message
-									code="inventory" /></span>
-						</a>
-					</li>
-				</security:authorize>
-
-				<security:authorize access="hasAnyRole('AD,PA,INPADE')">
-					<li
-						class="nav-item <c:if test="${currentTab eq 'payment'}">active</c:if>"
-						data-toggle="tooltip" data-placement="right"><a
-						class="nav-link" href="${paymentURL}"> <i
-							class="fa fa-fw fa-money"></i> <span class="nav-link-text"><spring:message
-									code="payment" /></span>
-						</a>
-					</li>
-				</security:authorize>
-
-				<security:authorize access="hasAnyRole('AD,PA,INPADE')">
-					<li
-						class="nav-item <c:if test="${currentTab eq 'delivery'}">active</c:if>"
-						data-toggle="tooltip" data-placement="right"><a
-						class="nav-link" href="${deliveryURL}"> <i
-							class="fa fa-fw fa-envelope-open-o"></i> <span class="nav-link-text"><spring:message
-									code="delivery" /></span>
-						</a>
-					</li>
-				</security:authorize>
-
-				<security:authorize access="hasAnyRole('AD,DE,INPADE')">
-					<li
-						class="nav-item <c:if test="${currentTab eq 'paymentInfoByDate'}">active</c:if>"
-						data-toggle="tooltip" data-placement="right"><a
-						class="nav-link" href="${paymentInfoByDateURL}"> <i
-							class="fa fa-fw fa-table"></i> <span class="nav-link-text">Payment Info by Date Report</span>
-						</a>
-					</li>
-				</security:authorize>
 			</ul>
 
 			<ul class="navbar-nav sidenav-toggler">
@@ -154,7 +107,7 @@
 		<footer class="sticky-footer">
 			<div class="container">
 				<div class="text-center">
-					<small>Copyright © Samsung 2017</small>
+					<small>Copyright © Nightingale 2017</small>
 				</div>
 			</div>
 		</footer>
@@ -163,9 +116,6 @@
 		<a class="scroll-to-top rounded" href="#page-top"> <i
 			class="fa fa-angle-up"></i>
 		</a>
-		<!-- Custom scripts for all pages-->
-		<script
-			src="<c:url value="/resources/library/admin-template/js/sd-admin.min.js"/>"></script>
 	</div>
 
 </body>
