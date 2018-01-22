@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.nightingale.app.entity.Article;
 import com.nightingale.app.exception.ObjectNotFoundException;
 import com.nightingale.app.model.dto.ArticleDTO;
 import com.nightingale.app.service.ArticleService;
@@ -35,9 +36,9 @@ public class ArticleController {
 
 	private final static String FOLDER = "/admin/article";
 	
-	@Autowired
+/*	@Autowired
 	private ArticleService modelService;
-
+*/
 	@Value("${pageSize}")
 	private Integer pageSize = 10;
 
@@ -52,9 +53,8 @@ public class ArticleController {
 
 		if (UtilValidation.isValidSearch(keyword)) {
 
-			result = modelService.getListWithPaginationBySearch(keyword, pageNo, pageSize);
-
-			model.addAttribute(MODELS, result.getLeft());
+//			result = modelService.getListWithPaginationBySearch(keyword, pageNo, pageSize);
+//			model.addAttribute(MODELS, result.getLeft());
 
 		} else {
 			model.addAttribute(ERROR, "invalid_search");
@@ -77,9 +77,6 @@ public class ArticleController {
 	@PostMapping("/create")
 	public String create(Model model, @Valid ArticleDTO articleDTO, BindingResult validResult) {
 
-//		if (!UtilValidation.isFileNotEmpty(articleDTO.getImage()))
-//			validResult.rejectValue(IMAGE, "RequiredImage");
-
 		if (validResult.hasErrors()) {
 
 			model.addAttribute(ARTICLE_DTO, articleDTO);
@@ -87,7 +84,7 @@ public class ArticleController {
 
 		} else {
 
-			modelService.createDTO(articleDTO);
+//			modelService.createDTO(articleDTO);
 			return "redirect:/model";
 		}
 	}
@@ -98,7 +95,7 @@ public class ArticleController {
 
 		if (UtilValidation.isValidId(articleId)) {
 
-			ArticleDTO articleDTO = modelService.readDTO(articleId);
+			ArticleDTO articleDTO =null;// modelService.readDTO(articleId);
 
 			if (articleDTO != null) {
 
@@ -117,16 +114,16 @@ public class ArticleController {
 
 		if (UtilValidation.isValidId(articleId)) {
 
-			com.nightingale.app.entity.Article m = modelService.read(articleId);
-
-			if (m != null) {
-
-				ArticleDTO articleDTO = new ArticleDTO();
-				articleDTO.setArticle(m);
-				
-				model.addAttribute(ARTICLE_DTO, articleDTO);
-				return FOLDER + "/update";
-			}
+//			Article m = modelService.read(articleId);
+//
+//			if (m != null) {
+//
+//				ArticleDTO articleDTO = new ArticleDTO();
+//				articleDTO.setArticle(m);
+//				
+//				model.addAttribute(ARTICLE_DTO, articleDTO);
+//				return FOLDER + "/update";
+//			}
 		}
 
 		return "redirect:/model";
@@ -141,7 +138,7 @@ public class ArticleController {
 
 		} else {
 
-			modelService.updateDTO(articleDTO);
+//			modelService.updateDTO(articleDTO);
 			return "redirect:/model";
 
 		}
@@ -154,12 +151,12 @@ public class ArticleController {
 
 		if (UtilValidation.isValidId(articleId)) {
 
-			ArticleDTO articleDTO= modelService.readDTO(articleId);
-
-			if (articleDTO != null) {
-				model.addAttribute(ARTICLE_DTO, articleDTO);
-				return FOLDER + "/delete";
-			}
+//			ArticleDTO articleDTO= modelService.readDTO(articleId);
+//
+//			if (articleDTO != null) {
+//				model.addAttribute(ARTICLE_DTO, articleDTO);
+//				return FOLDER + "/delete";
+//			}
 
 		}
 		return "redirect:/model";
@@ -169,18 +166,18 @@ public class ArticleController {
 	@PostMapping("/delete")
 	public String delete(Model model, @ModelAttribute ArticleDTO articleDTO) throws ObjectNotFoundException {
 
-		if (articleDTO != null && articleDTO.getArticle() != null) {
-
-			com.nightingale.app.entity.Article m = modelService.read(articleDTO.getArticle().getId());
-
-			if (m != null) {
-				modelService.delete(m.getId());
-			} else {
-				model.addAttribute(ARTICLE_DTO, articleDTO);
-				return FOLDER + "/delete";
-			}
-
-		}
+//		if (articleDTO != null && articleDTO.getArticle() != null) {
+//
+//			com.nightingale.app.entity.Article m = modelService.read(articleDTO.getArticle().getId());
+//
+//			if (m != null) {
+//				modelService.delete(m.getId());
+//			} else {
+//				model.addAttribute(ARTICLE_DTO, articleDTO);
+//				return FOLDER + "/delete";
+//			}
+//
+//		}
 
 		return "redirect:/model";
 
