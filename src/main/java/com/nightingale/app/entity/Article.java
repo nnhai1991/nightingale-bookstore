@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,7 +27,6 @@ public class Article implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@NotNull
 	private Integer id;
 
 	@NotEmpty
@@ -38,12 +38,17 @@ public class Article implements Serializable {
 	private String description;
 
 	private BigDecimal price;
+	
+	private int priority;
 
 	@NotNull
 	private Boolean enabled;
-
+	
+	@Column(updatable = false)
 	private String createdBy;
+	@Column(updatable = false)
 	private Timestamp createdDate;
+	
 	private String updatedBy;
 	private Timestamp updatedDate;
 
@@ -148,5 +153,13 @@ public class Article implements Serializable {
 
 	public void setCode(String code) {
 		this.code = code;
+	}
+
+	public int getPriority() {
+		return priority;
+	}
+
+	public void setPriority(int priority) {
+		this.priority = priority;
 	}
 }

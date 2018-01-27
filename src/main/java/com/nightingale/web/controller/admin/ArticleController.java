@@ -36,7 +36,7 @@ public class ArticleController {
 	private static final String MODELS = "articles";
 
 	private final static String FOLDER = "/admin/article";
-	
+
 	@Autowired
 	private ArticleService articleService;
 
@@ -45,7 +45,7 @@ public class ArticleController {
 
 	@GetMapping("")
 	public String home(Model model, @RequestParam(required = false, defaultValue = "") String keyword,
-			@RequestParam(required = false, defaultValue = "1") Integer pageNo)  {
+			@RequestParam(required = false, defaultValue = "1") Integer pageNo) {
 
 		if (pageNo < 1)
 			pageNo = 1;
@@ -83,17 +83,18 @@ public class ArticleController {
 		} else {
 
 			articleService.create(article);
-			return "redirect:/model";
+			return "redirect:/admin/article";
 		}
 	}
 
 	@GetMapping("/details")
 	public String details(Model model,
-			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId) throws ObjectNotFoundException {
+			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId)
+			throws ObjectNotFoundException {
 
 		if (UtilValidation.isValidId(articleId)) {
 
-			ArticleDTO articleDto =  articleService.readDTO(articleId);
+			ArticleDTO articleDto = articleService.readDTO(articleId);
 
 			if (articleDto != null) {
 
@@ -102,37 +103,39 @@ public class ArticleController {
 			}
 
 		}
-		return "redirect:/model";
+		return "redirect:/admin/article";
 
 	}
 
 	@GetMapping("/update")
 	public String update(Model model,
-			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId) throws ObjectNotFoundException {
+			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId)
+			throws ObjectNotFoundException {
 
-		if (UtilValidation.isValidId(articleId)) {
+		if (UtilValidation.isValidId(articleId) == false)
+			return "redirect:/admin/article";
 
-			ArticleDTO m = articleService.readDTO(articleId);
-			if (m != null) {
-				model.addAttribute(ARTICLE_DTO, m);
-				return FOLDER + "/update";
-			}
+		ArticleDTO m = articleService.readDTO(articleId);
+		if (m != null) {
+			model.addAttribute(ARTICLE_DTO, m);
+			return FOLDER + "/update";
 		}
-
-		return "redirect:/model";
+		
+		return "redirect:/admin/article";
 	}
 
 	@PostMapping("/update")
-	public String update(Model model, @Valid ArticleDTO articleDto, BindingResult bindingResult) throws ObjectNotFoundException {
+	public String update(Model model, @Valid ArticleDTO articleDto, BindingResult bindingResult)
+			throws ObjectNotFoundException {
 
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(ARTICLE_DTO, articleDto);
 			return FOLDER + "/update";
 
 		} else {
-			
+
 			articleService.update(articleDto.getArticle());
-			return "redirect:/model";
+			return "redirect:/admin/article";
 
 		}
 
@@ -140,11 +143,12 @@ public class ArticleController {
 
 	@GetMapping("/delete")
 	public String delete(Model model,
-			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId) throws ObjectNotFoundException {
+			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId)
+			throws ObjectNotFoundException {
 
 		if (UtilValidation.isValidId(articleId)) {
 
-			Article article= articleService.read(articleId);
+			Article article = articleService.read(articleId);
 
 			if (article != null) {
 				model.addAttribute(ARTICLE_DTO, article);
@@ -152,7 +156,7 @@ public class ArticleController {
 			}
 
 		}
-		return "redirect:/model";
+		return "redirect:/admin/article";
 
 	}
 
@@ -172,7 +176,7 @@ public class ArticleController {
 
 		}
 
-		return "redirect:/model";
+		return "redirect:/admin/article";
 
 	}
 }
