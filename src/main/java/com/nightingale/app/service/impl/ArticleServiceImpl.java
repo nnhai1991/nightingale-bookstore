@@ -1,13 +1,8 @@
 package com.nightingale.app.service.impl;
 
-import com.nightingale.app.entity.Article;
-import com.nightingale.app.exception.ObjectCreationException;
-import com.nightingale.app.exception.ObjectNotFoundException;
-import com.nightingale.app.model.dto.ArticleDTO;
-import com.nightingale.app.repository.*;
-import com.nightingale.app.service.ArticleService;
-import com.nightingale.app.service.AssetService;
-import com.nightingale.web.util.UtilValidation;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,8 +13,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.nightingale.app.entity.Article;
+import com.nightingale.app.exception.ObjectCreationException;
+import com.nightingale.app.exception.ObjectNotFoundException;
+import com.nightingale.app.model.dto.ArticleDTO;
+import com.nightingale.app.repository.ArticleImageRepository;
+import com.nightingale.app.repository.ArticleRepository;
+import com.nightingale.app.service.ArticleService;
+import com.nightingale.web.util.UtilValidation;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -28,7 +29,7 @@ public class ArticleServiceImpl implements ArticleService {
 	private ArticleRepository articleRepository;
 
 	@Autowired
-	private AssetService assetService;
+	private ArticleImageRepository articleImageRepository;
 
 	@Value("${asset.upload.path}")
 	private String uploadpath;
@@ -105,87 +106,17 @@ public class ArticleServiceImpl implements ArticleService {
 	@Transactional
 	public ArticleDTO readDTO(Integer articleId) throws ObjectNotFoundException {
 
-		if (UtilValidation.isValidId(articleId)) {
+		if (UtilValidation.isValidId(articleId) == false)
+			return null;
+		Article article = articleRepository.findOne(articleId);
 
-			Article article = articleRepository.findOne(articleId);
+		if (article == null)
+			return null;
 
-			if (article != null) {
-
-				ArticleDTO articleDTO = new ArticleDTO();
-				articleDTO.setArticle(article);
-				return articleDTO;
-
-			}
-
-		}
-
-		return null;
-	}
-
-	@Override
-	@Transactional
-	public Boolean createDTO(ArticleDTO articleDTO) {
-
-		if (articleDTO != null) {
-
-			if (UtilValidation.isFileNotEmpty(articleDTO.getImage())) {
-
-				Integer assetId = assetService.create(articleDTO.getImage(), uploadpath);
-
-				if (assetId > 0) {
-
-					articleDTO.getArticle().setAssetId(assetId);
-
-					try {
-						articleDTO.getArticle()
-								.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-						return articleRepository.save(articleDTO.getArticle()) != null;
-					} catch (DataIntegrityViolationException exception) {
-						exception.printStackTrace();
-						throw new ObjectCreationException(exception.getStackTrace(), "create ArticleDTO", "",
-								"Failed to create Article", articleDTO.getArticle());
-					}
-				} else {
-					throw new ObjectCreationException(new StackTraceElement[0], "create ArticleDTO", "",
-							"Failed to create Article Image", articleDTO.getImage());
-				}
-			}
-
-		}
-
-		return false;
-	}
-
-	@Override
-	@Transactional
-	public Boolean updateDTO(ArticleDTO articleDTO) throws ObjectNotFoundException {
-
-		if (articleDTO == null)
-			return false;
-
-		Article articleFromDB = articleRepository.findOne(articleDTO.getArticle().getId());
-
-		Integer assetId = articleFromDB.getAssetId();
-
-		if (UtilValidation.isFileNotEmpty(articleDTO.getImage())) {
-			assetService.delete(assetId, uploadpath);
-			assetId = assetService.create(articleDTO.getImage(), uploadpath);
-		}
-
-		if (assetId <= 0)
-			throw new ObjectCreationException(new StackTraceElement[0], "updateDTO ArticleDTO", "",
-					"Failed to Update Image", articleDTO.getImage());
-
-		articleDTO.getArticle().setAssetId(assetId);
-		try {
-			articleDTO.getArticle().setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			return articleRepository.save(articleDTO.getArticle()) != null;
-		} catch (DataIntegrityViolationException exception) {
-			exception.printStackTrace();
-			throw new ObjectCreationException(exception.getStackTrace(), "updateDTO ArticleDTO", "",
-					"Failed to update Article", articleDTO.getArticle());
-		}
-
+		ArticleDTO articleDTO = new ArticleDTO();
+		articleDTO.setArticle(article);
+		articleDTO.setArticleImages(articleImageRepository.findByArticleId(articleId));
+		return articleDTO;
 	}
 
 	@Override
@@ -196,7 +127,6 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public List<Article> findActiveArticleList() {
-		// TODO Auto-generated method stub
-		return null;
+		return articleRepository.findByEnabled(true);
 	}
 }

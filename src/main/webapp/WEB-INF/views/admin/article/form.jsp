@@ -12,11 +12,11 @@
 	</label>
 	<div class="col-6">
 		<spring:message code="name" var="namePlaceholder" />
-		<form:input path="model.name" type="text" class="form-control"
+		<form:input path="article.name" type="text" class="form-control"
 			placeholder="${namePlaceholder}" />
 	</div>
 	<p class="text-danger">
-		<form:errors path="model.name" />
+		<form:errors path="article.name" />
 	</p>
 </div>
 
@@ -25,12 +25,12 @@
 		<spring:message code="sku" />
 	</label>
 	<div class="col-6">
-		<spring:message code="sku" var="modelCodePlaceholder" />
-		<form:input path="model.modelCode" type="text" class="form-control"
-			placeholder="${modelCodePlaceholder}" />
+		<spring:message code="sku" var="articleCodePlaceholder" />
+		<form:input path="article.articleCode" type="text" class="form-control"
+			placeholder="${articleCodePlaceholder}" />
 	</div>
 	<p class="text-danger">
-		<form:errors path="model.modelCode" />
+		<form:errors path="article.articleCode" />
 	</p>
 </div>
 
@@ -40,22 +40,22 @@
 	</label>
 	<div class="col-6">
 		<spring:message code="description" var="descriptionPlaceholder" />
-		<form:input path="model.description" type="text" class="form-control"
+		<form:input path="article.description" type="text" class="form-control"
 			placeholder="${descriptionPlaceholder}" />
 	</div>
 	<p class="text-danger">
-		<form:errors path="model.description" />
+		<form:errors path="article.description" />
 	</p>
 </div>
 
 <div class="form-group row">
 	<div class="form-check">
 		<label class="form-check-label">
-			<form:checkbox path="model.enabled" id="enabled" />
+			<form:checkbox path="article.enabled" id="enabled" />
 			<spring:message code="enabled" />
 		</label>
 		<p class="text-danger">
-			<form:errors path="model.enabled" />
+			<form:errors path="article.enabled" />
 		</p>
 	</div>
 </div>

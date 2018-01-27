@@ -20,7 +20,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  */
 @Entity
-public class Article implements Serializable {
+public class ArticleImage implements Serializable {
 
 	private static final long serialVersionUID = 4291701426443797243L;
 	
@@ -29,18 +29,11 @@ public class Article implements Serializable {
 	@NotNull
 	private Integer id;
 
-	@NotEmpty
-	private String name;
-
-	@NotEmpty
-	private String code;
-
-	private String description;
-
-	private BigDecimal price;
+	@NotNull
+	private Integer articleId;
 
 	@NotNull
-	private Boolean enabled;
+	private Integer assetId;
 
 	private String createdBy;
 	private Timestamp createdDate;
@@ -55,44 +48,12 @@ public class Article implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Integer getAssetId() {
+		return assetId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getModelCode() {
-		return code;
-	}
-
-	public void setModelCode(String modelCode) {
-		this.code = modelCode;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public BigDecimal getPrice() {
-		return price;
-	}
-
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
-
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+	public void setAssetId(Integer assetId) {
+		this.assetId = assetId;
 	}
 
 	public String getCreatedBy() {
@@ -127,6 +88,14 @@ public class Article implements Serializable {
 		this.updatedDate = updatedDate;
 	}
 
+	public Integer getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(Integer articleId) {
+		this.articleId = articleId;
+	}
+
 	@PreUpdate
 	protected void onUpdate() {
 		this.updatedDate = Timestamp.valueOf(LocalDateTime.now());
@@ -140,13 +109,5 @@ public class Article implements Serializable {
 
 	public LocalDateTime getCreatedDateLocal() {
 		return createdDate.toLocalDateTime();
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
 	}
 }
