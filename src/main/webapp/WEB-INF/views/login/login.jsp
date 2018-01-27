@@ -17,7 +17,7 @@
                 <img src="${imgSrc}" alt="logo"/>
             </div>
 
-            <div class="page-title">Nightingale Bookstore</div>
+            <div class="page-title"><spring:message code="project_title"></spring:message></div>
 
             <div class="content">
 

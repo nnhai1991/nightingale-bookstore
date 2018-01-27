@@ -28,7 +28,6 @@
             padding: 10px 30px;
             border-radius: 30px;
             background-color: #1428A0;
-            /* Samsung blue */
             color: #FFF;
             margin-top: 20px;
             text-align: center;

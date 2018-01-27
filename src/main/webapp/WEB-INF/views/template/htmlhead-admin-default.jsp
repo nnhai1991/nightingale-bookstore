@@ -9,17 +9,17 @@
 <fmt:setLocale value="en_us" scope="session"/>
 
 <!-- vendor style-->
-<link href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css"/>"/>
-<link href="<c:url value="/resources/vendor/metisMenu/css/metisMenu.min.css"/>"/>
-<link href="<c:url value="/resources/vendor/font-awesome/css/font-awesome.min.css"/>"/>
+<link rel="stylesheet" href="<c:url value="/resources/vendor/bootstrap/css/bootstrap.min.css"/>"/>
+<link rel="stylesheet" href="<c:url value="/resources/vendor/metisMenu/metisMenu.min.css"/>"/>
+<link rel="stylesheet" href="<c:url value="/resources/vendor/font-awesome/css/font-awesome.min.css"/>"/>
 
 <!-- vendor script -->
 <script src="<c:url value="/resources/vendor/jquery/jquery.min.js"/>"></script>
 <script src="<c:url value="/resources/vendor/bootstrap/js/bootstrap.min.js"/>"></script>
-<script src="<c:url value="/resources/vendor/metisMenu/js/metisMenu.min.js"/>"></script>
+<script src="<c:url value="/resources/vendor/metisMenu/metisMenu.min.js"/>"></script>
 
 
 <!-- template style -->
-<link href="<c:url value="/resources/admin/css/sb-admin-2.css"/>"/>
+<link rel="stylesheet" href="<c:url value="/resources/admin/css/sb-admin-2.css"/>"/>
 <!-- template script -->
 <script src="<c:url value="/resources/admin/js/sb-admin-2.js"/>"></script>

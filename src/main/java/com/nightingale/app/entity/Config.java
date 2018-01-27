@@ -5,9 +5,12 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author hai
@@ -18,8 +21,14 @@ public class Config implements Serializable {
 
 	private static final long serialVersionUID = -3499634801349184570L;
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@NotNull
 	private Integer id;
-	private String key;
+	
+	@NotNull
+	private String code;
+	
+	@NotNull
 	private String value;
 	private String description;
 	private String updatedBy;
@@ -33,12 +42,13 @@ public class Config implements Serializable {
 		this.id = id;
 	}
 
-	public String getKey() {
-		return key;
+
+	public String getCode() {
+		return code;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getValue() {

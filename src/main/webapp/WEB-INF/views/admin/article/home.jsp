@@ -17,7 +17,7 @@
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><spring:message code="administration"/></li>
-				<li class="breadcrumb-item active"><spring:message code="model"/></li>
+				<li class="breadcrumb-item active"><spring:message code="article"/></li>
 			</ol>
 
 			<div id="notification" class="bg-green"></div>
@@ -25,7 +25,7 @@
 			<c:url value="/model/create" var="createURL" />
 			<a class="btn btn-outline-dark" href="${createURL}">
 				<i class="fa fa-plus"></i>
-				<spring:message code="new_model" />
+				<spring:message code="create" />
 			</a>
 			
 			<br/><br/>

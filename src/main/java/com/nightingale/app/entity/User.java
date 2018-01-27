@@ -7,6 +7,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -31,13 +33,15 @@ import java.util.Date;
  * -------------------------------------------------
  */
 @Entity
-@Table(name = "dbo.[User]")
+@Table(name = "`user`")
 @FieldMatch.List({ @FieldMatch(first = "password", second = "passwordConfirm") })
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -5379792979026217998L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@NotNull
 	private Integer id;
 
 	@NotNull

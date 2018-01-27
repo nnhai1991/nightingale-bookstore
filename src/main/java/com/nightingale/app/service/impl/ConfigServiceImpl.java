@@ -87,10 +87,10 @@ public class ConfigServiceImpl implements ConfigService {
 	}
 
 	@Override
-	public Config readByKey(String key) throws ObjectNotFoundException {
+	public Config readByCode(String key) throws ObjectNotFoundException {
 
 		if(UtilValidation.isValidString(key))
-			return configRepository.findByKey(key);
+			return configRepository.findByCode(key);
 		return null;
 	}
 

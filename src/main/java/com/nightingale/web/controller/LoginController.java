@@ -21,7 +21,7 @@ import com.nightingale.app.util.UtilConstants;
 @RequestMapping("")
 public class LoginController {
 
-    private final static String FOLDER = "/account";
+    private final static String FOLDER = "/login";
     @Autowired
     private UserService userService;
 

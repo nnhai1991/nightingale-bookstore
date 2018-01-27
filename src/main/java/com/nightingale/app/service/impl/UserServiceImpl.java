@@ -199,7 +199,7 @@ public class UserServiceImpl implements UserService {
 					Integer maxFailed;
 					try {
 						maxFailed = Integer.parseInt(
-								configService.readByKey(UtilConstants.Config.MAX_FAILED_LOGIN_ATTEMPTS).getValue());
+								configService.readByCode(UtilConstants.Config.MAX_FAILED_LOGIN_ATTEMPTS).getValue());
 
 						if (user.getFailedLoginAttempt() >= maxFailed) {
 							user.setEnabled(false);

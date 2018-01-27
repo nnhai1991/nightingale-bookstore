@@ -82,6 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/resources/**", "/public/**", "/login", "/logout","/reset-password").permitAll()
 //            .antMatchers("/admin/**").hasAnyRole(UtilConstants.Roles.AD)
+            .antMatchers("/**").anonymous()
             .antMatchers("/**").permitAll();
         http.formLogin()
             .loginPage("/login").usernameParameter("email").passwordParameter("password")

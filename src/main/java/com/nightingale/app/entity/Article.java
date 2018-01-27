@@ -6,6 +6,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -21,15 +23,18 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class Article implements Serializable {
 
 	private static final long serialVersionUID = 4291701426443797243L;
+	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@NotNull
 	private Integer id;
 
 	@NotEmpty
 	private String name;
-	
+
 	@NotEmpty
 	private String code;
-	
+
 	private String description;
 
 	private BigDecimal price;
@@ -41,10 +46,10 @@ public class Article implements Serializable {
 	@NotNull
 	private Boolean enabled;
 
-	//@NotNull
-	//@Min(1)
+	// @NotNull
+	// @Min(1)
 	private Integer sequence;
-	
+
 	private String createdBy;
 	private Timestamp createdDate;
 	private String updatedBy;
@@ -73,7 +78,7 @@ public class Article implements Serializable {
 	public void setModelCode(String modelCode) {
 		this.code = modelCode;
 	}
-	
+
 	public String getDescription() {
 		return description;
 	}
@@ -153,6 +158,7 @@ public class Article implements Serializable {
 	public void setUpdatedDate(Timestamp updatedDate) {
 		this.updatedDate = updatedDate;
 	}
+
 	@PreUpdate
 	protected void onUpdate() {
 		this.updatedDate = Timestamp.valueOf(LocalDateTime.now());
@@ -163,7 +169,7 @@ public class Article implements Serializable {
 		this.createdDate = Timestamp.valueOf(LocalDateTime.now());
 		this.updatedDate = Timestamp.valueOf(LocalDateTime.now());
 	}
-	
+
 	public LocalDateTime getCreatedDateLocal() {
 		return createdDate.toLocalDateTime();
 	}
