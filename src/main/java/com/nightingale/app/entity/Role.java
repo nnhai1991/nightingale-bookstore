@@ -11,7 +11,6 @@ import javax.validation.constraints.NotNull;
 public class Role implements Serializable {
 
 	private static final long serialVersionUID = 3257119123753960586L;
-	@NotNull
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;

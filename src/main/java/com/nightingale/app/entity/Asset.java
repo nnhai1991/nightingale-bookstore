@@ -17,7 +17,6 @@ public class Asset implements Serializable {
     private static final long serialVersionUID = 8534855707534977027L;
     @Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	private Integer id;
     
     @NotNull

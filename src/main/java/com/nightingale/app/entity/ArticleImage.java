@@ -26,7 +26,6 @@ public class ArticleImage implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@NotNull
 	private Integer id;
 
 	@NotNull

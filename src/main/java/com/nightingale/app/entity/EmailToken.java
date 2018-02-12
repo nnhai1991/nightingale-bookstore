@@ -22,7 +22,6 @@ public class EmailToken implements Serializable {
 	private static final long serialVersionUID = 8281634095077556621L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	private Integer id;
 
 	@NotEmpty

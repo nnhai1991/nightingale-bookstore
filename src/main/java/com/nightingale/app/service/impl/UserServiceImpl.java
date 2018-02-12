@@ -92,7 +92,6 @@ public class UserServiceImpl implements UserService {
 				newUser.setEnabled(user.getEnabled());
 				newUser.setFirstName(user.getFirstName());
 				newUser.setLastName(user.getLastName());
-				newUser.setFullName(user.getFirstName() + " " + user.getLastName());
 				newUser.setNotLocked(user.getNotLocked());
 				newUser.setRoleId(user.getRoleId());
 				newUser.setCreatedBy(user.getCreatedBy());
@@ -393,7 +392,12 @@ public class UserServiceImpl implements UserService {
 			role = new Role();
 			role.setCode("SA");
 			role.setName("System Admin");
+			try{
 			role = roleRepository.save(role);
+		}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
 		}
 		
 		User user = new User();

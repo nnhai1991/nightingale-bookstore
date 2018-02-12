@@ -28,27 +28,24 @@ import java.util.Date;
 /**
  * -------------------------------------------------
  * <p>
- * author - youngsam.byun
+ * author - nn.hai
  * <p>
  * -------------------------------------------------
  */
 @Entity
 @Table(name = "`user`")
-@FieldMatch.List({ @FieldMatch(first = "password", second = "passwordConfirm") })
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -5379792979026217998L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	private Integer id;
 
 	@NotNull
 	private Integer roleId;
 
 	@NotEmpty
-	@UniqueUserEmail
 	private String email;
 
 	@Pattern(regexp = UtilValidation.MIN8LENGTH_MIN1LOWERCASE_MIN1UPPERCASE_MIN1DIGIT_MIN1SPECIALCHAR)
@@ -69,13 +66,6 @@ public class User implements Serializable {
 	private Timestamp createdDate;
 	private String updatedBy;
 	private Timestamp updatedDate;
-
-	@Transient
-	private String fullName;
-	@NotNull
-	@Transient
-	private String passwordConfirm;
-
 
 	public Integer getId() {
 		return id;
@@ -107,14 +97,6 @@ public class User implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getPasswordConfirm() {
-		return passwordConfirm;
-	}
-
-	public void setPasswordConfirm(String passwordConfirm) {
-		this.passwordConfirm = passwordConfirm;
 	}
 
 	public String getFirstName() {
@@ -171,14 +153,6 @@ public class User implements Serializable {
 
 	public void setUpdatedBy(String updatedBy) {
 		this.updatedBy = updatedBy;
-	}
-
-	public String getFullName() {
-		return fullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
 	}
 
 	public Timestamp getCreatedDate() {

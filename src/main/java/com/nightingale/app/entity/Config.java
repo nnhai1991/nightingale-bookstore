@@ -22,7 +22,6 @@ public class Config implements Serializable {
 	private static final long serialVersionUID = -3499634801349184570L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@NotNull
 	private Integer id;
 	
 	@NotNull
