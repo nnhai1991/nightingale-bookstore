@@ -16,11 +16,8 @@
 					<div class="row">
 						<div class="col-sm-8 col-sm-offset-2 text">
 							<h1>
-								<strong>Samsung</strong> Shop Dashboard
+								<spring:message code="project_title"></spring:message>
 							</h1>
-							<div class="description">
-								<p>Collection Center</p>
-							</div>
 						</div>
 					</div>
 					<div class="row">

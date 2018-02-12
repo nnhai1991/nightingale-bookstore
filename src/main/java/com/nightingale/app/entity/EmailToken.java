@@ -7,9 +7,12 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
+import javax.validation.constraints.NotNull;
 @Entity
 public class EmailToken implements Serializable {
 
@@ -18,6 +21,8 @@ public class EmailToken implements Serializable {
 	 */
 	private static final long serialVersionUID = 8281634095077556621L;
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@NotNull
 	private Integer id;
 
 	@NotEmpty

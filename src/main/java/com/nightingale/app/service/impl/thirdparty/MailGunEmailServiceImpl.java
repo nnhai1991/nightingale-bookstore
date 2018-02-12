@@ -39,7 +39,7 @@ public class MailGunEmailServiceImpl implements MailGunEmailService {
         WebResource webResource = client.resource("https://api.mailgun.net/v3/" + domain + "/messages");
 
         MultivaluedMapImpl map = new MultivaluedMapImpl();
-        map.add("from", "Samsung Preorder <Preorder@www.nightingale.sg>");
+        map.add("from", "Nightingale Bookstore <contact@www.nightingale.sg>");
         map.add("to", recipient);
         map.add("subject", subject);
         map.add("html", content);

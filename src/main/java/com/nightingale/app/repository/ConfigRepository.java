@@ -10,9 +10,9 @@ import com.nightingale.app.entity.Config;
 
 public interface ConfigRepository extends JpaRepository<Config,Integer> {
 
-	Config findByKey(String key);
+	Config findByCode(String code);
 	@Query("select s from Config s "
-    		+ "where s.key like %:keyword% "
+    		+ "where s.code like %:keyword% "
     		+ " or s.value like %:keyword%"
     		+ " or s.description like %:keyword%")
 	Page<Config> findBySearch(@Param("keyword") String keyword, Pageable pageable);

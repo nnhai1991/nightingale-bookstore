@@ -1,6 +1,7 @@
 package com.nightingale.app.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -12,25 +13,30 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  * @author hai
  *
  */
 @Entity
-public class Config implements Serializable {
+public class ArticleImage implements Serializable {
 
-	private static final long serialVersionUID = -3499634801349184570L;
+	private static final long serialVersionUID = 4291701426443797243L;
+	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@NotNull
 	private Integer id;
-	
+
 	@NotNull
-	private String code;
-	
+	private Integer articleId;
+
 	@NotNull
-	private String value;
-	private String description;
+	private Integer assetId;
+
+	private String createdBy;
+	private Timestamp createdDate;
 	private String updatedBy;
 	private Timestamp updatedDate;
 
@@ -42,29 +48,28 @@ public class Config implements Serializable {
 		this.id = id;
 	}
 
-
-	public String getCode() {
-		return code;
+	public Integer getAssetId() {
+		return assetId;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setAssetId(Integer assetId) {
+		this.assetId = assetId;
 	}
 
-	public String getValue() {
-		return value;
+	public String getCreatedBy() {
+		return createdBy;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 
-	public String getDescription() {
-		return description;
+	public Timestamp getCreatedDate() {
+		return createdDate;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCreatedDate(Timestamp createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public String getUpdatedBy() {
@@ -82,6 +87,15 @@ public class Config implements Serializable {
 	public void setUpdatedDate(Timestamp updatedDate) {
 		this.updatedDate = updatedDate;
 	}
+
+	public Integer getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(Integer articleId) {
+		this.articleId = articleId;
+	}
+
 	@PreUpdate
 	protected void onUpdate() {
 		this.updatedDate = Timestamp.valueOf(LocalDateTime.now());
@@ -89,7 +103,11 @@ public class Config implements Serializable {
 
 	@PrePersist
 	protected void onCreate() {
+		this.createdDate = Timestamp.valueOf(LocalDateTime.now());
 		this.updatedDate = Timestamp.valueOf(LocalDateTime.now());
 	}
 
+	public LocalDateTime getCreatedDateLocal() {
+		return createdDate.toLocalDateTime();
+	}
 }

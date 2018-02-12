@@ -1,43 +1,26 @@
 package com.nightingale.app.model.dto;
 
-import java.io.Serializable;
-
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
-import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
 
 import com.nightingale.app.entity.Article;
-import com.nightingale.app.model.constraints.RequiredImage;
+import com.nightingale.app.entity.ArticleImage;
 
-/**
- * @author hai
- *
- */
-public class ArticleDTO implements Serializable {
-
-	private static final long serialVersionUID = -4951262262794080160L;
-
-	@NotNull
-	@Valid
+public class ArticleDTO {
 	private Article article;
-
-	@RequiredImage
-	private MultipartFile image;
-
+	private List<ArticleImage> articleImages;
+	
 	public Article getArticle() {
 		return article;
 	}
-
 	public void setArticle(Article article) {
 		this.article = article;
 	}
-
-	public MultipartFile getImage() {
-		return image;
+	public List<ArticleImage> getArticleImages() {
+		return articleImages;
 	}
-
-	public void setImage(MultipartFile image) {
-		this.image = image;
+	public void setArticleImages(List<ArticleImage> articleImages) {
+		this.articleImages = articleImages;
 	}
+	
+	
 }

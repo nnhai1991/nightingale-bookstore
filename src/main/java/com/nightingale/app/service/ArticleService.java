@@ -10,10 +10,6 @@ public interface ArticleService extends BaseService<Article> {
 
 	ArticleDTO readDTO(Integer articleId) throws ObjectNotFoundException;
 
-	Boolean createDTO(ArticleDTO articleDTO);
-
-	Boolean updateDTO(ArticleDTO articleDTO) throws ObjectNotFoundException;
-
 	Article getByCode(String code);
 
 	List<Article> findActiveArticleList();

@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
+<%@ taglib uri="http://www.springframework.org/security/tags"
+	prefix="security"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
@@ -11,30 +12,35 @@
 		<div class="container-fluid">
 			<!-- Breadcrumbs-->
 			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><spring:message code="administration" /></li>
-				<li class="breadcrumb-item"><spring:message code="model" /></li>
-				<li class="breadcrumb-item active"><spring:message code="create" /></li>
+				<li class="breadcrumb-item"><spring:message
+						code="administration" /></li>
+				<li class="breadcrumb-item"><spring:message code="article" /></li>
+				<li class="breadcrumb-item active"><spring:message
+						code="create" /></li>
 			</ol>
-			<c:url value="/model/create" var="createURL">
+			<c:url value="/admin/article/create" var="createURL">
 				<c:param name="${_csrf.parameterName}" value="${_csrf.token}" />
 			</c:url>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<form:form method="POST" action="${createURL}"
+						modelAttribute="article">
 
-			<form:form method="POST" action="${createURL}" modelAttribute="modelDTO">
+						<c:import url="form.jsp"></c:import>
+						<div class="form-group">
+							<spring:message code="create" var="create" />
 
-				<c:import url="form.jsp"></c:import>
-				<div class="form-group">
-					<spring:message code="create" var="create" />
-					
-					<c:url var="homeUrl" value="/model" />
-					<a class="btn btn-outline-secondary" href="${homeUrl}">
-						<spring:message code="back_to_listing" />
-					</a>
+							<c:url var="homeUrl" value="/admin/article" />
+							<a class="btn btn-default" href="${homeUrl}"> <spring:message
+									code="back_to_listing" />
+							</a>
 
-					<button class="btn btn-outline-primary" type="submit"
-						class="action-button">${create}</button>
+							<button class="btn btn-primary" type="submit"
+								class="action-button">${create}</button>
+						</div>
+					</form:form>
 				</div>
-			</form:form>
-
+			</div>
 		</div>
 	</tiles:putAttribute>
 </tiles:insertDefinition>

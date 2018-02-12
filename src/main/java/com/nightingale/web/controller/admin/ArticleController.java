@@ -29,22 +29,23 @@ import com.nightingale.web.util.UtilValidation;
 public class ArticleController {
 
 	private static final String ARTICLE_DTO = "articleDTO";
+	private static final String ARTICLE = "article";
 	private static final String PAGINATION = "pagination";
 	private static final String KEYWORD = "keyword";
 	private static final String ERROR = "error";
 	private static final String MODELS = "articles";
 
 	private final static String FOLDER = "/admin/article";
-	
-/*	@Autowired
-	private ArticleService modelService;
-*/
+
+	@Autowired
+	private ArticleService articleService;
+
 	@Value("${pageSize}")
 	private Integer pageSize = 10;
 
 	@GetMapping("")
 	public String home(Model model, @RequestParam(required = false, defaultValue = "") String keyword,
-			@RequestParam(required = false, defaultValue = "1") Integer pageNo)  {
+			@RequestParam(required = false, defaultValue = "1") Integer pageNo) {
 
 		if (pageNo < 1)
 			pageNo = 1;
@@ -53,8 +54,8 @@ public class ArticleController {
 
 		if (UtilValidation.isValidSearch(keyword)) {
 
-//			result = modelService.getListWithPaginationBySearch(keyword, pageNo, pageSize);
-//			model.addAttribute(MODELS, result.getLeft());
+			result = articleService.getListWithPaginationBySearch(keyword, pageNo, pageSize);
+			model.addAttribute(MODELS, result.getLeft());
 
 		} else {
 			model.addAttribute(ERROR, "invalid_search");
@@ -70,76 +71,71 @@ public class ArticleController {
 	@GetMapping("/create")
 	public String create(Model model) {
 
-		model.addAttribute(ARTICLE_DTO, new ArticleDTO());
+		model.addAttribute(ARTICLE, new Article());
 		return FOLDER + "/create";
 	}
 
 	@PostMapping("/create")
-	public String create(Model model, @Valid ArticleDTO articleDTO, BindingResult validResult) {
+	public String create(Model model, @Valid Article article, BindingResult validResult) {
 
 		if (validResult.hasErrors()) {
-
-			model.addAttribute(ARTICLE_DTO, articleDTO);
 			return FOLDER + "/create";
-
 		} else {
 
-//			modelService.createDTO(articleDTO);
-			return "redirect:/model";
+			articleService.create(article);
+			return "redirect:/admin/article";
 		}
 	}
 
 	@GetMapping("/details")
 	public String details(Model model,
-			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId) throws ObjectNotFoundException {
+			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId)
+			throws ObjectNotFoundException {
 
 		if (UtilValidation.isValidId(articleId)) {
 
-			ArticleDTO articleDTO =null;// modelService.readDTO(articleId);
+			ArticleDTO articleDto = articleService.readDTO(articleId);
 
-			if (articleDTO != null) {
+			if (articleDto != null) {
 
-				model.addAttribute(ARTICLE_DTO, articleDTO);
+				model.addAttribute(ARTICLE_DTO, articleDto);
 				return FOLDER + "/details";
 			}
 
 		}
-		return "redirect:/model";
+		return "redirect:/admin/article";
 
 	}
 
 	@GetMapping("/update")
 	public String update(Model model,
-			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId) throws ObjectNotFoundException {
+			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId)
+			throws ObjectNotFoundException {
 
-		if (UtilValidation.isValidId(articleId)) {
+		if (UtilValidation.isValidId(articleId) == false)
+			return "redirect:/admin/article";
 
-//			Article m = modelService.read(articleId);
-//
-//			if (m != null) {
-//
-//				ArticleDTO articleDTO = new ArticleDTO();
-//				articleDTO.setArticle(m);
-//				
-//				model.addAttribute(ARTICLE_DTO, articleDTO);
-//				return FOLDER + "/update";
-//			}
+		ArticleDTO m = articleService.readDTO(articleId);
+		if (m != null) {
+			model.addAttribute(ARTICLE_DTO, m);
+			return FOLDER + "/update";
 		}
-
-		return "redirect:/model";
+		
+		return "redirect:/admin/article";
 	}
 
 	@PostMapping("/update")
-	public String update(Model model, @Valid ArticleDTO articleDTO, BindingResult bindingResult) throws ObjectNotFoundException {
+	public String update(Model model, @Valid ArticleDTO articleDto, BindingResult bindingResult)
+			throws ObjectNotFoundException {
 
 		if (bindingResult.hasErrors()) {
-			model.addAttribute(ARTICLE_DTO, articleDTO);
+			model.addAttribute(ARTICLE_DTO, articleDto);
 			return FOLDER + "/update";
 
 		} else {
 
-//			modelService.updateDTO(articleDTO);
-			return "redirect:/model";
+			articleService.update(articleDto.getArticle());
+			return "redirect:/admin/article";
 
 		}
 
@@ -147,39 +143,40 @@ public class ArticleController {
 
 	@GetMapping("/delete")
 	public String delete(Model model,
-			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId) throws ObjectNotFoundException {
+			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId)
+			throws ObjectNotFoundException {
 
 		if (UtilValidation.isValidId(articleId)) {
 
-//			ArticleDTO articleDTO= modelService.readDTO(articleId);
-//
-//			if (articleDTO != null) {
-//				model.addAttribute(ARTICLE_DTO, articleDTO);
-//				return FOLDER + "/delete";
-//			}
+			Article article = articleService.read(articleId);
+
+			if (article != null) {
+				model.addAttribute(ARTICLE_DTO, article);
+				return FOLDER + "/delete";
+			}
 
 		}
-		return "redirect:/model";
+		return "redirect:/admin/article";
 
 	}
 
 	@PostMapping("/delete")
-	public String delete(Model model, @ModelAttribute ArticleDTO articleDTO) throws ObjectNotFoundException {
+	public String delete(Model model, @ModelAttribute Article article) throws ObjectNotFoundException {
 
-//		if (articleDTO != null && articleDTO.getArticle() != null) {
-//
-//			com.nightingale.app.entity.Article m = modelService.read(articleDTO.getArticle().getId());
-//
-//			if (m != null) {
-//				modelService.delete(m.getId());
-//			} else {
-//				model.addAttribute(ARTICLE_DTO, articleDTO);
-//				return FOLDER + "/delete";
-//			}
-//
-//		}
+		if (article != null && article != null) {
 
-		return "redirect:/model";
+			com.nightingale.app.entity.Article m = articleService.read(article.getId());
+
+			if (m != null) {
+				articleService.delete(m.getId());
+			} else {
+				model.addAttribute(ARTICLE_DTO, article);
+				return FOLDER + "/delete";
+			}
+
+		}
+
+		return "redirect:/admin/article";
 
 	}
 }

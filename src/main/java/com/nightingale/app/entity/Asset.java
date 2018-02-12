@@ -3,7 +3,10 @@ package com.nightingale.app.entity;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author hai
@@ -13,9 +16,17 @@ public class Asset implements Serializable {
 
     private static final long serialVersionUID = 8534855707534977027L;
     @Id
-    private Integer id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@NotNull
+	private Integer id;
+    
+    @NotNull
     private String mimeType;
+    
+    @NotNull
     private String displayName;
+    
+    @NotNull
     private String path;
 
     public Integer getId() {

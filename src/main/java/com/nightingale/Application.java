@@ -26,7 +26,7 @@ public class Application extends SpringBootServletInitializer {
 	private static final int MAX_UPLOAD_SIZE = 10485760;
 
 	private static final int COOKIE_MAXAGE = 3600;
-	private static final String defaultCountry = "US";
+	private static final String defaultCountry = "SG";
 	private static final String defaultLanguage = "en";
 	private static final String COOKIE_NAME = "cookie_name";
 
