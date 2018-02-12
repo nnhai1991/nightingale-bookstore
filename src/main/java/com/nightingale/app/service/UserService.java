@@ -29,13 +29,12 @@ public interface UserService extends BaseService<User>{
 	Boolean update(UserForUpdate userForUpdate);
 	Boolean updatePassword(UserForUpdatePassword userForUpdatePassword) throws ObjectNotFoundException;
 
-	Pair<List<UserDTO>, Integer> getDTOListWithPaginationBySearch(int shopId, String keyword, Integer pageNo,
-			Integer pageSize);
-
 	Boolean create(UserForUpdate user);
 
 	String createPasswordToken(Integer userId);
 
 	User readFromToken(String token);
+	
+	Boolean createAdmin();
 	
 }

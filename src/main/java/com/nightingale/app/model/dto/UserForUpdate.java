@@ -25,9 +25,6 @@ public class UserForUpdate implements Serializable {
     @NotNull
     private Integer roleId;
 
-    @NotNull
-    private Integer shopId;
-
     @NotEmpty
     @Pattern(regexp = UtilValidation.ALPHABET_WITH_DOT_SPACE)
     private String firstName;
@@ -66,14 +63,6 @@ public class UserForUpdate implements Serializable {
 
     public void setRoleId(Integer roleId) {
         this.roleId = roleId;
-    }
-
-    public Integer getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Integer shopId) {
-        this.shopId = shopId;
     }
 
     public String getFirstName() {

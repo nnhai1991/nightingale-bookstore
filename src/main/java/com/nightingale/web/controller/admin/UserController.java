@@ -83,8 +83,7 @@ public class UserController {
                 result = userService.getDTOListWithPaginationBySearch(keyword, pageNo, pageSize);
             } else {
                 CustomUserDetails customUser = (CustomUserDetails) authentication.getPrincipal();
-                int shopId = customUser.getUser().getShopId();
-                result = userService.getDTOListWithPaginationBySearch(shopId, keyword, pageNo, pageSize);
+                result = userService.getDTOListWithPaginationBySearch(keyword, pageNo, pageSize);
             }
             model.addAttribute(USERS, result.getLeft());
 

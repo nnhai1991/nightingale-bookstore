@@ -95,7 +95,6 @@ public class UserServiceImpl implements UserService {
 				newUser.setFullName(user.getFirstName() + " " + user.getLastName());
 				newUser.setNotLocked(user.getNotLocked());
 				newUser.setRoleId(user.getRoleId());
-				newUser.setShopId(user.getShopId());
 				newUser.setCreatedBy(user.getCreatedBy());
 				newUser.setPassword(passwordEncoder.encode(new Date().toString()));
 				newUser.setFailedLoginAttempt(0);
@@ -329,7 +328,6 @@ public class UserServiceImpl implements UserService {
 				user.setRoleId(userForUpdate.getRoleId());
 				user.setFirstName(userForUpdate.getFirstName());
 				user.setLastName(userForUpdate.getLastName());
-				user.setShopId(userForUpdate.getShopId());
 
 				user.setEnabled(userForUpdate.getEnabled());
 				user.setNotLocked(userForUpdate.getNotLocked());
@@ -388,27 +386,28 @@ public class UserServiceImpl implements UserService {
 
 
 	@Override
-    public Pair<List<UserDTO>, Integer> getDTOListWithPaginationBySearch(int shopId, String keyword, Integer pageNo,
-                                                                         Integer pageSize) {
-		if (pageNo > 0) {
-			Page<User> result;
-			PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize);
-			if (keyword == null)
-				keyword = "";
-			result = userRepository.findBySearchAndShopIDWithPage(keyword,shopId, pageRequest);
-			if (result != null && result.getContent().size() > 0) {
-
-				List<UserDTO> userDTOList = new LinkedList<>();
-
-				for (User user : result.getContent()) {
-					userDTOList.add(readDTO(user.getId()));
-				}
-
-				return Pair.of(userDTOList, (int) result.getTotalElements());
-
-			}
+	@Transactional
+	public Boolean createAdmin() {
+		Role role = roleRepository.findByCode(UtilConstants.Roles.SA);
+		if (role == null){
+			role = new Role();
+			role.setCode("SA");
+			role.setName("System Admin");
+			role = roleRepository.save(role);
 		}
-		return Pair.of(new ArrayList<>(), 0);
-    }
+		
+		User user = new User();
+    	user.setCreatedBy("system");
+    	user.setEmail("nnhai1991@gmail.com");
+    	user.setEnabled(true);
+    	user.setFailedLoginAttempt(0);
+    	user.setFirstName("System");
+    	user.setLastName("Admin");
+    	user.setNotLocked(true);
+    	user.setPassword(passwordEncoder.encode("1"));
+    	user.setRoleId(role.getId());
+    	userRepository.save(user);
+    	return true;
+	}
 
 }

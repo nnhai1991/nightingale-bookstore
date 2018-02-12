@@ -21,11 +21,4 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     		+ " or u.lastName like %:keyword%"
     		+ " or u.email like %:keyword%")
 	Page<User> findBySearchWithPage(@Param("keyword") String keyword, Pageable pageable);
-    
-    @Query("select u from User u "
-    		+ "where ( u.firstName like %:keyword% "
-    		+ " or u.lastName like %:keyword%"
-    		+ " or u.email like %:keyword% )"
-    		+ " and u.shopId = :shopId")
-	Page<User> findBySearchAndShopIDWithPage(@Param("keyword") String keyword,@Param("shopId") int shopId, Pageable pageable);
 }

@@ -30,6 +30,9 @@ public class LoginController {
 
         if (error != null)
             model.addAttribute("error", error);
+        if (userService.getListAll().size()==0){
+        	userService.createAdmin();        	
+        }
 
         return FOLDER + "/login";
     }

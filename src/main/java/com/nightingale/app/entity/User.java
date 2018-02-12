@@ -50,13 +50,6 @@ public class User implements Serializable {
 	@Pattern(regexp = UtilValidation.MIN8LENGTH_MIN1LOWERCASE_MIN1UPPERCASE_MIN1DIGIT_MIN1SPECIALCHAR)
 	private String password;
 
-	@NotNull
-	@Transient
-	private String passwordConfirm;
-
-	@NotNull
-	private Integer shopId;
-
 	@NotEmpty
 	@Pattern(regexp = UtilValidation.ALPHA_NUMERIC_WITH_SPACE)
 	private String firstName;
@@ -75,6 +68,10 @@ public class User implements Serializable {
 
 	@Transient
 	private String fullName;
+	@NotNull
+	@Transient
+	private String passwordConfirm;
+
 
 	public Integer getId() {
 		return id;
@@ -114,14 +111,6 @@ public class User implements Serializable {
 
 	public void setPasswordConfirm(String passwordConfirm) {
 		this.passwordConfirm = passwordConfirm;
-	}
-
-	public Integer getShopId() {
-		return shopId;
-	}
-
-	public void setShopId(Integer shopId) {
-		this.shopId = shopId;
 	}
 
 	public String getFirstName() {
