@@ -22,7 +22,7 @@ import com.nightingale.app.entity.EmailToken;
 import com.nightingale.app.entity.Role;
 import com.nightingale.app.entity.User;
 import com.nightingale.app.exception.ObjectCreationException;
-import com.nightingale.app.exception.ObjectNotFoundException;
+
 import com.nightingale.app.model.dto.UserDTO;
 import com.nightingale.app.model.dto.UserForUpdate;
 import com.nightingale.app.model.dto.UserForUpdatePassword;
@@ -205,8 +205,6 @@ public class UserServiceImpl implements UserService {
 						}
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
-					} catch (ObjectNotFoundException e) {
-						e.printStackTrace();
 					}
 
 					return true;
@@ -342,7 +340,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Boolean updatePassword(UserForUpdatePassword userForUpdatePassword) throws ObjectNotFoundException {
+	public Boolean updatePassword(UserForUpdatePassword userForUpdatePassword)  {
 
 		if (userForUpdatePassword != null) {
 

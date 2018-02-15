@@ -2,7 +2,7 @@ package com.nightingale.app.service.impl;
 
 import com.nightingale.app.entity.Asset;
 import com.nightingale.app.exception.ObjectCreationException;
-import com.nightingale.app.exception.ObjectNotFoundException;
+
 import com.nightingale.app.repository.AssetRepository;
 import com.nightingale.app.service.AssetService;
 import com.nightingale.app.util.UtilFiles;

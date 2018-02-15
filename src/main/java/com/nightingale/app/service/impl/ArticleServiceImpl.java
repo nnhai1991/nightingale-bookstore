@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nightingale.app.entity.Article;
 import com.nightingale.app.exception.ObjectCreationException;
-import com.nightingale.app.exception.ObjectNotFoundException;
+
 import com.nightingale.app.model.dto.ArticleDTO;
 import com.nightingale.app.repository.ArticleImageRepository;
 import com.nightingale.app.repository.ArticleRepository;
@@ -104,7 +104,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	@Transactional
-	public ArticleDTO readDTO(Integer articleId) throws ObjectNotFoundException {
+	public ArticleDTO readDTO(Integer articleId)  {
 
 		if (UtilValidation.isValidId(articleId) == false)
 			return null;

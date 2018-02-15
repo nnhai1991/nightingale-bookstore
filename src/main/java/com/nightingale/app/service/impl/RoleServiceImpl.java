@@ -1,7 +1,7 @@
 package com.nightingale.app.service.impl;
 
 import com.nightingale.app.entity.Role;
-import com.nightingale.app.exception.ObjectNotFoundException;
+
 import com.nightingale.app.repository.RoleRepository;
 import com.nightingale.app.service.RoleService;
 import com.nightingale.app.util.UtilConstants;
@@ -26,7 +26,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Role read(Integer id) throws ObjectNotFoundException {
+    public Role read(Integer id)  {
 
         if(UtilValidation.isValidId(id))
             return roleRepository.findOne(id);

@@ -1,6 +1,6 @@
 package com.nightingale.app.model.constraints.validator;
 
-import com.nightingale.app.exception.ObjectNotFoundException;
+
 import com.nightingale.app.model.constraints.ValidIdentificationNumber;
 import com.nightingale.app.util.UtilConstants;
 import com.nightingale.web.util.UtilValidation;

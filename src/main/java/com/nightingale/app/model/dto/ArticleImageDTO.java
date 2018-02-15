@@ -19,6 +19,8 @@ public class ArticleImageDTO implements Serializable {
 
 	private static final long serialVersionUID = -4951262262794080160L;
 
+	private Article article; 
+	
 	@NotNull
 	@Valid
 	private ArticleImage articleImage;
@@ -40,5 +42,13 @@ public class ArticleImageDTO implements Serializable {
 
 	public void setImage(MultipartFile image) {
 		this.image = image;
+	}
+
+	public Article getArticle() {
+		return article;
+	}
+
+	public void setArticle(Article article) {
+		this.article = article;
 	}
 }

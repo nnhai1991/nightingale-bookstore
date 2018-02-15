@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.nightingale.app.entity.Config;
 import com.nightingale.app.exception.ObjectCreationException;
-import com.nightingale.app.exception.ObjectNotFoundException;
+
 import com.nightingale.app.repository.ConfigRepository;
 import com.nightingale.app.service.ConfigService;
 import com.nightingale.web.util.UtilValidation;
@@ -87,7 +87,7 @@ public class ConfigServiceImpl implements ConfigService {
 	}
 
 	@Override
-	public Config readByCode(String key) throws ObjectNotFoundException {
+	public Config readByCode(String key)  {
 
 		if(UtilValidation.isValidString(key))
 			return configRepository.findByCode(key);

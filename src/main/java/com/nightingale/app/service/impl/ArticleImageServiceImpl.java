@@ -1,7 +1,9 @@
 package com.nightingale.app.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,12 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nightingale.app.entity.ArticleImage;
 import com.nightingale.app.exception.ObjectCreationException;
-import com.nightingale.app.exception.ObjectNotFoundException;
+
 import com.nightingale.app.model.dto.ArticleImageDTO;
 import com.nightingale.app.repository.ArticleImageRepository;
 import com.nightingale.app.service.ArticleImageService;
 import com.nightingale.app.service.AssetService;
 import com.nightingale.web.util.UtilValidation;
+import com.nightingale.app.repository.ArticleImageRepository;
+import com.nightingale.app.repository.ArticleRepository;
 
 @Service
 public class ArticleImageServiceImpl implements ArticleImageService {
@@ -33,7 +37,7 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 
 	@Override
 	@Transactional
-	public ArticleImageDTO readDTO(Integer articleId) throws ObjectNotFoundException {
+	public ArticleImageDTO readDTO(Integer articleId)  {
 
 		if (UtilValidation.isValidId(articleId)) {
 
@@ -88,7 +92,7 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 
 	@Override
 	@Transactional
-	public Boolean updateDTO(ArticleImageDTO articleDTO) throws ObjectNotFoundException {
+	public Boolean updateDTO(ArticleImageDTO articleDTO)  {
 
 		if (articleDTO == null)
 			return false;
@@ -122,4 +126,56 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 	public List<ArticleImage> findArticleImageByArticleId(int articleId) {
 		return articleImageRepository.findByArticleId(articleId);
 	}
+	
+	private ArticleImageRepository campaignImageRepository;
+    private ArticleRepository campaignRepository;
+
+    @Override
+    @Transactional
+    public ArticleImage create(ArticleImage campaignImage) {
+
+        if (campaignImage != null) {
+        	return campaignImageRepository.save(campaignImage);
+        }
+
+        return null;
+    }
+
+    @Override
+    public ArticleImage read(Integer campaignImageId) {
+        if (UtilValidation.isValidId(campaignImageId))
+            return campaignImageRepository.findOne(campaignImageId);
+
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public ArticleImage update(ArticleImage campaignImage) {
+        if (campaignImage != null) {
+               return campaignImageRepository.save(campaignImage);
+        }
+
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public void delete(Integer campaignImageId) {
+
+        if (UtilValidation.isValidId(campaignImageId))
+        	campaignImageRepository.delete(campaignImageId);
+
+    }
+
+    @Override
+    public List<ArticleImage> getListAll() {
+        return campaignImageRepository.findAll();
+    }
+
+    @Override
+    public Pair<List<ArticleImage>, Integer> getListWithPaginationBySearch(String keyword, Integer pageNo,
+                                                                            Integer pageSize) {
+        return Pair.of(new ArrayList<>(), 0);
+    }
 }

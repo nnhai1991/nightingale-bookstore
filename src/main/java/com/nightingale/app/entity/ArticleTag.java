@@ -1,39 +1,37 @@
 package com.nightingale.app.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-/**
- * @author hai
- *
- */
 @Entity
-public class ArticleImage extends BaseEntity {
-	
+public class ArticleTag implements Serializable{
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7330242016333653993L;
-
+	private static final long serialVersionUID = 6288255644353343530L;
+		
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-
+	protected Integer id;
+	
 	@NotNull
 	private Integer articleId;
-
+	
 	@NotNull
-	private Integer assetId;
+	private Integer tagId;
 
-	public Integer getAssetId() {
-		return assetId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setAssetId(Integer assetId) {
-		this.assetId = assetId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public Integer getArticleId() {
@@ -43,4 +41,14 @@ public class ArticleImage extends BaseEntity {
 	public void setArticleId(Integer articleId) {
 		this.articleId = articleId;
 	}
+
+	public Integer getTagId() {
+		return tagId;
+	}
+
+	public void setTagId(Integer tagId) {
+		this.tagId = tagId;
+	}
+	
+	
 }

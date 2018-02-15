@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nightingale.app.entity.User;
-import com.nightingale.app.exception.ObjectNotFoundException;
+
 import com.nightingale.app.model.dto.UserForUpdatePassword;
 import com.nightingale.app.service.UserService;
 import com.nightingale.app.util.UtilConstants;
@@ -40,7 +40,7 @@ public class LoginController {
     @GetMapping("/reset-password")
     public String resetPassword(Model model,
                                 @RequestParam(name = "token", required = false, defaultValue = "") String token)
-            throws ObjectNotFoundException {
+             {
 
         model.addAttribute("token", token);
         if (token != null) {
@@ -61,7 +61,7 @@ public class LoginController {
     public String resetPasswordPost(Model model,
                                     @RequestParam(name = "token", required = false, defaultValue = "") String token,
                                     @Valid UserForUpdatePassword userForUpdatePassword, BindingResult bindingResult)
-            throws ObjectNotFoundException {
+             {
 
         if (!bindingResult.hasErrors()) {
             if (userService.updatePassword(userForUpdatePassword)) {

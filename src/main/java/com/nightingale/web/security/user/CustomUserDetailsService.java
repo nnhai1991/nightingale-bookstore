@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.nightingale.app.entity.Role;
 import com.nightingale.app.entity.User;
-import com.nightingale.app.exception.ObjectNotFoundException;
+
 import com.nightingale.app.repository.RoleRepository;
 import com.nightingale.app.service.UserService;
 import com.nightingale.web.util.UtilValidation;

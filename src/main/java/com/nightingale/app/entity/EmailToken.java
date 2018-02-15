@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.validation.constraints.NotNull;
 @Entity
 public class EmailToken implements Serializable {
 
@@ -26,6 +25,8 @@ public class EmailToken implements Serializable {
 
 	@NotEmpty
 	private String email;
+	
+	@NotEmpty
 	private String token;
 	private Timestamp expiryDate;
 	private Timestamp createdDate;

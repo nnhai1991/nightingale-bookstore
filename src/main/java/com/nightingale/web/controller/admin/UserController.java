@@ -1,7 +1,7 @@
 package com.nightingale.web.controller.admin;
 
 import com.nightingale.app.entity.User;
-import com.nightingale.app.exception.ObjectNotFoundException;
+
 import com.nightingale.app.model.dto.UserDTO;
 import com.nightingale.app.model.dto.UserForUpdate;
 import com.nightingale.app.model.dto.UserForUpdatePassword;
@@ -150,7 +150,7 @@ public class UserController {
     @GetMapping("/details")
     public String details(Model model,
                           @RequestParam(name = "userId", required = true, defaultValue = "-1") Integer userId)
-            throws ObjectNotFoundException {
+             {
 
         if (UtilValidation.isValidId(userId)) {
 
@@ -170,7 +170,7 @@ public class UserController {
     public String update(Model model,
                          @RequestParam(name = "userId", required = true, defaultValue = "-1") Integer userId,
                          Authentication authentication)
-            throws ObjectNotFoundException {
+             {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
         if (UtilValidation.isValidId(userId)) {
@@ -190,7 +190,7 @@ public class UserController {
 
     @PostMapping("/update")
     public String update(Model model, @Valid UserForUpdate userForUpdate, BindingResult bindingResult,
-                         Authentication authentication) throws ObjectNotFoundException {
+                         Authentication authentication)  {
 
         // if no error OR the only error is the password
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -215,7 +215,7 @@ public class UserController {
     @GetMapping("/delete")
     public String delete(Model model,
                          @RequestParam(name = "userId", required = true, defaultValue = "-1") Integer userId)
-            throws ObjectNotFoundException {
+             {
 
         if (UtilValidation.isValidId(userId)) {
 
@@ -233,7 +233,7 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public String delete(@ModelAttribute User user) throws ObjectNotFoundException {
+    public String delete(@ModelAttribute User user)  {
         if (user != null && UtilValidation.isValidId(user.getId())) {
             User userfromDB = userService.read(user.getId());
             if (userfromDB != null) {
@@ -245,7 +245,7 @@ public class UserController {
 
     @GetMapping("/change-password")
     public String changePassword(Model model,
-                                 @RequestParam(name = "userId", required = true, defaultValue = "-1") Integer userId) throws ObjectNotFoundException {
+                                 @RequestParam(name = "userId", required = true, defaultValue = "-1") Integer userId)  {
 
         if (UtilValidation.isValidId(userId)) {
 
@@ -263,7 +263,7 @@ public class UserController {
 
     @PostMapping("/change-password")
     public String changePassPost(Model model, @Valid UserForUpdatePassword userForUpdatePassword,
-                                 BindingResult bindingResult) throws ObjectNotFoundException {
+                                 BindingResult bindingResult)  {
 
         if (!bindingResult.hasErrors()) {
 

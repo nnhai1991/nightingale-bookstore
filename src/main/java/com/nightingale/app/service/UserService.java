@@ -1,6 +1,6 @@
 package com.nightingale.app.service;
 
-import com.nightingale.app.exception.ObjectNotFoundException;
+
 import com.nightingale.app.entity.User;
 import com.nightingale.app.model.dto.UserForUpdate;
 import com.nightingale.app.model.dto.UserDTO;
@@ -27,7 +27,7 @@ public interface UserService extends BaseService<User>{
 	Pair<List<UserDTO>, Integer> getDTOListWithPaginationBySearch(String keyword, Integer pageNo, Integer pageSize) ;
 
 	Boolean update(UserForUpdate userForUpdate);
-	Boolean updatePassword(UserForUpdatePassword userForUpdatePassword) throws ObjectNotFoundException;
+	Boolean updatePassword(UserForUpdatePassword userForUpdatePassword) ;
 
 	Boolean create(UserForUpdate user);
 
