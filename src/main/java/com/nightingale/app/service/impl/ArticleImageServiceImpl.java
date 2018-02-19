@@ -1,5 +1,6 @@
 package com.nightingale.app.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,28 +34,9 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 
 	@Value("${asset.upload.path}")
 	private String uploadpath;
-
-
-	@Override
-	@Transactional
-	public ArticleImageDTO readDTO(Integer articleId)  {
-
-		if (UtilValidation.isValidId(articleId)) {
-
-			ArticleImage articleImg = articleImageRepository.findOne(articleId);
-
-			if (articleImg != null) {
-
-				ArticleImageDTO articleDTO = new ArticleImageDTO();
-				articleDTO.setArticleImage(articleImg);
-				return articleDTO;
-
-			}
-
-		}
-
-		return null;
-	}
+	
+	@Value("${asset.root.driver}")
+	private String rootDriver;
 
 	@Override
 	@Transactional
@@ -64,20 +46,21 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 
 			if (UtilValidation.isFileNotEmpty(articleDTO.getImage())) {
 
-				Integer assetId = assetService.create(articleDTO.getImage(), uploadpath);
+				Integer assetId = assetService.create(articleDTO.getImage(), rootDriver+File.separator+uploadpath);
 
 				if (assetId > 0) {
-
-					articleDTO.getArticleImage().setAssetId(assetId);
-
+					ArticleImage articleImage = new ArticleImage();
+					articleImage.setArticleId(articleDTO.getArticleId());
+					articleImage.setAssetId(assetId);
+					articleImage.setSequence(articleDTO.getSequence());
 					try {
-						articleDTO.getArticleImage()
+						articleImage
 								.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-						return articleImageRepository.save(articleDTO.getArticleImage()) != null;
+						return articleImageRepository.save(articleImage) != null;
 					} catch (DataIntegrityViolationException exception) {
 						exception.printStackTrace();
 						throw new ObjectCreationException(exception.getStackTrace(), "create ArticleImageDTO", "",
-								"Failed to create Article", articleDTO.getArticleImage());
+								"Failed to create Article", articleImage);
 					}
 				} else {
 					throw new ObjectCreationException(new StackTraceElement[0], "create ArticleImageDTO", "",
@@ -94,10 +77,10 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 	@Transactional
 	public Boolean updateDTO(ArticleImageDTO articleDTO)  {
 
-		if (articleDTO == null)
+		if (articleDTO == null || articleDTO.getArticleImageId() == null)
 			return false;
 
-		ArticleImage articleImgFromDB = articleImageRepository.findOne(articleDTO.getArticleImage().getId());
+		ArticleImage articleImgFromDB = articleImageRepository.findOne(articleDTO.getArticleImageId());
 
 		Integer assetId = articleImgFromDB.getAssetId();
 
@@ -110,14 +93,15 @@ public class ArticleImageServiceImpl implements ArticleImageService {
 			throw new ObjectCreationException(new StackTraceElement[0], "updateDTO ArticleImageDTO", "",
 					"Failed to Update Image", articleDTO.getImage());
 
-		articleDTO.getArticleImage().setAssetId(assetId);
+		articleImgFromDB.setAssetId(assetId);
+		articleImgFromDB.setSequence(articleDTO.getSequence());
 		try {
-			articleDTO.getArticleImage().setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-			return articleImageRepository.save(articleDTO.getArticleImage()) != null;
+			articleImgFromDB.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+			return articleImageRepository.save(articleImgFromDB) != null;
 		} catch (DataIntegrityViolationException exception) {
 			exception.printStackTrace();
 			throw new ObjectCreationException(exception.getStackTrace(), "updateDTO ArticleImageDTO", "",
-					"Failed to update Article", articleDTO.getArticleImage());
+					"Failed to update Article", articleDTO);
 		}
 
 	}

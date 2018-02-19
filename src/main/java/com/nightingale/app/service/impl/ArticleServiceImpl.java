@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,18 +26,19 @@ import com.nightingale.web.util.UtilValidation;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
+	
+	static final String CACHE_NAME = "Article";
 
 	@Autowired
 	private ArticleRepository articleRepository;
 
 	@Autowired
 	private ArticleImageRepository articleImageRepository;
-
-	@Value("${asset.upload.path}")
-	private String uploadpath;
+	
 
 	@Override
 	@Transactional
+	@CacheEvict(value=CACHE_NAME, allEntries = true)
 	public Article create(Article article) {
 
 		if (article != null) {
@@ -52,6 +55,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	@Cacheable(CACHE_NAME)
 	public Article read(Integer articleId) {
 		if (UtilValidation.isValidId(articleId))
 			return articleRepository.findOne(articleId);
@@ -60,6 +64,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	@Transactional
+	@CacheEvict(value=CACHE_NAME, allEntries = true)
 	public Article update(Article article) {
 		if (article != null) {
 			try {
@@ -75,6 +80,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	@CacheEvict(value=CACHE_NAME, allEntries = true)
 	public void delete(Integer articleId) {
 
 		if (UtilValidation.isValidId(articleId))
@@ -82,11 +88,13 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	@Cacheable(CACHE_NAME)
 	public List<Article> getListAll() {
 		return articleRepository.findAll();
 	}
 
 	@Override
+	@Cacheable(CACHE_NAME)
 	public Pair<List<Article>, Integer> getListWithPaginationBySearch(String keyword, Integer pageNo,
 			Integer pageSize) {
 		if (pageSize > 0) {
@@ -104,6 +112,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	@Transactional
+	@Cacheable(CACHE_NAME)
 	public ArticleDTO readDTO(Integer articleId)  {
 
 		if (UtilValidation.isValidId(articleId) == false)
@@ -120,12 +129,13 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	@Cacheable(CACHE_NAME)
 	public Article getByCode(String code) {
-		// TODO Auto-generated method stub
-		return null;
+		return articleRepository.findByCode(code);
 	}
 
 	@Override
+	@Cacheable(CACHE_NAME)
 	public List<Article> findActiveArticleList() {
 		return articleRepository.findByEnabled(true);
 	}

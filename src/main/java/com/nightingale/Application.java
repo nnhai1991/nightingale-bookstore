@@ -1,11 +1,18 @@
 package com.nightingale;
 
+import java.lang.reflect.Method;
 import java.util.Locale;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.MultipartAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -21,6 +28,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 
 @SpringBootApplication
+//@EnableAutoConfiguration(exclude={MultipartAutoConfiguration.class})
 public class Application extends SpringBootServletInitializer {
 	public static final String DEFAULT_ENCODING = "UTF-8";
 	private static final int MAX_UPLOAD_SIZE = 10485760;
@@ -35,13 +43,13 @@ public class Application extends SpringBootServletInitializer {
 		setRegisterErrorPageFilter(false);
 	}
 
-	@Bean
-	public MultipartResolver multipartResolver() {
-		CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
-		commonsMultipartResolver.setDefaultEncoding(DEFAULT_ENCODING);
-		commonsMultipartResolver.setMaxUploadSize(MAX_UPLOAD_SIZE);
-		return commonsMultipartResolver;
-	}
+//	@Bean
+//	public MultipartResolver multipartResolver() {
+//		CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+//		commonsMultipartResolver.setDefaultEncoding(DEFAULT_ENCODING);
+//		commonsMultipartResolver.setMaxUploadSize(MAX_UPLOAD_SIZE);
+//		return commonsMultipartResolver;
+//	}
 
 	// localResolver detected by name 'localResolver' compulsory
 	@Bean(name = { "localResolver" })
@@ -82,20 +90,6 @@ public class Application extends SpringBootServletInitializer {
 		return builder.sources(Application.class);
 	}
 
-//	@Bean
-//	JedisConnectionFactory jedisConnectionFactory() {
-//		return new JedisConnectionFactory();
-//	}
-//
-//	@Bean
-//	RedisTemplate<String, Object> redisTemplate() {
-//		final RedisTemplate<String, Object> template = new RedisTemplate<String, Object>();
-//		template.setConnectionFactory(jedisConnectionFactory());
-//		template.setKeySerializer(new StringRedisSerializer());
-//		template.setHashValueSerializer(new GenericToStringSerializer<Object>(Object.class));
-//		template.setValueSerializer(new GenericToStringSerializer<Object>(Object.class));
-//		return template;
-//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);

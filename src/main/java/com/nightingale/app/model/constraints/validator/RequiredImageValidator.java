@@ -29,9 +29,6 @@ public class RequiredImageValidator implements ConstraintValidator<RequiredImage
 
         BufferedImage bufferedImage = null;
 
-        if (value == null || value.getSize() <= 0)
-            return false;
-
         try {
             bufferedImage = ImageIO.read(value.getInputStream());
             valid = bufferedImage != null;

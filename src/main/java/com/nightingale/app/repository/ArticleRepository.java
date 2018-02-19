@@ -11,7 +11,7 @@ import org.springframework.data.repository.query.Param;
 import com.nightingale.app.entity.Article;
 
 public interface ArticleRepository extends JpaRepository<Article,Integer> {
-
+	
 	Article findByCode(String code);
 
 	List<Article> findByEnabled(Boolean b);

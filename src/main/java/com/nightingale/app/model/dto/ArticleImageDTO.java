@@ -18,23 +18,17 @@ import com.nightingale.app.model.constraints.RequiredImage;
 public class ArticleImageDTO implements Serializable {
 
 	private static final long serialVersionUID = -4951262262794080160L;
-
-	private Article article; 
 	
 	@NotNull
-	@Valid
-	private ArticleImage articleImage;
+	private Integer sequence = 0;
+	
+	@NotNull
+	private Integer articleId;
 
 	@RequiredImage
 	private MultipartFile image;
-
-	public ArticleImage getArticleImage() {
-		return articleImage;
-	}
-
-	public void setArticleImage(ArticleImage articleImage) {
-		this.articleImage = articleImage;
-	}
+	
+	private Integer articleImageId;
 
 	public MultipartFile getImage() {
 		return image;
@@ -44,11 +38,30 @@ public class ArticleImageDTO implements Serializable {
 		this.image = image;
 	}
 
-	public Article getArticle() {
-		return article;
+	public Integer getSequence() {
+		return sequence;
 	}
 
-	public void setArticle(Article article) {
-		this.article = article;
+	public void setSequence(Integer sequence) {
+		this.sequence = sequence;
 	}
+
+	public Integer getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(Integer articleId) {
+		this.articleId = articleId;
+	}
+
+	public Integer getArticleImageId() {
+		return articleImageId;
+	}
+
+	public void setArticleImageId(Integer articleImageId) {
+		this.articleImageId = articleImageId;
+	}
+	
+	
+	
 }

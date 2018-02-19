@@ -26,6 +26,9 @@ public class AssetController {
 
 	@Value("${asset.upload.path}")
 	private String uploadpath;
+	@Value("${asset.root.driver}")
+	private String rootDriver;
+
 
 	private AssetService assetService;
 
@@ -53,7 +56,7 @@ public class AssetController {
 				// using
 				// produces = image/jpeg, image/png in the @Getmapping
 
-				File file = new File(uploadpath + asset.getPath());
+				File file = new File(rootDriver+File.separator+uploadpath + asset.getPath());
 				if (file.exists()) {
 
 					headers.setPragma("public");

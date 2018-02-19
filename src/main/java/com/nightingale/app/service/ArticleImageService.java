@@ -8,8 +8,6 @@ import com.nightingale.app.model.dto.ArticleImageDTO;
 
 public interface ArticleImageService extends BaseService<ArticleImage>{
 
-	ArticleImageDTO readDTO(Integer articleId) ;
-
 	Boolean createDTO(ArticleImageDTO articleDTO);
 
 	Boolean updateDTO(ArticleImageDTO articleDTO) ;

@@ -25,6 +25,12 @@ public class LoginController {
     private final static String FOLDER = "/login";
     @Autowired
     private UserService userService;
+    
+    @GetMapping("/admin")
+    public String home() {
+        return FOLDER + "/home";
+    }
+    
     @GetMapping("/login")
     public String login(Model model, @RequestParam(required = false, defaultValue = "") String error) {
 

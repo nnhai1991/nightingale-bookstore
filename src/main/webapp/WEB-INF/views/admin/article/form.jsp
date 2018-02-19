@@ -7,6 +7,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+
+<p class="text-danger">
+	<spring:message code="${error}" text="${error}"/>
+</p>
 <p class="text-danger">
 	<form:errors path="" />
 </p>

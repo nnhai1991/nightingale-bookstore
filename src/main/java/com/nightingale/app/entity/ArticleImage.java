@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.ColumnDefault;
+
 /**
  * @author hai
  *
@@ -17,10 +19,8 @@ public class ArticleImage extends BaseEntity {
 	 * 
 	 */
 	private static final long serialVersionUID = -7330242016333653993L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	
+	private Integer sequence = 0;
 
 	@NotNull
 	private Integer articleId;
@@ -42,5 +42,13 @@ public class ArticleImage extends BaseEntity {
 
 	public void setArticleId(Integer articleId) {
 		this.articleId = articleId;
+	}
+
+	public Integer getSequence() {
+		return sequence;
+	}
+
+	public void setSequence(Integer sequence) {
+		this.sequence = sequence;
 	}
 }
