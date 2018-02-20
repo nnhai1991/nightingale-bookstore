@@ -22,7 +22,6 @@ import com.nightingale.app.entity.Article;
 import com.nightingale.app.entity.ArticleImage;
 import com.nightingale.app.model.dto.ArticleDTO;
 import com.nightingale.app.model.dto.ArticleImageDTO;
-import com.nightingale.app.service.ArticleImageService;
 import com.nightingale.app.service.ArticleService;
 import com.nightingale.web.util.Pagination;
 import com.nightingale.web.util.UtilValidation;
@@ -43,9 +42,6 @@ public class ArticleController {
 
 	@Autowired
 	private ArticleService articleService;
-
-	@Autowired
-	private ArticleImageService articleImageService;
 
 	@Value("${pageSize}")
 	private Integer pageSize = 10;
@@ -210,7 +206,7 @@ public class ArticleController {
 		if (validResult.hasErrors()) {
 			redirectAttributes.addAttribute(ERROR, "something_went_wrong");
 		} else {
-			articleImageService.createDTO(articleImageDTO);
+			articleService.createArticleImageDTO(articleImageDTO);
 			return "redirect:/admin/article/update?articleId=" + articleImageDTO.getArticleId();
 		}
 		return "redirect:/admin/article/update?articleId=" + articleImageDTO.getArticleId();
@@ -224,7 +220,7 @@ public class ArticleController {
 		if (bindingResult.hasErrors()) {
 			redirectAttributes.addAttribute(ERROR, "something_went_wrong");
 		} else {
-			articleImageService.updateDTO(articleImageDTO);
+			articleService.updateArticleImageDTO(articleImageDTO);
 		}
 		return "redirect:/admin/article/update?articleId=" + articleImageDTO.getArticleId();
 
@@ -236,9 +232,9 @@ public class ArticleController {
 			RedirectAttributes redirectAttributes) {
 		if (articleImageId != null) {
 
-			ArticleImage m = articleImageService.read(articleImageId);
+			ArticleImage m = articleService.readArticleImage(articleImageId);
 			if (m != null) {
-				articleImageService.delete(articleImageId);
+				articleService.deleteArticleImage(articleImageId);
 
 			} else {
 				redirectAttributes.addAttribute(ERROR, "something_went_wrong");

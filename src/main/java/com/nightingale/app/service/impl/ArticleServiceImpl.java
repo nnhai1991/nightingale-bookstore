@@ -1,5 +1,6 @@
 package com.nightingale.app.service.impl;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,12 +17,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nightingale.app.entity.Article;
+import com.nightingale.app.entity.ArticleImage;
 import com.nightingale.app.exception.ObjectCreationException;
 
 import com.nightingale.app.model.dto.ArticleDTO;
+import com.nightingale.app.model.dto.ArticleImageDTO;
 import com.nightingale.app.repository.ArticleImageRepository;
 import com.nightingale.app.repository.ArticleRepository;
 import com.nightingale.app.service.ArticleService;
+import com.nightingale.app.service.AssetService;
 import com.nightingale.web.util.UtilValidation;
 
 @Service
@@ -35,6 +39,14 @@ public class ArticleServiceImpl implements ArticleService {
 	@Autowired
 	private ArticleImageRepository articleImageRepository;
 	
+	@Autowired
+	private AssetService assetService;
+
+	@Value("${asset.upload.path}")
+	private String uploadpath;
+	
+	@Value("${asset.root.driver}")
+	private String rootDriver;
 
 	@Override
 	@Transactional
@@ -138,5 +150,97 @@ public class ArticleServiceImpl implements ArticleService {
 	@Cacheable(CACHE_NAME)
 	public List<Article> findActiveArticleList() {
 		return articleRepository.findByEnabled(true);
+	}
+	
+	@Override
+	@Transactional
+	@CacheEvict(value=CACHE_NAME, allEntries = true)
+	public Boolean createArticleImageDTO(ArticleImageDTO articleDTO) {
+
+		if (articleDTO != null) {
+
+			if (UtilValidation.isFileNotEmpty(articleDTO.getImage())) {
+
+				Integer assetId = assetService.create(articleDTO.getImage(), rootDriver+File.separator+uploadpath);
+
+				if (assetId > 0) {
+					ArticleImage articleImage = new ArticleImage();
+					articleImage.setArticleId(articleDTO.getArticleId());
+					articleImage.setAssetId(assetId);
+					articleImage.setSequence(articleDTO.getSequence());
+					try {
+						articleImage
+								.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+						return articleImageRepository.save(articleImage) != null;
+					} catch (DataIntegrityViolationException exception) {
+						exception.printStackTrace();
+						throw new ObjectCreationException(exception.getStackTrace(), "create ArticleImageDTO", "",
+								"Failed to create Article", articleImage);
+					}
+				} else {
+					throw new ObjectCreationException(new StackTraceElement[0], "create ArticleImageDTO", "",
+							"Failed to create Article Image", articleDTO.getImage());
+				}
+			}
+
+		}
+
+		return false;
+	}
+
+	@Override
+	@Transactional
+	@CacheEvict(value=CACHE_NAME, allEntries = true)
+	public Boolean updateArticleImageDTO(ArticleImageDTO articleDTO)  {
+
+		if (articleDTO == null || articleDTO.getArticleImageId() == null)
+			return false;
+
+		ArticleImage articleImgFromDB = articleImageRepository.findOne(articleDTO.getArticleImageId());
+
+		Integer assetId = articleImgFromDB.getAssetId();
+
+		if (UtilValidation.isFileNotEmpty(articleDTO.getImage())) {
+			assetService.delete(assetId, rootDriver+File.separator+uploadpath);
+			assetId = assetService.create(articleDTO.getImage(), rootDriver+File.separator+uploadpath);
+		}
+
+		if (assetId <= 0)
+			throw new ObjectCreationException(new StackTraceElement[0], "updateDTO ArticleImageDTO", "",
+					"Failed to Update Image", articleDTO.getImage());
+
+		articleImgFromDB.setAssetId(assetId);
+		articleImgFromDB.setSequence(articleDTO.getSequence());
+		try {
+			articleImgFromDB.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+			return articleImageRepository.save(articleImgFromDB) != null;
+		} catch (DataIntegrityViolationException exception) {
+			exception.printStackTrace();
+			throw new ObjectCreationException(exception.getStackTrace(), "updateDTO ArticleImageDTO", "",
+					"Failed to update Article", articleDTO);
+		}
+
+	}
+
+	@Override
+	@Cacheable(CACHE_NAME)
+	public List<ArticleImage> findArticleImageByArticleId(int articleId) {
+		return articleImageRepository.findByArticleId(articleId);
+	}
+
+	@Override
+	@Cacheable(CACHE_NAME)
+	public ArticleImage readArticleImage(Integer articleImageId) {
+		return articleImageRepository.findOne(articleImageId);
+	}
+
+	@Override
+	@Transactional
+	@CacheEvict(value=CACHE_NAME, allEntries = true)
+	public void deleteArticleImage(Integer articleImageId) {
+		ArticleImage entity  = readArticleImage(articleImageId);
+		if (assetService.delete(entity.getAssetId(), rootDriver+File.separator+uploadpath))
+			articleImageRepository.delete(articleImageId);
+		
 	}
 }
