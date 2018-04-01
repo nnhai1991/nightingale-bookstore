@@ -8,7 +8,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@Data
+@NoArgsConstructor
 public class ArticleTag implements Serializable{
 
 	/**
@@ -26,29 +31,4 @@ public class ArticleTag implements Serializable{
 	@NotNull
 	private Integer tagId;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getArticleId() {
-		return articleId;
-	}
-
-	public void setArticleId(Integer articleId) {
-		this.articleId = articleId;
-	}
-
-	public Integer getTagId() {
-		return tagId;
-	}
-
-	public void setTagId(Integer tagId) {
-		this.tagId = tagId;
-	}
-	
-	
 }

@@ -6,8 +6,15 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames = {"name"})})
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper=true)
 public class TagType extends BaseEntity {
 	/**
 	 * 
@@ -16,14 +23,4 @@ public class TagType extends BaseEntity {
 
 	@NotEmpty
 	private String name;
-
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 }

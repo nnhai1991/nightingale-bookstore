@@ -1,18 +1,21 @@
 package com.nightingale.app.entity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.ColumnDefault;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * @author hai
  *
  */
 @Entity
+@Data
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper=true)
+
 public class ArticleImage extends BaseEntity {
 	
 	/**
@@ -27,28 +30,4 @@ public class ArticleImage extends BaseEntity {
 
 	@NotNull
 	private Integer assetId;
-
-	public Integer getAssetId() {
-		return assetId;
-	}
-
-	public void setAssetId(Integer assetId) {
-		this.assetId = assetId;
-	}
-
-	public Integer getArticleId() {
-		return articleId;
-	}
-
-	public void setArticleId(Integer articleId) {
-		this.articleId = articleId;
-	}
-
-	public Integer getSequence() {
-		return sequence;
-	}
-
-	public void setSequence(Integer sequence) {
-		this.sequence = sequence;
-	}
 }

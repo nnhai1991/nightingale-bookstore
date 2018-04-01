@@ -1,11 +1,9 @@
 package com.nightingale.app.entity;
 
-import com.nightingale.app.model.constraints.FieldMatch;
-import com.nightingale.app.model.constraints.UniqueUserEmail;
-import com.nightingale.web.util.UtilValidation;
-import org.hibernate.validator.constraints.NotEmpty;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,17 +11,15 @@ import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.nightingale.web.util.UtilValidation;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * -------------------------------------------------
@@ -34,6 +30,8 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "`user`")
+@Data
+@NoArgsConstructor
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -5379792979026217998L;
@@ -66,110 +64,6 @@ public class User implements Serializable {
 	private Timestamp createdDate;
 	private String updatedBy;
 	private Timestamp updatedDate;
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public Integer getFailedLoginAttempt() {
-		return failedLoginAttempt;
-	}
-
-	public void setFailedLoginAttempt(Integer failedLoginAttempt) {
-		this.failedLoginAttempt = failedLoginAttempt;
-	}
-
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
-	}
-
-	public Boolean getNotLocked() {
-		return notLocked;
-	}
-
-	public void setNotLocked(Boolean notLocked) {
-		this.notLocked = notLocked;
-	}
-
-	public String getCreatedBy() {
-		return createdBy;
-	}
-
-	public void setCreatedBy(String createdBy) {
-		this.createdBy = createdBy;
-	}
-
-	public String getUpdatedBy() {
-		return updatedBy;
-	}
-
-	public void setUpdatedBy(String updatedBy) {
-		this.updatedBy = updatedBy;
-	}
-
-	public Timestamp getCreatedDate() {
-		return createdDate;
-	}
-
-	public void setCreatedDate(Timestamp createdDate) {
-		this.createdDate = createdDate;
-	}
-
-	public Timestamp getUpdatedDate() {
-		return updatedDate;
-	}
-
-	public void setUpdatedDate(Timestamp updatedDate) {
-		this.updatedDate = updatedDate;
-	}
 
 	@PreUpdate
 	protected void onUpdate() {

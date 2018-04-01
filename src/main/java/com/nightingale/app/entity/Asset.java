@@ -8,10 +8,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author hai
  */
 @Entity
+@Data
+@NoArgsConstructor
 public class Asset implements Serializable {
 
     private static final long serialVersionUID = 8534855707534977027L;
@@ -27,38 +32,5 @@ public class Asset implements Serializable {
     
     @NotNull
     private String path;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
 
 }
