@@ -6,17 +6,17 @@
 <tiles-definitions>
 
 	<!-- Master Template Page Admin -->
-	<definition name="admin-template" template="/WEB-INF/views/template/master-admin-default.jsp">
-		<put-attribute name="htmlhead" value="/WEB-INF/views/template/htmlhead-admin-default.jsp" />
+	<definition name="admin-template" template="/WEB-INF/views/template/master-admin.jsp">
+		<put-attribute name="htmlhead" value="/WEB-INF/views/template/htmlhead-admin.jsp" />
 		<put-attribute name="body" value="/WEB-INF/views/template/body.jsp" />
-		<put-attribute name="footer" value="/WEB-INF/views/template/footer-admin-default.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/template/footer-admin.jsp" />
 	</definition>
 	
 	<!-- Master Template Page Normal --> 
-	<definition name="default-template" template="/WEB-INF/views/template/master-default.jsp">
-		<put-attribute name="htmlhead" value="/WEB-INF/views/template/htmlhead-default.jsp" /> 
+	<definition name="default-template" template="/WEB-INF/views/template/master.jsp">
+		<put-attribute name="htmlhead" value="/WEB-INF/views/template/htmlhead.jsp" /> 
     	<put-attribute name="body" value="/WEB-INF/views/template/body.jsp" />
-    	<put-attribute name="footer" value="/WEB-INF/views/template/footer-default.jsp" />
+    	<put-attribute name="footer" value="/WEB-INF/views/template/footer.jsp" />
 	</definition>
 	
 </tiles-definitions>

@@ -7,6 +7,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+<link rel="stylesheet" href="<c:url value="/resources/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css"/>"/>
+<script src="<c:url value="/resources/vendor/bootstrap-tagsinput/bootstrap-tagsinput.min.js"/>"></script>
+
+
 <tiles:insertDefinition name="admin-template">
 	<tiles:putAttribute name="body">
 		<div class="container-fluid">

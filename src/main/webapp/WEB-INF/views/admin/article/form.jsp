@@ -70,6 +70,18 @@
 		<form:errors path="code" />
 	</p>
 </div>
+<div class="form-group">
+	<label class="col-2 col-form-label"> <spring:message
+			code="tag" />
+	</label>
+	<div class="col-6">
+		<select multiple data-role="tagsinput" class="form-control"></select>
+	</div>
+<!-- 	<p class="text-danger"> -->
+<%-- 		<form:errors path="code" /> --%>
+<!-- 	</p> -->
+</div>
+
 
 <div class="form-group">
 	<div class="form-check">

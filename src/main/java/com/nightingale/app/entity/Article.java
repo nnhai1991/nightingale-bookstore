@@ -29,7 +29,7 @@ public class Article extends BaseEntity {
 
 	private String description;
 
-	private float price;
+	private Float price;
 	
 	private int priority;
 

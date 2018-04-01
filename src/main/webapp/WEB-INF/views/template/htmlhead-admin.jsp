@@ -23,3 +23,6 @@
 <link rel="stylesheet" href="<c:url value="/resources/admin/css/sb-admin-2.css"/>"/>
 <!-- template script -->
 <script src="<c:url value="/resources/admin/js/sb-admin-2.js"/>"></script>
+
+<link rel="stylesheet" href="<c:url value="/resources/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css"/>"/>
+<script src="<c:url value="/resources/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js"/>"></script>
