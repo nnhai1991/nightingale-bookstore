@@ -1,7 +1,7 @@
 package com.nightingale.app.service.impl;
 
 import com.nightingale.app.entity.Asset;
-import com.nightingale.app.exception.ObjectCreationException;
+import com.nightingale.app.exception.NightingaleException;
 
 import com.nightingale.app.repository.AssetRepository;
 import com.nightingale.app.service.AssetService;
@@ -60,7 +60,7 @@ public class AssetServiceImpl implements AssetService {
 
                     return assetRepository.save(asset).getId();
                 } catch (IllegalStateException | IOException | DataIntegrityViolationException e) {
-                	throw new ObjectCreationException(e.getStackTrace(), "create Asset", "", "Failed to create Asset", asset);
+                	throw new NightingaleException(e.getStackTrace(), "create Asset", "", "Failed to create Asset", asset);
                     
                 }
 

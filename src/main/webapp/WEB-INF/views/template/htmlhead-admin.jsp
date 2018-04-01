@@ -26,3 +26,4 @@
 
 <link rel="stylesheet" href="<c:url value="/resources/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css"/>"/>
 <script src="<c:url value="/resources/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js"/>"></script>
+<link rel="stylesheet" href="<c:url value="/resources/css/custom-admin.css"/>"/>

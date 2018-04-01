@@ -4,7 +4,7 @@ package com.nightingale.app.exception;
  * @author hai
  *
  */
-public class ObjectCreationException extends RuntimeException {
+public class NightingaleException extends RuntimeException {
 
 	private static final long serialVersionUID = -5853685929057541987L;
 
@@ -14,7 +14,7 @@ public class ObjectCreationException extends RuntimeException {
 	private String displayMessage;
 	private String remarks;
 
-	public ObjectCreationException(StackTraceElement[] stackTrace, String methodName, String displayMessage,
+	public NightingaleException(StackTraceElement[] stackTrace, String methodName, String displayMessage,
 			String remarks, Object... params) {
 
 		this.stackTrace = stackTrace;

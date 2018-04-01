@@ -1,7 +1,7 @@
 package com.nightingale.web.controller;
 
 import com.nightingale.app.exception.CustomException;
-import com.nightingale.app.exception.ObjectCreationException;
+import com.nightingale.app.exception.NightingaleException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,8 +28,8 @@ public class ErrorController {
         return FOLDER + "/error";
     }
 
-    @ExceptionHandler(ObjectCreationException.class)
-    public String ObjectCreationExceptionHandler(HttpServletRequest req, ObjectCreationException e) throws Exception {
+    @ExceptionHandler(NightingaleException.class)
+    public String ObjectCreationExceptionHandler(HttpServletRequest req, NightingaleException e) throws Exception {
         StringBuffer sb = req.getRequestURL();
         String query = req.getQueryString();
         if (query != null) {

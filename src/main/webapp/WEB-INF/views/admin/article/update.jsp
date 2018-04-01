@@ -25,8 +25,8 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<form:form method="POST" action="${updateURL}"
-						modelAttribute="articleDTO.article">
-						<form:input type="hidden" path="id" />
+						modelAttribute="articleDTO">
+						<form:input type="hidden" path="article.id" />
 						<c:import url="form.jsp"></c:import>
 						<div class="form-group row">
 						<c:forEach items="${articleDTO.articleImages}" var="image">

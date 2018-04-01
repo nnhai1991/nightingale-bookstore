@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nightingale.app.entity.EmailToken;
 import com.nightingale.app.entity.Role;
 import com.nightingale.app.entity.User;
-import com.nightingale.app.exception.ObjectCreationException;
+import com.nightingale.app.exception.NightingaleException;
 
 import com.nightingale.app.model.dto.UserDTO;
 import com.nightingale.app.model.dto.UserForUpdate;
@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
 				return valid;
 			} catch (DataIntegrityViolationException exception) {
 				exception.printStackTrace();
-				throw new ObjectCreationException(exception.getStackTrace(), "create User", "", "Failed to create User",
+				throw new NightingaleException(exception.getStackTrace(), "create User", "", "Failed to create User",
 						user);
 			}
 		}
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
 				return userRepository.save(user);
 			} catch (DataIntegrityViolationException exception) {
 				exception.printStackTrace();
-				throw new ObjectCreationException(exception.getStackTrace(), "create User", "", "Failed to create User",
+				throw new NightingaleException(exception.getStackTrace(), "create User", "", "Failed to create User",
 						user);
 			}
 		return null;
@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService {
 				user.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 				return userRepository.save(user);
 			} catch (DataIntegrityViolationException exception) {
-				throw new ObjectCreationException(exception.getStackTrace(), "create User", "", "Failed to update User",
+				throw new NightingaleException(exception.getStackTrace(), "create User", "", "Failed to update User",
 						user);
 			}
 		return null;

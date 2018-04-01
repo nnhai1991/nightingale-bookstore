@@ -11,7 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.nightingale.app.entity.Config;
-import com.nightingale.app.exception.ObjectCreationException;
+import com.nightingale.app.exception.NightingaleException;
 
 import com.nightingale.app.repository.ConfigRepository;
 import com.nightingale.app.service.ConfigService;
@@ -50,7 +50,7 @@ public class ConfigServiceImpl implements ConfigService {
 			try {
 				return configRepository.save(config);
 			} catch (DataIntegrityViolationException exception) {
-				throw new ObjectCreationException(exception.getStackTrace(), "update Config", "",
+				throw new NightingaleException(exception.getStackTrace(), "update Config", "",
 						"Failed to update Config", config);
 			}
 

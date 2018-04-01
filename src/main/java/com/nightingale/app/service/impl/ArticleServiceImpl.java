@@ -3,6 +3,8 @@ package com.nightingale.app.service.impl;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +20,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nightingale.app.entity.Article;
 import com.nightingale.app.entity.ArticleImage;
-import com.nightingale.app.exception.ObjectCreationException;
+import com.nightingale.app.entity.ArticleTag;
+import com.nightingale.app.entity.Tag;
+import com.nightingale.app.exception.NightingaleException;
 
 import com.nightingale.app.model.dto.ArticleDTO;
 import com.nightingale.app.model.dto.ArticleImageDTO;
 import com.nightingale.app.repository.ArticleImageRepository;
 import com.nightingale.app.repository.ArticleRepository;
+import com.nightingale.app.repository.ArticleTagRepository;
+import com.nightingale.app.repository.TagRepository;
 import com.nightingale.app.service.ArticleService;
 import com.nightingale.app.service.AssetService;
+import com.nightingale.app.service.TagService;
 import com.nightingale.web.util.UtilValidation;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
-	
+
 	static final String CACHE_NAME = "Article";
 
 	@Autowired
@@ -38,19 +45,25 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Autowired
 	private ArticleImageRepository articleImageRepository;
-	
+
+	@Autowired
+	private ArticleTagRepository articleTagRepository;
+
+	@Autowired
+	private TagService tagService;
+
 	@Autowired
 	private AssetService assetService;
 
 	@Value("${asset.upload.path}")
 	private String uploadpath;
-	
+
 	@Value("${asset.root.driver}")
 	private String rootDriver;
 
 	@Override
 	@Transactional
-	@CacheEvict(value=CACHE_NAME, allEntries = true)
+	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public Article create(Article article) {
 
 		if (article != null) {
@@ -58,7 +71,7 @@ public class ArticleServiceImpl implements ArticleService {
 				article.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 				return articleRepository.save(article);
 			} catch (DataIntegrityViolationException exception) {
-				throw new ObjectCreationException(exception.getStackTrace(), "create Article", "",
+				throw new NightingaleException(exception.getStackTrace(), "create Article", "",
 						"Failed to create Article", article);
 			}
 		}
@@ -76,14 +89,14 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value=CACHE_NAME, allEntries = true)
+	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public Article update(Article article) {
 		if (article != null) {
 			try {
 				article.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 				return articleRepository.save(article);
 			} catch (DataIntegrityViolationException exception) {
-				throw new ObjectCreationException(exception.getStackTrace(), "update Article", "",
+				throw new NightingaleException(exception.getStackTrace(), "update Article", "",
 						"Failed to update Article", article);
 			}
 		}
@@ -92,7 +105,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	@CacheEvict(value=CACHE_NAME, allEntries = true)
+	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public void delete(Integer articleId) {
 
 		if (UtilValidation.isValidId(articleId))
@@ -125,7 +138,7 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	@Transactional
 	@Cacheable(CACHE_NAME)
-	public ArticleDTO readDTO(Integer articleId)  {
+	public ArticleDTO readDTO(Integer articleId) {
 
 		if (UtilValidation.isValidId(articleId) == false)
 			return null;
@@ -137,6 +150,8 @@ public class ArticleServiceImpl implements ArticleService {
 		ArticleDTO articleDTO = new ArticleDTO();
 		articleDTO.setArticle(article);
 		articleDTO.setArticleImages(articleImageRepository.findByArticleId(articleId));
+		articleDTO.setTags(articleTagRepository.findByArticleId(articleId).stream().map(ar -> ar.getTag())
+				.collect(Collectors.toList()));
 		return articleDTO;
 	}
 
@@ -151,17 +166,17 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<Article> findActiveArticleList() {
 		return articleRepository.findByEnabled(true);
 	}
-	
+
 	@Override
 	@Transactional
-	@CacheEvict(value=CACHE_NAME, allEntries = true)
+	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public Boolean createArticleImageDTO(ArticleImageDTO articleDTO) {
 
 		if (articleDTO != null) {
 
 			if (UtilValidation.isFileNotEmpty(articleDTO.getImage())) {
 
-				Integer assetId = assetService.create(articleDTO.getImage(), rootDriver+File.separator+uploadpath);
+				Integer assetId = assetService.create(articleDTO.getImage(), rootDriver + File.separator + uploadpath);
 
 				if (assetId > 0) {
 					ArticleImage articleImage = new ArticleImage();
@@ -169,16 +184,15 @@ public class ArticleServiceImpl implements ArticleService {
 					articleImage.setAssetId(assetId);
 					articleImage.setSequence(articleDTO.getSequence());
 					try {
-						articleImage
-								.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+						articleImage.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
 						return articleImageRepository.save(articleImage) != null;
 					} catch (DataIntegrityViolationException exception) {
 						exception.printStackTrace();
-						throw new ObjectCreationException(exception.getStackTrace(), "create ArticleImageDTO", "",
+						throw new NightingaleException(exception.getStackTrace(), "create ArticleImageDTO", "",
 								"Failed to create Article", articleImage);
 					}
 				} else {
-					throw new ObjectCreationException(new StackTraceElement[0], "create ArticleImageDTO", "",
+					throw new NightingaleException(new StackTraceElement[0], "create ArticleImageDTO", "",
 							"Failed to create Article Image", articleDTO.getImage());
 				}
 			}
@@ -190,8 +204,8 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value=CACHE_NAME, allEntries = true)
-	public Boolean updateArticleImageDTO(ArticleImageDTO articleDTO)  {
+	@CacheEvict(value = CACHE_NAME, allEntries = true)
+	public Boolean updateArticleImageDTO(ArticleImageDTO articleDTO) {
 
 		if (articleDTO == null || articleDTO.getArticleImageId() == null)
 			return false;
@@ -201,12 +215,12 @@ public class ArticleServiceImpl implements ArticleService {
 		Integer assetId = articleImgFromDB.getAssetId();
 
 		if (UtilValidation.isFileNotEmpty(articleDTO.getImage())) {
-			assetService.delete(assetId, rootDriver+File.separator+uploadpath);
-			assetId = assetService.create(articleDTO.getImage(), rootDriver+File.separator+uploadpath);
+			assetService.delete(assetId, rootDriver + File.separator + uploadpath);
+			assetId = assetService.create(articleDTO.getImage(), rootDriver + File.separator + uploadpath);
 		}
 
 		if (assetId <= 0)
-			throw new ObjectCreationException(new StackTraceElement[0], "updateDTO ArticleImageDTO", "",
+			throw new NightingaleException(new StackTraceElement[0], "updateDTO ArticleImageDTO", "",
 					"Failed to Update Image", articleDTO.getImage());
 
 		articleImgFromDB.setAssetId(assetId);
@@ -216,7 +230,7 @@ public class ArticleServiceImpl implements ArticleService {
 			return articleImageRepository.save(articleImgFromDB) != null;
 		} catch (DataIntegrityViolationException exception) {
 			exception.printStackTrace();
-			throw new ObjectCreationException(exception.getStackTrace(), "updateDTO ArticleImageDTO", "",
+			throw new NightingaleException(exception.getStackTrace(), "updateDTO ArticleImageDTO", "",
 					"Failed to update Article", articleDTO);
 		}
 
@@ -236,11 +250,47 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value=CACHE_NAME, allEntries = true)
+	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public void deleteArticleImage(Integer articleImageId) {
-		ArticleImage entity  = readArticleImage(articleImageId);
-		if (assetService.delete(entity.getAssetId(), rootDriver+File.separator+uploadpath))
+		ArticleImage entity = readArticleImage(articleImageId);
+		if (assetService.delete(entity.getAssetId(), rootDriver + File.separator + uploadpath))
 			articleImageRepository.delete(articleImageId);
+
+	}
+
+	@Override
+	@Transactional
+	@CacheEvict(value = CACHE_NAME, allEntries = true)
+	public void create(ArticleDTO articleDTO) {
+		Article article = this.create(articleDTO.getArticle());
+		for (String tag : articleDTO.getTags()) {
+			Tag tagObj = tagService.read(tag);
+			if (tagObj == null)
+				tagService.create(tag);
+			ArticleTag articleTag = new ArticleTag();
+			articleTag.setArticleId(article.getId());
+			articleTag.setTag(tag);
+			articleTagRepository.save(articleTag);
+		}
+	}
+
+	@Override
+	@Transactional
+	@CacheEvict(value = CACHE_NAME, allEntries = true)
+	public void update(ArticleDTO articleDTO) {
+		Article article = this.update(articleDTO.getArticle());
+		for(ArticleTag existing : articleTagRepository.findByArticleId(article.getId())) {
+			articleTagRepository.delete(existing);
+		}
 		
+		for (String tag : articleDTO.getTags()) {
+			Tag tagObj = tagService.read(tag);
+			if (tagObj == null)
+				tagService.create(tag);
+			ArticleTag articleTag = new ArticleTag();
+			articleTag.setArticleId(article.getId());
+			articleTag.setTag(tag);
+			articleTagRepository.save(articleTag);
+		}
 	}
 }

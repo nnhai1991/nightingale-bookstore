@@ -12,7 +12,7 @@
 	<spring:message code="${error}" text="${error}"/>
 </p>
 <p class="text-danger">
-	<form:errors path="" />
+	<form:errors path="article" />
 </p>
 
 <div class="form-group">
@@ -21,11 +21,11 @@
 	</label>
 	<div class="col-6">
 		<spring:message code="name" var="namePlaceholder" />
-		<form:input path="name" type="text" class="form-control"
+		<form:input path="article.name" type="text" class="form-control"
 			placeholder="${namePlaceholder}" />
 	</div>
 	<p class="text-danger">
-		<form:errors path="name" />
+		<form:errors path="article.name" />
 	</p>
 </div>
 
@@ -35,11 +35,11 @@
 	</label>
 	<div class="col-6">
 		<spring:message code="code" var="codePlaceholder" />
-		<form:input path="code" type="text" class="form-control"
+		<form:input path="article.code" type="text" class="form-control"
 			placeholder="${codePlaceholder}" />
 	</div>
 	<p class="text-danger">
-		<form:errors path="code" />
+		<form:errors path="article.code" />
 	</p>
 </div>
 
@@ -49,11 +49,11 @@
 	</label>
 	<div class="col-6">
 		<spring:message code="description" var="descriptionPlaceholder" />
-		<form:input path="description" type="text" class="form-control"
+		<form:input path="article.description" type="text" class="form-control"
 			placeholder="${descriptionPlaceholder}" />
 	</div>
 	<p class="text-danger">
-		<form:errors path="description" />
+		<form:errors path="article.description" />
 	</p>
 </div>
 
@@ -63,11 +63,11 @@
 	</label>
 	<div class="col-6">
 		<spring:message code="priority" var="priorityPlaceholder" />
-		<form:input path="priority" type="text" class="form-control"
+		<form:input path="article.priority" type="text" class="form-control"
 			placeholder="${priorityPlaceholder}" />
 	</div>
 	<p class="text-danger">
-		<form:errors path="code" />
+		<form:errors path="article.code" />
 	</p>
 </div>
 <div class="form-group">
@@ -75,21 +75,21 @@
 			code="tag" />
 	</label>
 	<div class="col-6">
-		<select multiple data-role="tagsinput" class="form-control"></select>
+		<form:select class="form-control" path="tags" multiple="multiple" data-role="tagsinput" items="${articleDTO.tags}"></form:select>
 	</div>
-<!-- 	<p class="text-danger"> -->
-<%-- 		<form:errors path="code" /> --%>
-<!-- 	</p> -->
+	<p class="text-danger">
+		<form:errors path="tags" />
+	</p>
 </div>
 
 
 <div class="form-group">
 	<div class="form-check">
-		<label class="form-check-label"> <form:checkbox path="enabled"
+		<label class="form-check-label"> <form:checkbox path="article.enabled"
 				id="enabled" /> <spring:message code="enabled" />
 		</label>
 		<p class="text-danger">
-			<form:errors path="enabled" />
+			<form:errors path="article.enabled" />
 		</p>
 	</div>
 </div>

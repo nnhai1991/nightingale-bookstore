@@ -25,4 +25,8 @@ public interface ArticleService extends BaseService<Article> {
 
 	void deleteArticleImage(Integer articleImageId);
 
+	void create(ArticleDTO articleDTO);
+
+	void update(ArticleDTO articleDto);
+
 }

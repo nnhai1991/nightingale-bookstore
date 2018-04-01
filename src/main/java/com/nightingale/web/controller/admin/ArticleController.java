@@ -32,7 +32,6 @@ public class ArticleController {
 
 	private static final String ARTICLE_DTO = "articleDTO";
 	private static final String ARTICLE_IMAGE_DTO = "articleImageDTO";
-	private static final String MODEL = "article";
 	private static final String MODELS = "articles";
 	private static final String PAGINATION = "pagination";
 	private static final String KEYWORD = "keyword";
@@ -73,18 +72,18 @@ public class ArticleController {
 
 	@GetMapping("/create")
 	public String create(Model model) {
-		model.addAttribute(MODEL, new Article());
+		model.addAttribute(ARTICLE_DTO, new ArticleDTO());
 		return FOLDER + "/create";
 	}
 
 	@PostMapping("/create")
-	public String create(Model model, @Valid Article article, BindingResult validResult) {
+	public String create(Model model, @Valid ArticleDTO articleDTO, BindingResult validResult) {
 
 		if (validResult.hasErrors()) {
 			return FOLDER + "/create";
 		} else {
 
-			articleService.create(article);
+			articleService.create(articleDTO);
 			return "redirect:/admin/article";
 		}
 	}
@@ -173,7 +172,7 @@ public class ArticleController {
 
 		} else {
 
-			articleService.update(articleDto.getArticle());
+			articleService.update(articleDto);
 			return "redirect:/admin/article";
 
 		}

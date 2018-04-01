@@ -29,6 +29,6 @@ public class ArticleTag implements Serializable{
 	private Integer articleId;
 	
 	@NotNull
-	private Integer tagId;
+	private String tag;
 
 }
