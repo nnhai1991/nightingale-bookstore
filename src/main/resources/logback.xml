@@ -11,11 +11,11 @@
     </appender>
 
     <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>${user.home}/logs/shop-dashboard/today.log</File>
+        <File>${user.home}/logs/nightingale-bookstore/today.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- daily rollover -->
             <FileNamePattern>
-                ${user.home}/logs/shop-dashboard/%d{yyyy-MM-dd}.log</FileNamePattern>
+                ${user.home}/logs/nightingale-bookstore/%d{yyyy-MM-dd}.log</FileNamePattern>
 
             <!-- keep 30 days' worth of history -->
             <maxHistory>30</maxHistory>
@@ -30,7 +30,7 @@
             <!-- rollover every minute -->
 
 
-            <FileNamePattern>${user.home}/logs/shop-dashboard/%d{yyyy-MM-dd_HH-mm}.log</FileNamePattern>
+            <FileNamePattern>${user.home}/logs/nightingale-bookstore/%d{yyyy-MM-dd_HH-mm}.log</FileNamePattern>
 
             <!-- keep 30 minutes' worth of history -->
             <maxHistory>30</maxHistory>
