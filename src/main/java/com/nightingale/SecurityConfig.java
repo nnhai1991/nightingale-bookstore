@@ -14,12 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.nightingale.app.repository.RoleRepository;
-import com.nightingale.app.service.UserService;
-import com.nightingale.app.util.UtilConstants;
-import com.nightingale.web.security.user.CustomAuthenticationFailureHandler;
-import com.nightingale.web.security.user.CustomAuthenticationSuccessHandler;
-import com.nightingale.web.security.user.CustomUserDetailsService;
+import com.nightingale.repository.RoleRepository;
+import com.nightingale.security.CustomAuthenticationFailureHandler;
+import com.nightingale.security.CustomAuthenticationSuccessHandler;
+import com.nightingale.security.CustomUserDetailsService;
+import com.nightingale.service.UserService;
+import com.nightingale.util.UtilConstants;
 
 @Configuration
 @EnableWebSecurity
