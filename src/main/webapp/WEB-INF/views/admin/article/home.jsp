@@ -7,7 +7,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime"%>
-<%@ page import="com.nightingale.app.util.UtilFormat"%>
+<%@ page import="com.nightingale.util.UtilFormat"%>
 
 <c:set var="dateTimeFormat"
 	value="<%=UtilFormat.UTC_JAVSCRIPT_DISPLAY_FORMAT%>" />
@@ -55,7 +55,7 @@
 						<th><spring:message code="description" /></th>
 						<th><spring:message code="status" /></th>
 						<th><spring:message code="priority" /></th>
-						<th><spring:message code="created_by" /></th>
+						<th><spring:message code="price" /></th>
 						<th><spring:message code="created_date" /></th>
 						<th></th>
 					</tr>
@@ -73,19 +73,21 @@
 									<spring:message code="disabled" />
 								</c:if></td>
 							<td>${article.priority}</td>
-							<td>${article.createdBy}</td>
+							<td><fmt:formatNumber value="${article.price}" type="currency" currencySymbol="${article.currency}"/></td>
 							<td>${article.createdDate}</td>
 
-							<c:url value="/admin/article/details" var="detailsURL">
-								<c:param value="${article.id}" name="articleId" />
-							</c:url>
+<%-- 							<c:url value="/admin/article/details" var="detailsURL"> --%>
+<%-- 								<c:param value="${article.id}" name="articleId" /> --%>
+<%-- 							</c:url> --%>
 							<c:url value="/admin/article/update" var="updateURL">
 								<c:param value="${article.id}" name="articleId" />
 							</c:url>
 
-							<td><a class="btn btn-default" href="${detailsURL}"> <i
-									class="fa fa-eye"></i>
-							</a> <a class="btn btn-default" href="${updateURL}"> <i
+							<td>
+<%-- <a class="btn btn-default" href="${detailsURL}"> <i --%>
+<!-- 									class="fa fa-eye"></i> -->
+<!-- 							</a>  -->
+							<a class="btn btn-default" href="${updateURL}"> <i
 									class="fa fa-pencil"></i>
 							</a></td>
 						</tr>

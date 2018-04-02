@@ -1,8 +1,8 @@
 package com.nightingale.model.constraints.validator;
 
 
+import com.nightingale.Constants;
 import com.nightingale.model.constraints.ValidIdentificationNumber;
-import com.nightingale.util.UtilConstants;
 import com.nightingale.util.web.UtilValidation;
 
 import org.apache.commons.beanutils.BeanUtils;

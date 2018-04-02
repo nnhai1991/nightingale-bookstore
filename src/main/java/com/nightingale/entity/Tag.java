@@ -12,6 +12,7 @@ import javax.persistence.UniqueConstraint;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(columnNames = {"name"})})
@@ -27,5 +28,6 @@ public class Tag implements Serializable{
 	@Id
 	private String name;
 	
+	@NonNull
 	private String tagType;
 }

@@ -1,5 +1,6 @@
 package com.nightingale.controller.admin;
 
+import com.nightingale.Constants;
 import com.nightingale.entity.User;
 
 import com.nightingale.model.dto.UserDTO;
@@ -9,7 +10,6 @@ import com.nightingale.security.CustomUserDetails;
 import com.nightingale.service.MailGunEmailService;
 import com.nightingale.service.RoleService;
 import com.nightingale.service.UserService;
-import com.nightingale.util.UtilConstants;
 import com.nightingale.util.web.Pagination;
 import com.nightingale.util.web.UtilValidation;
 
@@ -47,6 +47,7 @@ public class UserController {
 
     private final static String FOLDER = "/admin/user";
     private final static String EMAIL_TEMPLATE_FOLDER = "/email-template";
+	private static final String CURRENT_TAB = "current_tab";
 
     @Autowired
     private UserService userService;
@@ -75,7 +76,7 @@ public class UserController {
         if (pageNo < 1)
             pageNo = 1;
         boolean isSA = authentication.getAuthorities().stream()
-                                     .anyMatch(r -> r.getAuthority().equals("ROLE_" + UtilConstants.Roles.SA));
+                                     .anyMatch(r -> r.getAuthority().equals("ROLE_" + Constants.Roles.SA));
 
         Pair<List<UserDTO>, Integer> result = Pair.of(new LinkedList<>(), 0);
 
@@ -95,7 +96,7 @@ public class UserController {
 
         model.addAttribute(KEYWORD, keyword);
         model.addAttribute(PAGINATION, new Pagination(pageNo, result.getRight(), pageSize));
-        model.addAttribute(UtilConstants.CURRENT_TAB, "user");
+        model.addAttribute(CURRENT_TAB, "user");
 
         return FOLDER + "/home";
     }

@@ -6,7 +6,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime"%>
-<%@ page import="com.nightingale.app.util.UtilFormat"%>
+<%@ page import="com.nightingale.util.UtilFormat"%>
 
 <c:set var="dateTimeFormat"
 	value="<%=UtilFormat.UTC_JAVSCRIPT_DISPLAY_FORMAT%>" />

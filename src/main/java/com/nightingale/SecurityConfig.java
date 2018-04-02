@@ -19,7 +19,6 @@ import com.nightingale.security.CustomAuthenticationFailureHandler;
 import com.nightingale.security.CustomAuthenticationSuccessHandler;
 import com.nightingale.security.CustomUserDetailsService;
 import com.nightingale.service.UserService;
-import com.nightingale.util.UtilConstants;
 
 @Configuration
 @EnableWebSecurity
@@ -81,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             .authorizeRequests()
             .antMatchers("/resources/**", "/public/**", "/login", "/logout","/reset-password").permitAll()
-            .antMatchers("/admin/**").hasAnyRole(UtilConstants.Roles.AD,UtilConstants.Roles.SA)
+            .antMatchers("/admin/**").hasAnyRole(Constants.Roles.AD,Constants.Roles.SA)
             .antMatchers("/**").permitAll();
         http.formLogin()
             .loginPage("/login").usernameParameter("email").passwordParameter("password")

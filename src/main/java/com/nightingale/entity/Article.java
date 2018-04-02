@@ -5,6 +5,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.nightingale.Constants;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -29,7 +31,11 @@ public class Article extends BaseEntity {
 
 	private String description;
 
-	private Float price;
+	@NotNull
+	private float price;
+	
+	@NotNull
+	private String currency = Constants.Currency.VND;
 	
 	private int priority;
 

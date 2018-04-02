@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.nightingale.Constants;
 import com.nightingale.entity.User;
 
 import com.nightingale.model.dto.UserForUpdatePassword;
 import com.nightingale.service.UserService;
-import com.nightingale.util.UtilConstants;
 
 @Controller
 @RequestMapping("")

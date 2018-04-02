@@ -20,5 +20,7 @@ public interface TagService {
 
 	void delete(String tagId);
 
-	Tag create(String tag);
+	Tag create(String tag, String tagType);
+
+	List<Tag> getTagsByTagType(String tagType);
 }
