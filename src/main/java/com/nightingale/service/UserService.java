@@ -9,7 +9,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
-public interface UserService extends BaseService<User>{
+public interface UserService{
 
 	User readByUsername(String username);
 	
@@ -36,5 +36,13 @@ public interface UserService extends BaseService<User>{
 	User readFromToken(String token);
 	
 	Boolean createAdmin();
+
+	List<User> getListAll();
+
+	User create(User user);
+
+	User read(Integer userId);
+
+	void delete(Integer id);
 	
 }

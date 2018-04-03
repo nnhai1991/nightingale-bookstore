@@ -28,6 +28,18 @@ public final class Constants {
         public static final String VND = "VND";
         public static final List<String> AVAILABLES = Arrays.asList(SGD,VND);
     }
+    
+    public static class StockAdjustmentType {
+    	public static final String STOCK_IN = "STOCK_IN";
+        public static final String MANUAL = "MANUAL";
+        public static final String SALES = "SALES";
+    }
+    
+    public static class SiteTypes {
+        public static final String ONLINE = "ONLINE";
+        public static final String STORE = "STORE";
+        public static final List<String> AVAILABLES = Arrays.asList(ONLINE);
+    }
 
 	public static final int MAX_FAILED_LOGIN_ATTEMPTS = 10;
    

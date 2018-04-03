@@ -1,20 +1,18 @@
 package com.nightingale.controller;
 
-import com.nightingale.exception.CustomException;
-import com.nightingale.exception.NightingaleException;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.logging.Logger;
-
-import javax.servlet.http.HttpServletRequest;
+import com.nightingale.exception.CustomException;
+import com.nightingale.exception.NightingaleException;
 
 @ControllerAdvice
 public class ErrorController {
 
     private final String FOLDER = "/error";
-    private final Logger logger = Logger.getLogger(this.getClass().getName());
+    //private final Logger logger = Logger.getLogger(this.getClass().getName());
 
 
     @ExceptionHandler(CustomException.class)

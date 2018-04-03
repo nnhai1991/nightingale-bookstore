@@ -4,11 +4,8 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.context.MessageSource;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Locale;
 
 /**
  * @author hai

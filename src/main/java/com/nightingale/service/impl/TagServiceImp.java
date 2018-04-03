@@ -32,45 +32,11 @@ public class TagServiceImp implements TagService {
 	private String uploadpath;
 
 	@Override
-	@Transactional
-	@CacheEvict(value = CACHE_NAME, allEntries = true)
-	public Tag create(Tag tag) {
-
-		if (tag != null) {
-			try {
-				// tag.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return tagRepository.save(tag);
-			} catch (DataIntegrityViolationException exception) {
-				throw new NightingaleException(exception.getStackTrace(), "create Tag", "", "Failed to create Tag",
-						tag);
-			}
-		}
-
-		return null;
-	}
-	
-	@Override
 	@Cacheable(CACHE_NAME)
 	public Tag read(String tag) {
-		if (UtilValidation.isValidString(tag))
+		if (UtilValidation.isValidString(tag)){
 			return tagRepository.findOne(tag);
-		return null;
-	}
-
-	@Override
-	@Transactional
-	@CacheEvict(value = CACHE_NAME, allEntries = true)
-	public Tag update(Tag tag) {
-		if (tag != null) {
-			try {
-				// tag.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return tagRepository.save(tag);
-			} catch (DataIntegrityViolationException exception) {
-				throw new NightingaleException(exception.getStackTrace(), "update Tag", "", "Failed to update Tag",
-						tag);
-			}
 		}
-
 		return null;
 	}
 
@@ -79,8 +45,9 @@ public class TagServiceImp implements TagService {
 	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public void delete(String tagId) {
 
-		if (UtilValidation.isValidString(tagId))
+		if (UtilValidation.isValidString(tagId)){
 			tagRepository.delete(tagId);
+		}
 	}
 
 	@Override

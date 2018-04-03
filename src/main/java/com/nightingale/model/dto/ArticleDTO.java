@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.nightingale.entity.Article;
 import com.nightingale.entity.ArticleImage;
-import com.nightingale.entity.Tag;
 
 import lombok.Data;
 

@@ -1,17 +1,11 @@
 package com.nightingale.controller.admin;
 
-import com.nightingale.Constants;
-import com.nightingale.entity.User;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 
-import com.nightingale.model.dto.UserDTO;
-import com.nightingale.model.dto.UserForUpdate;
-import com.nightingale.model.dto.UserForUpdatePassword;
-import com.nightingale.security.CustomUserDetails;
-import com.nightingale.service.MailGunEmailService;
-import com.nightingale.service.RoleService;
-import com.nightingale.service.UserService;
-import com.nightingale.util.web.Pagination;
-import com.nightingale.util.web.UtilValidation;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +17,25 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import com.nightingale.Constants;
+import com.nightingale.entity.User;
+import com.nightingale.model.dto.UserDTO;
+import com.nightingale.model.dto.UserForUpdate;
+import com.nightingale.model.dto.UserForUpdatePassword;
+import com.nightingale.security.CustomUserDetails;
+import com.nightingale.service.MailGunEmailService;
+import com.nightingale.service.RoleService;
+import com.nightingale.service.UserService;
+import com.nightingale.util.web.Pagination;
+import com.nightingale.util.web.UtilValidation;
 
 @Controller
 @RequestMapping("/admin/user")
@@ -84,7 +88,7 @@ public class UserController {
             if (isSA) {
                 result = userService.getDTOListWithPaginationBySearch(keyword, pageNo, pageSize);
             } else {
-                CustomUserDetails customUser = (CustomUserDetails) authentication.getPrincipal();
+                //CustomUserDetails customUser = (CustomUserDetails) authentication.getPrincipal();
                 result = userService.getDTOListWithPaginationBySearch(keyword, pageNo, pageSize);
             }
             model.addAttribute(USERS, result.getLeft());
@@ -103,7 +107,7 @@ public class UserController {
 
     @GetMapping("/create")
     public String create(Model model, Authentication authentication) {
-        CustomUserDetails customUser = (CustomUserDetails) authentication.getPrincipal();
+        //CustomUserDetails customUser = (CustomUserDetails) authentication.getPrincipal();
 
         model.addAttribute(USER, new User());
         model.addAttribute(ROLES, roleService.getAssignableRoles());
@@ -173,7 +177,7 @@ public class UserController {
                          @RequestParam(name = "userId", required = true, defaultValue = "-1") Integer userId,
                          Authentication authentication)
              {
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
         if (UtilValidation.isValidId(userId)) {
 
@@ -195,12 +199,12 @@ public class UserController {
                          Authentication authentication)  {
 
         // if no error OR the only error is the password
-        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+//        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
         if (!bindingResult.hasErrors()) {
             if (authentication == null)
                 authentication = SecurityContextHolder.getContext().getAuthentication();
-            userForUpdate.setUpdatedBy(customUserDetails.getUsername());
+            userForUpdate.setUpdatedBy(authentication.getName());
 
             if (userService.update(userForUpdate)) {
                 return "redirect:/user";

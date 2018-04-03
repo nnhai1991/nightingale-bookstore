@@ -13,7 +13,6 @@ import org.springframework.context.annotation.DependsOn;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +28,6 @@ import com.nightingale.model.dto.UserForUpdatePassword;
 import com.nightingale.repository.EmailTokenRepository;
 import com.nightingale.repository.RoleRepository;
 import com.nightingale.repository.UserRepository;
-import com.nightingale.service.ConfigService;
 import com.nightingale.service.RoleService;
 import com.nightingale.service.UserService;
 import com.nightingale.util.HashingUtil;
@@ -41,8 +39,6 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	private ConfigService configService;
 	@Autowired
 	private RoleRepository roleRepository;
 	@Autowired
@@ -141,21 +137,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User update(User user) {
-
-		if (user != null)
-			try {
-
-				user.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return userRepository.save(user);
-			} catch (DataIntegrityViolationException exception) {
-				throw new NightingaleException(exception.getStackTrace(), "create User", "", "Failed to update User",
-						user);
-			}
-		return null;
-	}
-
-	@Override
 	public void delete(Integer userId) {
 
 		if (UtilValidation.isValidId(userId)) {
@@ -167,12 +148,6 @@ public class UserServiceImpl implements UserService {
 	public List<User> getListAll() {
 
 		return userRepository.findAll();
-	}
-
-	@Override
-	public Pair<List<User>, Integer> getListWithPaginationBySearch(String keyword, Integer pageNo, Integer pageSize) {
-		//method not in used
-		return Pair.of(new ArrayList<>(), 0);
 	}
 
 	@Override

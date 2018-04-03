@@ -60,60 +60,11 @@ public class ArticleServiceImpl implements ArticleService {
 	private String rootDriver;
 
 	@Override
-	@Transactional
-	@CacheEvict(value = CACHE_NAME, allEntries = true)
-	public Article create(Article article) {
-
-		if (article != null) {
-			try {
-				article.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return articleRepository.save(article);
-			} catch (DataIntegrityViolationException exception) {
-				throw new NightingaleException(exception.getStackTrace(), "create Article", "",
-						"Failed to create Article", article);
-			}
-		}
-
-		return null;
-	}
-
-	@Override
-	@Cacheable(CACHE_NAME)
-	public Article read(Integer articleId) {
-		if (UtilValidation.isValidId(articleId))
-			return articleRepository.findOne(articleId);
-		return null;
-	}
-
-	@Override
-	@Transactional
-	@CacheEvict(value = CACHE_NAME, allEntries = true)
-	public Article update(Article article) {
-		if (article != null) {
-			try {
-				article.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
-				return articleRepository.save(article);
-			} catch (DataIntegrityViolationException exception) {
-				throw new NightingaleException(exception.getStackTrace(), "update Article", "",
-						"Failed to update Article", article);
-			}
-		}
-
-		return null;
-	}
-
-	@Override
 	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public void delete(Integer articleId) {
 
 		if (UtilValidation.isValidId(articleId))
 			articleRepository.delete(articleId);
-	}
-
-	@Override
-	@Cacheable(CACHE_NAME)
-	public List<Article> getListAll() {
-		return articleRepository.findAll();
 	}
 
 	@Override
@@ -264,7 +215,8 @@ public class ArticleServiceImpl implements ArticleService {
 	@Transactional
 	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public void create(ArticleDTO articleDTO) {
-		Article article = this.create(articleDTO.getArticle());		
+		articleDTO.getArticle().setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		Article article = articleRepository.save(articleDTO.getArticle());
 		insertArticleTags(article, articleDTO);
 	}
 
@@ -272,7 +224,9 @@ public class ArticleServiceImpl implements ArticleService {
 	@Transactional
 	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public void update(ArticleDTO articleDTO) {
-		Article article = this.update(articleDTO.getArticle());
+		articleDTO.getArticle().setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		Article article = articleRepository.save(articleDTO.getArticle());
+
 		for(ArticleTag existing : articleTagRepository.findByArticleId(article.getId())) {
 			articleTagRepository.delete(existing);
 		}

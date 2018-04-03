@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.nightingale.Constants;
 import com.nightingale.entity.Article;
 import com.nightingale.entity.ArticleImage;
 import com.nightingale.model.dto.ArticleDTO;
@@ -95,7 +94,7 @@ public class ArticleController {
 
 		if (UtilValidation.isValidId(articleId)) {
 
-			Article article = articleService.read(articleId);
+			Article article = articleService.readDTO(articleId).getArticle();
 
 			if (article != null) {
 				model.addAttribute(ARTICLE_DTO, article);
@@ -112,7 +111,7 @@ public class ArticleController {
 
 		if (article != null && article != null) {
 
-			Article m = articleService.read(article.getId());
+			Article m = articleService.readDTO(article.getId()).getArticle();
 
 			if (m != null) {
 				articleService.delete(m.getId());
@@ -179,23 +178,6 @@ public class ArticleController {
 		}
 	}
 	
-	@GetMapping("/create-image")
-	public String createImage(Model model,
-			@RequestParam(name = "articleId", required = true, defaultValue = "-1") Integer articleId) {
-
-		if (UtilValidation.isValidId(articleId) == false)
-			return "redirect:/admin/article";
-
-		ArticleDTO m = articleService.readDTO(articleId);
-		if (m != null) {
-			model.addAttribute(ARTICLE_DTO, m);
-			model.addAttribute(ARTICLE_IMAGE_DTO, new ArticleImageDTO());
-			return "/admin/article-image/create";
-		}
-
-		return "redirect:/admin/article";
-	}
-
 	@PostMapping("/create-image")
 	public String createImage(Model model, @Valid ArticleImageDTO articleImageDTO, BindingResult validResult,
 			RedirectAttributes redirectAttributes) {
