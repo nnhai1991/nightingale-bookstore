@@ -264,6 +264,16 @@ public class ArticleServiceImpl implements ArticleService {
 			articleTag.setTag(tagObj);
 			articleTagRepository.save(articleTag);
 		}
+		
+		for (String tag : articleDTO.getConditions()) {
+			Tag tagObj = tagService.read(tag);
+			if (tagObj == null)
+				tagObj = tagService.create(tag, Constants.TagTypes.CONDITION);
+			ArticleTag articleTag = new ArticleTag();
+			articleTag.setArticleId(article.getId());
+			articleTag.setTag(tagObj);
+			articleTagRepository.save(articleTag);
+		}
 
 	}
 	

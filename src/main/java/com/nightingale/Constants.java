@@ -20,6 +20,7 @@ public final class Constants {
     public static class TagTypes {
         public static final String CATEGORIES = "Categories";
         public static final String AUTHORS = "Authors";
+        public static final String CONDITION = "Condition";
         public static final String BOOK_TAG = "Book Tag";
     }
     

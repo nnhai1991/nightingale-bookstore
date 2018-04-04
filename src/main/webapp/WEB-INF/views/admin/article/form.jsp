@@ -102,6 +102,18 @@
 </div>
 
 <div class="form-group">
+	<label class="col-2 col-form-label"> <spring:message
+			code="condition" />
+	</label>
+	<div class="col-6">
+		<form:select class="form-control" path="conditions" multiple="multiple" data-role="tagsinput" items="${articleDTO.conditions}"></form:select>
+	</div>
+	<p class="text-danger">
+		<form:errors path="conditions" />
+	</p>
+</div>
+
+<div class="form-group">
     <label class="col-2 col-form-label"> <spring:message
             code="categories" />
     </label>
@@ -152,6 +164,7 @@
 <c:url value='<%="/data/json/tags?tagType="+Constants.TagTypes.CATEGORIES%>' var='tagCategoriesURL'/>
 <c:url value='<%="/data/json/tags?tagType="+Constants.TagTypes.AUTHORS%>' var='tagAuthorsURL'/>
 <c:url value='<%="/data/json/tags?tagType="+Constants.TagTypes.BOOK_TAG%>' var='tagURL'/>
+<c:url value='<%="/data/json/tags?tagType="+Constants.TagTypes.CONDITION%>' var='conditionURL'/>
 
 <script>
 $.get( "${tagCategoriesURL}", function( data ) {
@@ -198,6 +211,22 @@ $.get( "${tagURL}", function( data ) {
           }
       });
   });
+  
+$.get( "${conditionURL}", function( data ) {
+    var conditions = new Bloodhound({
+          datumTokenizer : Bloodhound.tokenizers.whitespace,
+          queryTokenizer : Bloodhound.tokenizers.whitespace,
+          local : data
+      });
+
+      $('#conditions').tagsinput({
+          typeaheadjs : {
+              name : 'conditions',
+              source : conditions.ttAdapter()
+          }
+      });
+  });
+
 
 
 </script>

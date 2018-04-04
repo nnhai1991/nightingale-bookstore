@@ -15,6 +15,7 @@ public class ArticleDTO {
 	private List<String> tags;
 	private List<String> categories;
 	private List<String> authors;
+	private List<String> conditions;
 	
 	public ArticleDTO() {
 		this.article = new Article();
@@ -22,5 +23,6 @@ public class ArticleDTO {
 		this.tags = new ArrayList<>();
 		this.categories = new ArrayList<>();
 		this.authors = new ArrayList<>();
+		this.conditions = new ArrayList<>();
 	}
 }

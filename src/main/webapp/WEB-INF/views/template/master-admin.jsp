@@ -75,10 +75,12 @@
 						<ul class="nav nav-second-level collapse">
 						    <li><a href="<c:url value="/admin/site"/>">Site</a></li>
 							<li><a href="<c:url value="/admin/article"/>">Article</a></li>
-							<li><a href="<c:url value="/admin/tag"/>">Tag</a></li>
+							<li><a href="<c:url value="/admin/discount"/>">Discount</a></li>
 						</ul>
 					</li>
 					<li><a href="<c:url value="/admin/stock"/>">Stock</a></li>
+					<li><a href="<c:url value="/admin/order"/>">Order</a></li>
+					<li><a href="<c:url value="/admin/customer"/>">Customer</a></li>
 				</ul>
 			</div>
 			<!-- /.sidebar-collapse -->
