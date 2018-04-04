@@ -69,14 +69,16 @@
 							<i class="fa fa-dashboard fa-fw"></i> Dashboard
 						</a></li>
 					<li><a href="#">
-							<i class="fa fa-bar-chart-o fa-fw"></i> Article<span
+							<i class="fa fa-bar-chart-o fa-fw"></i>Configuration<span
 								class="fa arrow"></span>
 						</a>
 						<ul class="nav nav-second-level collapse">
+						    <li><a href="<c:url value="/admin/site"/>">Site</a></li>
 							<li><a href="<c:url value="/admin/article"/>">Article</a></li>
-							<li><a href="<c:url value="/admin/tag-type"/>">Tag Type</a></li>
 							<li><a href="<c:url value="/admin/tag"/>">Tag</a></li>
-						</ul> <!-- /.nav-second-level --></li>
+						</ul>
+					</li>
+					<li><a href="<c:url value="/admin/stock"/>">Stock</a></li>
 				</ul>
 			</div>
 			<!-- /.sidebar-collapse -->
