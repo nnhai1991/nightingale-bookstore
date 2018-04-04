@@ -35,4 +35,8 @@ public interface ArticleService {
 
 	void delete(Integer id);
 
+	List<Article> getAll();
+
+	Article read(int id);
+
 }

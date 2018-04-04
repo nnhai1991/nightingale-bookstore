@@ -18,23 +18,23 @@
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><spring:message
 						code="administration" /></li>
-				<li class="breadcrumb-item"><spring:message code="article" /></li>
+				<li class="breadcrumb-item"><spring:message code="stock" /></li>
 				<li class="breadcrumb-item active"><spring:message
 						code="create" /></li>
 			</ol>
-			<c:url value="/admin/article/create" var="createURL">
+			<c:url value="/admin/stock/create" var="createURL">
 				<c:param name="${_csrf.parameterName}" value="${_csrf.token}" />
 			</c:url>
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<form:form method="POST" action="${createURL}"
-						modelAttribute="articleDTO">
+						modelAttribute="stock">
 
 						<c:import url="form.jsp"></c:import>
 						<div class="form-group">
 							<spring:message code="create" var="create" />
 
-							<c:url var="homeUrl" value="/admin/article" />
+							<c:url var="homeUrl" value="/admin/stock" />
 							<a class="btn btn-default" href="${homeUrl}"> <spring:message
 									code="back_to_listing" />
 							</a>

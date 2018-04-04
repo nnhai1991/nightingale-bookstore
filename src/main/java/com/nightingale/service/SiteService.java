@@ -17,4 +17,6 @@ public interface SiteService {
 	void delete(int tId);
 
 	Pair<List<Site>, Integer> getListWithPaginationBySearch(String keyword, Integer pageNo, Integer pageSize);
+
+	List<Site> getAll();
 }

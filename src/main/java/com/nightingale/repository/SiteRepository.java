@@ -12,10 +12,11 @@ import com.nightingale.entity.Site;
 
 public interface SiteRepository extends JpaRepository<Site,Integer> {	
 	List<Site> findByEnabled(boolean enabled);
+	
 	@Query("select s from Site s "
     		+ "where (s.name like %:keyword%"
     		+ " or s.type like %:keyword%"
     		+ " or s.address like %:keyword%"
-    		+ " or s.type like %:keyword%) and s.enabled = true")
+    		+ " or s.type like %:keyword%)")
 	Page<Site> findBySearch(@Param("keyword") String keyword, Pageable pageable);
 }

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.nightingale.entity.Stock;
+import com.nightingale.service.ArticleService;
+import com.nightingale.service.SiteService;
 import com.nightingale.service.StockService;
 import com.nightingale.util.web.Pagination;
 import com.nightingale.util.web.UtilValidation;
@@ -28,14 +30,24 @@ public class StockController {
 
 	private static final String MODEL = "stock";
 	private static final String MODELS = "stocks";
+	private static final String ARTICLES = "articles";
+	private static final String SITES = "sites";
+
 	private static final String PAGINATION = "pagination";
 	private static final String KEYWORD = "keyword";
 	private static final String ERROR = "error";
 
 	private final static String FOLDER = "/admin/stock";
+	
 
 	@Autowired
 	private StockService stockService;
+	
+	@Autowired
+	private SiteService siteService;
+	
+	@Autowired
+	private ArticleService articleService;
 
 	@Value("${pageSize}")
 	private Integer pageSize = 10;
@@ -68,6 +80,8 @@ public class StockController {
 	@GetMapping("/create")
 	public String create(Model model) {
 		model.addAttribute(MODEL, new Stock());
+		model.addAttribute(ARTICLES, articleService.getAll());
+		model.addAttribute(SITES, siteService.getAll());
 		return FOLDER + "/create";
 	}
 
@@ -75,6 +89,8 @@ public class StockController {
 	public String create(Model model, @Valid Stock stock, BindingResult validResult) {
 
 		if (validResult.hasErrors()) {
+			model.addAttribute(ARTICLES, articleService.getAll());
+			model.addAttribute(SITES, siteService.getAll());
 			return FOLDER + "/create";
 		} else {
 
@@ -127,11 +143,11 @@ public class StockController {
 
 		if (UtilValidation.isValidId(stockId)) {
 
-			Stock stockDto = stockService.read(stockId);
+			Stock stock = stockService.read(stockId);
 
-			if (stockDto != null) {
+			if (stock != null) {
 
-				model.addAttribute(MODEL, stockDto);
+				model.addAttribute(MODEL, stock);
 				return FOLDER + "/details";
 			}
 
@@ -149,6 +165,8 @@ public class StockController {
 
 		Stock m = stockService.read(stockId);
 		if (m != null) {
+			model.addAttribute(ARTICLES, articleService.getAll());
+			model.addAttribute(SITES, siteService.getAll());
 			model.addAttribute(MODEL, m);
 			return FOLDER + "/update";
 		}
@@ -157,15 +175,16 @@ public class StockController {
 	}
 
 	@PostMapping("/update")
-	public String update(Model model, @Valid Stock stockDto, BindingResult bindingResult) {
+	public String update(Model model, @Valid Stock stock, BindingResult bindingResult) {
 
 		if (bindingResult.hasErrors()) {
-			model.addAttribute(MODEL, stockDto);
+			model.addAttribute(ARTICLES, articleService.getAll());
+			model.addAttribute(SITES, siteService.getAll());
+			model.addAttribute(MODEL, stock);
 			return FOLDER + "/update";
-
 		} else {
 
-			stockService.update(stockDto);
+			stockService.update(stock);
 			return "redirect:/admin/stock";
 
 		}

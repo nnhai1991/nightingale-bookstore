@@ -29,10 +29,11 @@ public final class Constants {
         public static final List<String> AVAILABLES = Arrays.asList(SGD,VND);
     }
     
-    public static class StockAdjustmentType {
+    public static class StockType {
     	public static final String STOCK_IN = "STOCK_IN";
         public static final String MANUAL = "MANUAL";
         public static final String SALES = "SALES";
+        public static final List<String> AVAILABLES = Arrays.asList(STOCK_IN,MANUAL,SALES);
     }
     
     public static class SiteTypes {

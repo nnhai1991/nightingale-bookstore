@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.nightingale.Constants;
 import com.nightingale.entity.Site;
 import com.nightingale.repository.SiteRepository;
 import com.nightingale.service.SiteService;
@@ -54,6 +55,8 @@ public class SiteServiceImp implements SiteService {
 	@Override
 	@Cacheable(CACHE_NAME)
 	public Pair<List<Site>, Integer> getListWithPaginationBySearch(String keyword, Integer pageNo, Integer pageSize) {
+		if (siteRepository.count()==0)
+			seedData();
 		if (pageSize > 0) {
 			PageRequest pageRequest = new PageRequest(pageNo - 1, pageSize);
 			Page<Site> result;
@@ -66,5 +69,22 @@ public class SiteServiceImp implements SiteService {
 		}
 		return Pair.of(new ArrayList<>(), 0);
 	}
+
+	@Override
+	public List<Site> getAll() {
+		return siteRepository.findAll();
+	}
+	
+	@CacheEvict(value = CACHE_NAME, allEntries = true)
+	private void seedData() {
+		Site s = new Site();
+		s.setAddress("Nightingale Online Bookstore");
+		s.setCreatedBy("system");
+		s.setEnabled(true);
+		s.setName("Nightingale Online Bookstore");
+		s.setType(Constants.SiteTypes.ONLINE);
+		this.create(s);
+	}
+	
 
 }

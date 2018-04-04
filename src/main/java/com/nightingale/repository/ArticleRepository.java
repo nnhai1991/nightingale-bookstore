@@ -18,6 +18,6 @@ public interface ArticleRepository extends JpaRepository<Article,Integer> {
 	@Query("select s from Article s "
     		+ "where (s.name like %:keyword% "
     		+ " or s.code like %:keyword%"
-    		+ " or s.description like %:keyword%) and s.enabled = true")
+    		+ " or s.description like %:keyword%) ")
 	Page<Article> findBySearch(@Param("keyword") String keyword, Pageable pageable);
 }

@@ -266,4 +266,14 @@ public class ArticleServiceImpl implements ArticleService {
 		}
 
 	}
+	
+	@Override
+	public List<Article> getAll() {
+		return articleRepository.findAll();
+	}
+
+	@Override
+	public Article read(int id) {
+		return articleRepository.findOne(id);
+	}
 }

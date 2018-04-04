@@ -26,7 +26,7 @@ public class BaseEntity implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	protected Integer id;
+	protected int id;
 
 	@Column(updatable = false)
 	protected String createdBy;

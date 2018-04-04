@@ -13,7 +13,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.nightingale.entity.Stock;
+import com.nightingale.repository.ArticleRepository;
 import com.nightingale.repository.StockRepository;
+import com.nightingale.service.ArticleService;
+import com.nightingale.service.SiteService;
 import com.nightingale.service.StockService;
 import com.nightingale.util.web.UtilValidation;
 
@@ -24,11 +27,18 @@ public class StockServiceImp implements StockService {
 
 	@Autowired
 	private StockRepository stockRepository;
+	@Autowired
+	private ArticleService articleService;
+	@Autowired
+	private SiteService siteService;
 
 	@Override
 	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public Stock create(Stock stock) {
 		stock.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		stock.setArticle(articleService.read(stock.getArticle().getId()));
+		stock.setFromSite(siteService.read(stock.getFromSite().getId()));
+		stock.setToSite(siteService.read(stock.getToSite().getId()));
 		return stockRepository.save(stock);
 	}
 
@@ -42,6 +52,9 @@ public class StockServiceImp implements StockService {
 	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public Stock update(Stock stock) {
 		stock.setUpdatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		stock.setArticle(articleService.read(stock.getArticle().getId()));
+		stock.setFromSite(siteService.read(stock.getFromSite().getId()));
+		stock.setToSite(siteService.read(stock.getToSite().getId()));
 		return stockRepository.save(stock);
 	}
 
