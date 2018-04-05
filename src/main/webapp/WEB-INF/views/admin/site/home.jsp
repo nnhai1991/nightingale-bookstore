@@ -7,10 +7,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime"%>
-<%@ page import="com.nightingale.util.UtilFormat"%>
+<%@ page import="com.nightingale.util.DateFormat"%>
 
 <c:set var="dateTimeFormat"
-	value="<%=UtilFormat.UTC_JAVSCRIPT_DISPLAY_FORMAT%>" />
+	value="<%=DateFormat.DISPLAY_DATE_TIME%>" />
 
 <tiles:insertDefinition name="admin-template">
 	<tiles:putAttribute name="body">

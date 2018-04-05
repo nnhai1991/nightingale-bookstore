@@ -27,7 +27,6 @@ import org.springframework.web.servlet.ViewResolver;
 
 import com.nightingale.Constants;
 import com.nightingale.entity.User;
-import com.nightingale.model.dto.UserDTO;
 import com.nightingale.model.dto.UserForUpdate;
 import com.nightingale.model.dto.UserForUpdatePassword;
 import com.nightingale.security.CustomUserDetails;
@@ -42,7 +41,7 @@ import com.nightingale.util.web.UtilValidation;
 public class UserController {
 
     private static final String USER = "user";
-    private static final String USER_DTO = "userDTO";
+    private static final String USER_DTO = "user";
     private static final String PAGINATION = "pagination";
     private static final String KEYWORD = "keyword";
     private static final String ERROR = "error";
@@ -82,7 +81,7 @@ public class UserController {
         boolean isSA = authentication.getAuthorities().stream()
                                      .anyMatch(r -> r.getAuthority().equals("ROLE_" + Constants.Roles.SA));
 
-        Pair<List<UserDTO>, Integer> result = Pair.of(new LinkedList<>(), 0);
+        Pair<List<User>, Integer> result = Pair.of(new LinkedList<>(), 0);
 
         if (UtilValidation.isValidSearch(keyword)) {
             if (isSA) {
@@ -160,10 +159,10 @@ public class UserController {
 
         if (UtilValidation.isValidId(userId)) {
 
-            UserDTO userDTO = userService.readDTO(userId);
-            if (userDTO != null) {
+            User user = userService.read(userId);
+            if (user != null) {
 
-                model.addAttribute(USER_DTO, userDTO);
+                model.addAttribute(USER_DTO, user);
                 return FOLDER + "/details";
             }
 
@@ -225,11 +224,9 @@ public class UserController {
 
         if (UtilValidation.isValidId(userId)) {
 
-            UserDTO userDTO = userService.readDTO(userId);
-            if (userDTO != null) {
-
-                model.addAttribute(USER_DTO, userDTO);
-                model.addAttribute(USER, userDTO.getUser());
+            User user = userService.read(userId);
+            if (user != null) {
+                model.addAttribute(USER, user);
                 return FOLDER + "/delete";
             }
 

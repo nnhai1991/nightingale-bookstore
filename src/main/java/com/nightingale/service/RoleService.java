@@ -12,4 +12,8 @@ public interface RoleService {
     List<Role> getListAll();
 
     List<Role> getAssignableRoles();
+
+	Role getRoleByCode(String sa);
+
+	Role create(Role role);
 }

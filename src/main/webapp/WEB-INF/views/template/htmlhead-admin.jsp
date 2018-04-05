@@ -17,12 +17,18 @@
 <script src="<c:url value="/resources/vendor/jquery/jquery.min.js"/>"></script>
 <script src="<c:url value="/resources/vendor/bootstrap/js/bootstrap.min.js"/>"></script>
 <script src="<c:url value="/resources/vendor/metisMenu/metisMenu.min.js"/>"></script>
+<script src="<c:url value="/resources/vendor/moment/moment.min.js"/>"></script>
 
 
 <!-- template style -->
 <link rel="stylesheet" href="<c:url value="/resources/admin/css/sb-admin-2.css"/>"/>
 <!-- template script -->
 <script src="<c:url value="/resources/admin/js/sb-admin-2.js"/>"></script>
+
+<!-- date picker -->
+<link rel="stylesheet" href="<c:url value="/resources/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css"/>"/>
+<script src="<c:url value="/resources/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"/>"></script>
+
 
 <link rel="stylesheet" href="<c:url value="/resources/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css"/>"/>
 <script src="<c:url value="/resources/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js"/>"></script>

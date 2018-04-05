@@ -10,7 +10,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.BeanWrapperImpl;
 
 import com.nightingale.model.constraints.ChronologicStringToTime;
-import com.nightingale.util.UtilFormat;
+import com.nightingale.util.DateFormat;
 
 public class ChronologicStringToTimeValidator implements ConstraintValidator<ChronologicStringToTime, Object> {
 
@@ -31,7 +31,7 @@ public class ChronologicStringToTimeValidator implements ConstraintValidator<Chr
 		String startTimeString = (String) new BeanWrapperImpl(value).getPropertyValue(startTimeField);
 		String endTimeString = (String) new BeanWrapperImpl(value).getPropertyValue(endTimeField);
 
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(UtilFormat.TIME);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(DateFormat.DISPLAY_TIME);
 
 		try {
 			LocalTime startTime = LocalTime.parse(startTimeString, formatter);

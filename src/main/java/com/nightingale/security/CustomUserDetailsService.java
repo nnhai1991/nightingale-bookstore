@@ -12,32 +12,28 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.nightingale.entity.Role;
 import com.nightingale.entity.User;
-
 import com.nightingale.repository.RoleRepository;
 import com.nightingale.service.UserService;
 import com.nightingale.util.web.UtilValidation;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
 	private static final String ROLE_PREFIX = "ROLE_";
 
 	private static Pattern pattern = Pattern.compile(UtilValidation.LOGIN_VALID_EMAIL);
-
+	
+	@NonNull
+	private UserService userService;
+	
 	public static boolean isValidEmail(String username) {
 		return pattern.matcher(username).matches();
 	}
 
-	private UserService userService;
-	private RoleRepository roleRepository;
-
-	@Autowired
-	public CustomUserDetailsService(UserService userService, RoleRepository roleRepository) {
-		this.userService = userService;
-		this.roleRepository = roleRepository;
-
-	}
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -60,9 +56,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public Collection<? extends GrantedAuthority> getAuthorities(User user) {
 
 		Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
-		Role role;
-			role = roleRepository.findOne(user.getRoleId());
-			authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.getCode()));
+		authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + user.getRole().getCode()));
 		return authorities;
 	}
 

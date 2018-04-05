@@ -47,4 +47,14 @@ public class RoleServiceImpl implements RoleService {
         roles.add(roleRepository.findByCode(Constants.Roles.AD));
         return roles;
     }
+
+	@Override
+	public Role getRoleByCode(String code) {
+		return roleRepository.findByCode(code);
+	}
+
+	@Override
+	public Role create(Role role) {
+		return roleRepository.save(role);
+	}
 }

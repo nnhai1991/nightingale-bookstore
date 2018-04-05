@@ -87,7 +87,8 @@ public class StockController {
 
 	@PostMapping("/create")
 	public String create(Model model, @Valid Stock stock, BindingResult validResult) {
-
+		if (stock.getDisplayStockDateTime()==null)
+			validResult.rejectValue("displayStockDateTime", "NULL");
 		if (validResult.hasErrors()) {
 			model.addAttribute(ARTICLES, articleService.getAll());
 			model.addAttribute(SITES, siteService.getAll());
@@ -176,7 +177,8 @@ public class StockController {
 
 	@PostMapping("/update")
 	public String update(Model model, @Valid Stock stock, BindingResult bindingResult) {
-
+		if (stock.getDisplayStockDateTime()==null)
+			bindingResult.rejectValue("displayStockDateTime", "NULL");
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(ARTICLES, articleService.getAll());
 			model.addAttribute(SITES, siteService.getAll());

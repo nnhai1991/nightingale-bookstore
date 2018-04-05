@@ -1,5 +1,8 @@
 package com.nightingale.service.impl;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,11 +16,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.nightingale.entity.Stock;
-import com.nightingale.repository.ArticleRepository;
 import com.nightingale.repository.StockRepository;
+import com.nightingale.security.CustomUserDetails;
 import com.nightingale.service.ArticleService;
 import com.nightingale.service.SiteService;
 import com.nightingale.service.StockService;
+import com.nightingale.util.UtilDates;
 import com.nightingale.util.web.UtilValidation;
 
 @Service
@@ -35,17 +39,26 @@ public class StockServiceImp implements StockService {
 	@Override
 	@CacheEvict(value = CACHE_NAME, allEntries = true)
 	public Stock create(Stock stock) {
-		stock.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());
+		stock.setCreatedBy(SecurityContextHolder.getContext().getAuthentication().getName());		
 		stock.setArticle(articleService.read(stock.getArticle().getId()));
 		stock.setFromSite(siteService.read(stock.getFromSite().getId()));
 		stock.setToSite(siteService.read(stock.getToSite().getId()));
+		
+		CustomUserDetails customUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		stock.setStockDate(Timestamp.valueOf(UtilDates.getUTCFromTimeZone(stock.getDisplayStockDateTime(), customUser.getUser().getTimezone())));
+			      
 		return stockRepository.save(stock);
 	}
 
 	@Override
 	@Cacheable(CACHE_NAME)
 	public Stock read(int tId) {
-		return stockRepository.findOne(tId);
+		Stock stock =  stockRepository.findOne(tId);
+		if (stock != null){
+			CustomUserDetails customUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			stock.setDisplayStockDateTime(UtilDates.getLocalDateFromUTC(stock.getStockDate().toLocalDateTime(), customUser.getUser().getTimezone()));
+		}
+		return stock;
 	}
 
 	@Override
@@ -55,6 +68,10 @@ public class StockServiceImp implements StockService {
 		stock.setArticle(articleService.read(stock.getArticle().getId()));
 		stock.setFromSite(siteService.read(stock.getFromSite().getId()));
 		stock.setToSite(siteService.read(stock.getToSite().getId()));
+
+		CustomUserDetails customUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		stock.setStockDate(Timestamp.valueOf(UtilDates.getUTCFromTimeZone(stock.getDisplayStockDateTime(), customUser.getUser().getTimezone())));
+
 		return stockRepository.save(stock);
 	}
 
@@ -74,6 +91,11 @@ public class StockServiceImp implements StockService {
 				result = stockRepository.findBySearch(keyword, pageRequest);
 			} else {
 				result = stockRepository.findAll(pageRequest);
+			}
+			CustomUserDetails customUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+			for(Stock stock: result.getContent()){
+				stock.setDisplayStockDateTime(UtilDates.getLocalDateFromUTC(stock.getStockDate().toLocalDateTime(), customUser.getUser().getTimezone()));
 			}
 			return Pair.of(result.getContent(), (int) result.getTotalElements());
 		}

@@ -1,15 +1,8 @@
 package com.nightingale.entity;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -19,6 +12,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import com.nightingale.util.web.UtilValidation;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
@@ -31,17 +25,14 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "`user`")
 @Data
+@EqualsAndHashCode(callSuper=true)
 @NoArgsConstructor
-public class User implements Serializable {
+public class User extends BaseEntity {
 
 	private static final long serialVersionUID = -5379792979026217998L;
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
-
-	@NotNull
-	private Integer roleId;
+	@ManyToOne
+	private Role role;
 
 	@NotEmpty
 	private String email;
@@ -56,24 +47,16 @@ public class User implements Serializable {
 	@NotEmpty
 	@Pattern(regexp = UtilValidation.ALPHA_NUMERIC_WITH_SPACE)
 	private String lastName;
-	private Integer failedLoginAttempt;
+	
+	private int failedLoginAttempt;
 
-	private Boolean enabled;
-	private Boolean notLocked;
-	private String createdBy;
-	private Timestamp createdDate;
-	private String updatedBy;
-	private Timestamp updatedDate;
-
-	@PreUpdate
-	protected void onUpdate() {
-		this.updatedDate = Timestamp.valueOf(LocalDateTime.now());
-	}
-
-	@PrePersist
-	protected void onCreate() {
-		this.createdDate = Timestamp.valueOf(LocalDateTime.now());
-		this.updatedDate = Timestamp.valueOf(LocalDateTime.now());
-	}
-
+	private boolean enabled;
+	
+	@NotNull
+	private String timezone;
+	
+	private String facebookId;
+	
+	@OneToOne
+	private Customer customer;
 }

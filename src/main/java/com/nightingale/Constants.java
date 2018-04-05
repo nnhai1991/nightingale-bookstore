@@ -42,6 +42,12 @@ public final class Constants {
         public static final String STORE = "STORE";
         public static final List<String> AVAILABLES = Arrays.asList(ONLINE);
     }
+    
+    public static class TimeZone{
+    	public static final String SINGAPORE = "Asia/Singapore";
+        public static final String VIETNAM = "Asia/Ho_Chi_Minh";
+        public static final List<String> AVAILABLES = Arrays.asList(SINGAPORE,VIETNAM);
+    }
 
 	public static final int MAX_FAILED_LOGIN_ATTEMPTS = 10;
    
