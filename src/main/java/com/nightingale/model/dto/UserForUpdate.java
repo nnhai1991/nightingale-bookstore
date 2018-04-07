@@ -36,9 +36,8 @@ public class UserForUpdate implements Serializable {
     private String lastName;
 
     private Boolean enabled;
-    private Boolean notLocked;
     private String createdBy;
-    private LocalDateTime createdDate;
     private String updatedBy;
-    private LocalDateTime updatedDate;
+	private String timezone;
+
 }

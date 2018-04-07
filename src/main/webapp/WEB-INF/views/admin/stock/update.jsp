@@ -25,7 +25,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<form:form method="POST" action="${updateURL}"
-						modelAttribute="stock">
+						modelAttribute="stock" cssClass="form-horizontal">
 						<form:input type="hidden" path="id" />
 						<c:import url="form.jsp"></c:import>
 						<div class="form-group">

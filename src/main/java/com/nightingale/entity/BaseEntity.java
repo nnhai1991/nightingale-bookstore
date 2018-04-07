@@ -3,6 +3,8 @@ package com.nightingale.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @MappedSuperclass
-public class BaseEntity implements Serializable{
+public class BaseEntity implements Serializable {
 	/**
 	 * 
 	 */
@@ -32,18 +34,19 @@ public class BaseEntity implements Serializable{
 	protected String createdBy;
 	@Column(updatable = false)
 	protected Timestamp createdDate;
-	
+
 	protected String updatedBy;
 	protected Timestamp updatedDate;
-	
+
 	@PreUpdate
 	protected void onUpdate() {
-		this.updatedDate = Timestamp.valueOf(LocalDateTime.now());
+		this.updatedDate = Timestamp.valueOf(ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime());
 	}
 
 	@PrePersist
 	protected void onCreate() {
-		this.createdDate = Timestamp.valueOf(LocalDateTime.now());
-		this.updatedDate = Timestamp.valueOf(LocalDateTime.now());
+		this.updatedDate = Timestamp.valueOf(ZonedDateTime.now(ZoneOffset.UTC).toLocalDateTime());
+		this.createdDate = updatedDate;
+
 	}
 }

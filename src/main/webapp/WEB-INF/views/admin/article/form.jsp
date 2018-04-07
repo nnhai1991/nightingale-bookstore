@@ -18,10 +18,10 @@
 </p>
 
 <div class="form-group">
-	<label class="col-2 col-form-label"> <spring:message
+	<label class="col-sm-4 col-form-label"> <spring:message
 			code="name" />
 	</label>
-	<div class="col-6">
+	<div class="col-sm-8">
 		<spring:message code="name" var="namePlaceholder" />
 		<form:input path="article.name" type="text" class="form-control"
 			placeholder="${namePlaceholder}" />
@@ -32,10 +32,10 @@
 </div>
 
 <div class="form-group">
-	<label class="col-2 col-form-label"> <spring:message
+	<label class="col-sm-4 col-form-label"> <spring:message
 			code="code" />
 	</label>
-	<div class="col-6">
+	<div class="col-sm-8">
 		<spring:message code="code" var="codePlaceholder" />
 		<form:input path="article.code" type="text" class="form-control"
 			placeholder="${codePlaceholder}" />
@@ -46,10 +46,10 @@
 </div>
 
 <div class="form-group">
-	<label class="col-2 col-form-label"> <spring:message
+	<label class="col-sm-4 col-form-label"> <spring:message
 			code="description" />
 	</label>
-	<div class="col-6">
+	<div class="col-sm-8">
 		<spring:message code="description" var="descriptionPlaceholder" />
 		<form:input path="article.description" type="text" class="form-control"
 			placeholder="${descriptionPlaceholder}" />
@@ -60,10 +60,10 @@
 </div>
 
 <div class="form-group">
-    <label class="col-2 col-form-label"> <spring:message
+    <label class="col-sm-4 col-form-label"> <spring:message
             code="price" />
     </label>
-    <div class="col-6">
+    <div class="col-sm-8">
         <spring:message code="price" var="pricePlaceholder" />
         <form:input path="article.price" type="text" class="form-control"
             placeholder="${pricePlaceholder}" />
@@ -74,10 +74,10 @@
 </div>
 
 <div class="form-group">
-    <label class="col-2 col-form-label"> <spring:message
+    <label class="col-sm-4 col-form-label"> <spring:message
             code="currency" />
     </label>
-    <div class="col-6">
+    <div class="col-sm-8">
         <spring:message code="currency" var="currencyPlaceholder" />
         <form:select path="article.currency" type="text" class="form-control" items = "${currencies}"
             placeholder="${currencyPlaceholder}" />
@@ -88,10 +88,10 @@
 </div>
 
 <div class="form-group">
-	<label class="col-2 col-form-label"> <spring:message
+	<label class="col-sm-4 col-form-label"> <spring:message
 			code="priority" />
 	</label>
-	<div class="col-6">
+	<div class="col-sm-8">
 		<spring:message code="priority" var="priorityPlaceholder" />
 		<form:input path="article.priority" type="text" class="form-control"
 			placeholder="${priorityPlaceholder}" />
@@ -102,10 +102,10 @@
 </div>
 
 <div class="form-group">
-	<label class="col-2 col-form-label"> <spring:message
+	<label class="col-sm-4 col-form-label"> <spring:message
 			code="condition" />
 	</label>
-	<div class="col-6">
+	<div class="col-sm-8">
 		<form:select class="form-control" path="conditions" multiple="multiple" data-role="tagsinput" items="${articleDTO.conditions}"></form:select>
 	</div>
 	<p class="text-danger">
@@ -114,10 +114,10 @@
 </div>
 
 <div class="form-group">
-    <label class="col-2 col-form-label"> <spring:message
+    <label class="col-sm-4 col-form-label"> <spring:message
             code="categories" />
     </label>
-    <div class="col-6">
+    <div class="col-sm-8">
         <form:select class="form-control" path="categories" multiple="multiple" data-role="tagsinput" items="${articleDTO.categories}"></form:select>
     </div>
     <p class="text-danger">
@@ -126,10 +126,10 @@
 </div>
 
 <div class="form-group">
-    <label class="col-2 col-form-label"> <spring:message
+    <label class="col-sm-4 col-form-label"> <spring:message
             code="authors" />
     </label>
-    <div class="col-6">
+    <div class="col-sm-8">
         <form:select class="form-control" path="authors" multiple="multiple" data-role="tagsinput" items="${articleDTO.authors}"></form:select>
     </div>
     <p class="text-danger">
@@ -138,10 +138,10 @@
 </div>
 
 <div class="form-group">
-	<label class="col-2 col-form-label"> <spring:message
+	<label class="col-sm-4 col-form-label"> <spring:message
 			code="tag" />
 	</label>
-	<div class="col-6">
+	<div class="col-sm-8">
 		<form:select class="form-control" path="tags" multiple="multiple" data-role="tagsinput" items="${articleDTO.tags}"></form:select>
 	</div>
 	<p class="text-danger">
@@ -151,7 +151,7 @@
 
 
 <div class="form-group">
-	<div class="form-check">
+	<div class="col-sm-8 col-sm-offset-4">
 		<label class="form-check-label"> <form:checkbox path="article.enabled"
 				id="enabled" /> <spring:message code="enabled" />
 		</label>

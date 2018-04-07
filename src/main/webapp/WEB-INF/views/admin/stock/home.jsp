@@ -1,16 +1,16 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
+	prefix="security"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime"%>
-<%@ page import="com.nightingale.util.UtilFormat"%>
+<%@ page import="com.nightingale.util.DateFormat"%>
 
 <c:set var="dateTimeFormat"
-	value="<%=UtilFormat.UTC_JAVSCRIPT_DISPLAY_FORMAT%>" />
+	value="<%=DateFormat.DISPLAY_DATE_TIME%>" />
 
 <tiles:insertDefinition name="admin-template">
 	<tiles:putAttribute name="body">
@@ -53,6 +53,7 @@
 						<th><spring:message code="fromSite" /></th>
 						<th><spring:message code="toSite" /></th>
 						<th><spring:message code="quantity" /></th>
+						<th><spring:message code="stock_date_time" /></th>
 						<th></th>
 					</tr>
 				</thead>
@@ -65,7 +66,10 @@
 							<td>${stock.fromSite.name}</td>
 							<td>${stock.toSite.name}</td>
 							<td>${stock.quantity}</td>
-
+                            <td>
+                            <javatime:format value="${stock.displayStockDateTime}" pattern="dd/MM/yyyy HH:mm"/>
+                            (<security:authentication property="principal.user.timezone" />)
+                            </td>
 							<td><c:url value="/admin/stock/update" var="updateURL">
 									<c:param value="${stock.id}" name="stockId" />
 								</c:url> <a class="btn btn-default" href="${updateURL}"> <i

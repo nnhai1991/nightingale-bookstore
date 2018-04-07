@@ -49,8 +49,7 @@
 						<th><spring:message code="last_name" /></th>
 						<th><spring:message code="email" /></th>
 						<th><spring:message code="role" /></th>
-						<th><spring:message code="shop" /></th>
-						<th><spring:message code="locked" /></th>
+						<th><spring:message code="timezone" /></th>
 						<th><spring:message code="status" /></th>
 						<th></th>
 					</tr>
@@ -60,23 +59,12 @@
 					<c:forEach items="${users}" var="userDTO">
 						<tr>
 
-							<td>${userDTO.user.firstName}</td>
-							<td>${userDTO.user.lastName}</td>
-							<td>${userDTO.user.email}</td>
-							<td>${userDTO.role.name}</td>
-							<td>${userDTO.shop.name}</td>
+							<td>${user.firstName}</td>
+							<td>${user.lastName}</td>
+							<td>${user.email}</td>
+							<td>${user.role.name}</td>
 							<td><c:choose>
-									<c:when test="${userDTO.user.notLocked}">
-										<spring:message code="unlocked" />
-									</c:when>
-									<c:otherwise>
-										<spring:message code="locked" />
-									</c:otherwise>
-
-								</c:choose></td>
-
-							<td><c:choose>
-									<c:when test="${userDTO.user.enabled}">
+									<c:when test="${user.enabled}">
 										<spring:message code="active" />
 									</c:when>
 									<c:otherwise>
@@ -86,17 +74,17 @@
 								</c:choose></td>
 
 							<c:url value="/user/details" var="detailsURL">
-								<c:param value="${userDTO.user.id}" name="userId" />
+								<c:param value="${user.id}" name="userId" />
 							</c:url>
 
 							<c:url value="/user/update" var="updateURL">
-								<c:param value="${userDTO.user.id}" name="userId" />
+								<c:param value="${user.id}" name="userId" />
 							</c:url>
 							<c:url value="/user/delete" var="deleteURL">
-								<c:param value="${userDTO.user.id}" name="userId" />
+								<c:param value="${user.id}" name="userId" />
 							</c:url>
 							<c:url value="/user/change-password" var="changePasswordURL">
-								<c:param value="${userDTO.user.id}" name="userId" />
+								<c:param value="${user.id}" name="userId" />
 							</c:url>
 							<td nowrap="nowrap"><a href="${detailsURL}"
 								class="btn btn-outline-dark btn-sm"> <i class="fa fa-eye"></i>

@@ -1,13 +1,13 @@
 package com.nightingale.service;
 
 
-import com.nightingale.entity.User;
-import com.nightingale.model.dto.UserForUpdate;
-import com.nightingale.model.dto.UserDTO;
-import com.nightingale.model.dto.UserForUpdatePassword;
+import java.util.List;
+
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.List;
+import com.nightingale.entity.User;
+import com.nightingale.model.dto.UserForUpdate;
+import com.nightingale.model.dto.UserForUpdatePassword;
 
 public interface UserService{
 
@@ -22,9 +22,7 @@ public interface UserService{
 	Boolean activateUser(String username);
 	Boolean deactivateUser(String username);
 
-	UserDTO readDTO(Integer userId);
-
-	Pair<List<UserDTO>, Integer> getDTOListWithPaginationBySearch(String keyword, Integer pageNo, Integer pageSize) ;
+	Pair<List<User>, Integer> getDTOListWithPaginationBySearch(String keyword, Integer pageNo, Integer pageSize) ;
 
 	Boolean update(UserForUpdate userForUpdate);
 	Boolean updatePassword(UserForUpdatePassword userForUpdatePassword) ;

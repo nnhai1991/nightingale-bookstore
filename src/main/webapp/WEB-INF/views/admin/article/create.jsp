@@ -28,7 +28,7 @@
 			<div class="panel panel-default">
 				<div class="panel-body">
 					<form:form method="POST" action="${createURL}"
-						modelAttribute="articleDTO">
+						modelAttribute="articleDTO" cssClass="form-horizontal">
 
 						<c:import url="form.jsp"></c:import>
 						<div class="form-group">

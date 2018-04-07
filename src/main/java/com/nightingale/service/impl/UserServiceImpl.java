@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -22,11 +21,9 @@ import com.nightingale.entity.EmailToken;
 import com.nightingale.entity.Role;
 import com.nightingale.entity.User;
 import com.nightingale.exception.NightingaleException;
-import com.nightingale.model.dto.UserDTO;
 import com.nightingale.model.dto.UserForUpdate;
 import com.nightingale.model.dto.UserForUpdatePassword;
 import com.nightingale.repository.EmailTokenRepository;
-import com.nightingale.repository.RoleRepository;
 import com.nightingale.repository.UserRepository;
 import com.nightingale.service.RoleService;
 import com.nightingale.service.UserService;
@@ -40,14 +37,11 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 	@Autowired
-	private RoleRepository roleRepository;
-	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private RoleService roleService;
 	@Autowired
 	private EmailTokenRepository emailTokenRepository;
-
 
 	@Override
 	public User readFromToken(String token) {
@@ -87,11 +81,11 @@ public class UserServiceImpl implements UserService {
 				newUser.setEnabled(user.getEnabled());
 				newUser.setFirstName(user.getFirstName());
 				newUser.setLastName(user.getLastName());
-				newUser.setNotLocked(user.getNotLocked());
-				newUser.setRoleId(user.getRoleId());
+				newUser.setRole(roleService.read(user.getRoleId()));
 				newUser.setCreatedBy(user.getCreatedBy());
 				newUser.setPassword(passwordEncoder.encode(new Date().toString()));
 				newUser.setFailedLoginAttempt(0);
+				newUser.setTimezone(user.getTimezone());
 				boolean valid = userRepository.save(newUser) != null;
 				if (valid) {
 					LocalDateTime expiryDate = LocalDateTime.now();
@@ -233,7 +227,7 @@ public class UserServiceImpl implements UserService {
 
 			User user = readByUsername(username);
 
-			if (user != null && !user.getEnabled()) {
+			if (user != null && !user.isEnabled()) {
 				user.setEnabled(true);
 				return userRepository.save(user) != null;
 			}
@@ -248,7 +242,7 @@ public class UserServiceImpl implements UserService {
 		if (UtilValidation.isValidString(username)) {
 			User user = readByUsername(username);
 
-			if (user != null && user.getEnabled()) {
+			if (user != null && user.isEnabled()) {
 				user.setEnabled(false);
 				return userRepository.save(user) != null;
 			}
@@ -257,26 +251,6 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
-	@Override
-	public UserDTO readDTO(Integer userId) {
-
-		if (UtilValidation.isValidId(userId)) {
-
-			User user = userRepository.findOne(userId);
-			Role role = roleRepository.findOne(user.getRoleId());
-
-			UserDTO userDTO = new UserDTO();
-			userDTO.setUser(user);
-			userDTO.setRole(role);
-
-			return userDTO;
-
-		}
-
-		return null;
-	}
-
-	
 	@Override
 	public Boolean update(UserForUpdate userForUpdate) {
 
@@ -295,12 +269,11 @@ public class UserServiceImpl implements UserService {
 
 				User user = userRepository.findOne(userForUpdate.getId());
 				user.setEmail(userForUpdate.getEmail());
-				user.setRoleId(userForUpdate.getRoleId());
+				user.setRole(roleService.read(userForUpdate.getRoleId()));
 				user.setFirstName(userForUpdate.getFirstName());
 				user.setLastName(userForUpdate.getLastName());
-
+				user.setTimezone(userForUpdate.getTimezone());
 				user.setEnabled(userForUpdate.getEnabled());
-				user.setNotLocked(userForUpdate.getNotLocked());
 
 				user.setUpdatedBy(userForUpdate.getUpdatedBy());
 
@@ -313,7 +286,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Boolean updatePassword(UserForUpdatePassword userForUpdatePassword)  {
+	public Boolean updatePassword(UserForUpdatePassword userForUpdatePassword) {
 
 		if (userForUpdatePassword != null) {
 
@@ -329,9 +302,9 @@ public class UserServiceImpl implements UserService {
 
 		return false;
 	}
-	
+
 	@Override
-	public Pair<List<UserDTO>, Integer> getDTOListWithPaginationBySearch(String keyword, Integer pageNo,
+	public Pair<List<User>, Integer> getDTOListWithPaginationBySearch(String keyword, Integer pageNo,
 			Integer pageSize) {
 		if (pageNo > 0) {
 			Page<User> result;
@@ -339,50 +312,39 @@ public class UserServiceImpl implements UserService {
 			if (keyword == null)
 				keyword = "";
 			result = userRepository.findBySearchWithPage(keyword, pageRequest);
-			if (result != null && result.getContent().size() > 0) {
+			return Pair.of(result.getContent(), (int) result.getTotalElements());
 
-				List<UserDTO> userDTOList = new LinkedList<>();
-
-				for (User user : result.getContent()) {
-					userDTOList.add(readDTO(user.getId()));
-				}
-
-				return Pair.of(userDTOList, (int) result.getTotalElements());
-
-			}
 		}
 		return Pair.of(new ArrayList<>(), 0);
 	}
 
-
 	@Override
 	@Transactional
 	public Boolean createAdmin() {
-		Role role = roleRepository.findByCode(Constants.Roles.SA);
-		if (role == null){
+		Role role = roleService.getRoleByCode(Constants.Roles.SA);
+		if (role == null) {
 			role = new Role();
 			role.setCode("SA");
 			role.setName("System Admin");
-			try{
-			role = roleRepository.save(role);
-		}
-			catch(Exception ex){
+			try {
+				role = roleService.create(role);
+			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
-		
+
 		User user = new User();
-    	user.setCreatedBy("system");
-    	user.setEmail("nnhai1991@gmail.com");
-    	user.setEnabled(true);
-    	user.setFailedLoginAttempt(0);
-    	user.setFirstName("System");
-    	user.setLastName("Admin");
-    	user.setNotLocked(true);
-    	user.setPassword(passwordEncoder.encode("1"));
-    	user.setRoleId(role.getId());
-    	userRepository.save(user);
-    	return true;
+		user.setCreatedBy("system");
+		user.setEmail("nnhai1991@gmail.com");
+		user.setEnabled(true);
+		user.setFailedLoginAttempt(0);
+		user.setFirstName("System");
+		user.setLastName("Admin");
+		user.setPassword(passwordEncoder.encode("1"));
+		user.setRole(role);
+		user.setTimezone(Constants.TimeZone.SINGAPORE);
+		userRepository.save(user);
+		return true;
 	}
 
 }
