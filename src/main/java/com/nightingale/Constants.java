@@ -42,6 +42,12 @@ public final class Constants {
         public static final String STORE = "STORE";
         public static final List<String> AVAILABLES = Arrays.asList(ONLINE);
     }
+    
+    public static class DiscountTypes {
+        public static final String FIXED = "FIXED";
+        public static final String PERCENTAGE = "PERCENTAGE";
+        public static final List<String> AVAILABLES = Arrays.asList(FIXED,PERCENTAGE);
+    }
 
 	public static final int MAX_FAILED_LOGIN_ATTEMPTS = 10;
    
