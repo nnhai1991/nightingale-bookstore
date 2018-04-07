@@ -17,19 +17,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.nightingale.entity.Stock;
+import com.nightingale.entity.Discount;
 import com.nightingale.service.ArticleService;
 import com.nightingale.service.SiteService;
-import com.nightingale.service.StockService;
+import com.nightingale.service.DiscountService;
 import com.nightingale.util.web.Pagination;
 import com.nightingale.util.web.UtilValidation;
 
 @Controller
-@RequestMapping("/admin/stock")
-public class StockController {
+@RequestMapping("/admin/discount")
+public class DiscountController {
 
-	private static final String MODEL = "stock";
-	private static final String MODELS = "stocks";
+	private static final String MODEL = "discount";
+	private static final String MODELS = "discounts";
 	private static final String ARTICLES = "articles";
 	private static final String SITES = "sites";
 
@@ -37,11 +37,11 @@ public class StockController {
 	private static final String KEYWORD = "keyword";
 	private static final String ERROR = "error";
 
-	private final static String FOLDER = "/admin/stock";
+	private final static String FOLDER = "/admin/discount";
 	
 
 	@Autowired
-	private StockService stockService;
+	private DiscountService discountService;
 	
 	@Autowired
 	private SiteService siteService;
@@ -59,11 +59,11 @@ public class StockController {
 		if (pageNo < 1)
 			pageNo = 1;
 
-		Pair<List<Stock>, Integer> result = Pair.of(new LinkedList<>(), 0);
+		Pair<List<Discount>, Integer> result = Pair.of(new LinkedList<>(), 0);
 
 		if (UtilValidation.isValidSearch(keyword)) {
 
-			result = stockService.getListWithPaginationBySearch(keyword, pageNo, pageSize);
+			result = discountService.getListWithPaginationBySearch(keyword, pageNo, pageSize);
 			model.addAttribute(MODELS, result.getLeft());
 
 		} else {
@@ -79,92 +79,94 @@ public class StockController {
 
 	@GetMapping("/create")
 	public String create(Model model) {
-		model.addAttribute(MODEL, new Stock());
+		model.addAttribute(MODEL, new Discount());
 		model.addAttribute(ARTICLES, articleService.getAll());
 		model.addAttribute(SITES, siteService.getAll());
 		return FOLDER + "/create";
 	}
 
 	@PostMapping("/create")
-	public String create(Model model, @Valid Stock stock, BindingResult validResult) {
-		if (stock.getStockDateLocal()==null)
-			validResult.rejectValue("displayStockDateTime", "NotNull");
-		if (validResult.hasErrors()) {
+	public String create(Model model, @Valid Discount discount, BindingResult bindingResult) {
+		if (discount.getStartDateLocal()==null)
+			bindingResult.rejectValue("startDateLocal", "NotNull");
+		if (discount.getEndDateLocal()==null)
+			bindingResult.rejectValue("endDateLocal", "NotNull");
+		if (bindingResult.hasErrors()) {
 			model.addAttribute(ARTICLES, articleService.getAll());
 			model.addAttribute(SITES, siteService.getAll());
 			return FOLDER + "/create";
 		} else {
 
-			stockService.create(stock);
-			return "redirect:/admin/stock";
+			discountService.create(discount);
+			return "redirect:/admin/discount";
 		}
 	}
 
 	@GetMapping("/delete")
 	public String delete(Model model,
-			@RequestParam(name = "stockId", required = true, defaultValue = "-1") Integer stockId) {
+			@RequestParam(name = "discountId", required = true, defaultValue = "-1") Integer discountId) {
 
-		if (UtilValidation.isValidId(stockId)) {
+		if (UtilValidation.isValidId(discountId)) {
 
-			Stock stock = stockService.read(stockId);
+			Discount discount = discountService.read(discountId);
 
-			if (stock != null) {
-				model.addAttribute(MODEL, stock);
+			if (discount != null) {
+				model.addAttribute(MODEL, discount);
 				return FOLDER + "/delete";
 			}
 
 		}
-		return "redirect:/admin/stock";
+		return "redirect:/admin/discount";
 
 	}
 
 	@PostMapping("/delete")
-	public String delete(Model model, @ModelAttribute Stock stock) {
+	public String delete(Model model, @ModelAttribute Discount discount) {
 
-		if (stock != null && stock != null) {
+		if (discount != null && discount != null) {
 
-			Stock m = stockService.read(stock.getId());
+			Discount m = discountService.read(discount.getId());
 
 			if (m != null) {
-				stockService.delete(m.getId());
+				discountService.delete(m.getId());
 			} else {
-				model.addAttribute(MODEL, stock);
+				model.addAttribute(MODEL, discount);
 				return FOLDER + "/delete";
 			}
 
 		}
 
-		return "redirect:/admin/stock";
+		return "redirect:/admin/discount";
 
 	}
 
 	@GetMapping("/details")
 	public String details(Model model,
-			@RequestParam(name = "stockId", required = true, defaultValue = "-1") Integer stockId) {
+			@RequestParam(name = "discountId", required = true, defaultValue = "-1") Integer discountId) {
 
-		if (UtilValidation.isValidId(stockId)) {
+		if (UtilValidation.isValidId(discountId)) {
 
-			Stock stock = stockService.read(stockId);
+			Discount discount = discountService.read(discountId);
 
-			if (stock != null) {
+			if (discount != null) {
 
-				model.addAttribute(MODEL, stock);
+				model.addAttribute(MODEL, discount);
 				return FOLDER + "/details";
 			}
 
 		}
-		return "redirect:/admin/stock";
+		return "redirect:/admin/discount";
 
 	}
 
 	@GetMapping("/update")
 	public String update(Model model,
-			@RequestParam(name = "stockId", required = true, defaultValue = "-1") Integer stockId) {
+			@RequestParam(name = "discountId", required = true, defaultValue = "-1") Integer discountId) {
 
-		if (UtilValidation.isValidId(stockId) == false)
-			return "redirect:/admin/stock";
+		if (UtilValidation.isValidId(discountId) == false)
+			return "redirect:/admin/discount";
 
-		Stock m = stockService.read(stockId);
+		Discount m = discountService.read(discountId);
 		if (m != null) {
 			model.addAttribute(ARTICLES, articleService.getAll());
 			model.addAttribute(SITES, siteService.getAll());
@@ -172,21 +174,23 @@ public class StockController {
 			return FOLDER + "/update";
 		}
 
-		return "redirect:/admin/stock";
+		return "redirect:/admin/discount";
 	}
 
 	@PostMapping("/update")
-	public String update(Model model, @Valid Stock stock, BindingResult bindingResult) {
-		if (stock.getStockDateLocal()==null)
-			bindingResult.rejectValue("displayStockDateTime", "NotNull");
+	public String update(Model model, @Valid Discount discount, BindingResult bindingResult) {
+		if (discount.getStartDateLocal()==null)
+			bindingResult.rejectValue("startDateLocal", "NotNull");
+		if (discount.getEndDateLocal()==null)
+			bindingResult.rejectValue("endDateLocal", "NotNull");
 		if (bindingResult.hasErrors()) {
 			model.addAttribute(ARTICLES, articleService.getAll());
 			model.addAttribute(SITES, siteService.getAll());
-			model.addAttribute(MODEL, stock);
+			model.addAttribute(MODEL, discount);
 			return FOLDER + "/update";
 		} else {
-			stockService.update(stock);
-			return "redirect:/admin/stock";
+			discountService.update(discount);
+			return "redirect:/admin/discount";
 		}
 	}
 }

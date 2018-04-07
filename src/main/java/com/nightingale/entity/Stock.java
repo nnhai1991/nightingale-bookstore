@@ -2,16 +2,19 @@ package com.nightingale.entity;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import com.nightingale.security.CustomUserDetails;
 import com.nightingale.util.DateFormat;
+import com.nightingale.util.UtilDates;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,9 +44,47 @@ public class Stock extends BaseEntity{
 	
 	private String type;
 	
-	private Timestamp stockDate;
+	private Timestamp stockDateUTC;
 	
 	@Transient
 	@DateTimeFormat(pattern=DateFormat.DISPLAY_DATE_TIME)
-	private LocalDateTime displayStockDateTime;
+	private LocalDateTime stockDateLocal;
+	
+	public void convertToLocalTime() {
+		try {
+			CustomUserDetails customUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal();
+			if (this.stockDateLocal == null ) {
+				this.setStockDateLocal(UtilDates.getLocalDateFromUTC(this.getStockDateUTC().toLocalDateTime(),
+						customUser.getUser().getTimezone()));
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	private void convertToUTC() {
+		try {
+			CustomUserDetails customUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
+					.getPrincipal();
+			if (this.stockDateUTC == null) {
+				this.setStockDateUTC(Timestamp
+						.valueOf(UtilDates.getUTCFromTimeZone(this.getStockDateLocal(), customUser.getUser().getTimezone())));
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	@PreUpdate
+	protected void onUpdate() {
+		super.onUpdate();
+		convertToUTC();
+	}
+
+	@PrePersist
+	protected void onCreate() {
+		super.onUpdate();
+		convertToUTC();
+	}
 }

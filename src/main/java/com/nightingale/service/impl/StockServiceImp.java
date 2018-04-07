@@ -43,10 +43,7 @@ public class StockServiceImp implements StockService {
 		stock.setArticle(articleService.read(stock.getArticle().getId()));
 		stock.setFromSite(siteService.read(stock.getFromSite().getId()));
 		stock.setToSite(siteService.read(stock.getToSite().getId()));
-		
-		CustomUserDetails customUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		stock.setStockDate(Timestamp.valueOf(UtilDates.getUTCFromTimeZone(stock.getDisplayStockDateTime(), customUser.getUser().getTimezone())));
-			      
+					      
 		return stockRepository.save(stock);
 	}
 
@@ -55,8 +52,7 @@ public class StockServiceImp implements StockService {
 	public Stock read(int tId) {
 		Stock stock =  stockRepository.findOne(tId);
 		if (stock != null){
-			CustomUserDetails customUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			stock.setDisplayStockDateTime(UtilDates.getLocalDateFromUTC(stock.getStockDate().toLocalDateTime(), customUser.getUser().getTimezone()));
+			stock.convertToLocalTime();
 		}
 		return stock;
 	}
@@ -68,10 +64,7 @@ public class StockServiceImp implements StockService {
 		stock.setArticle(articleService.read(stock.getArticle().getId()));
 		stock.setFromSite(siteService.read(stock.getFromSite().getId()));
 		stock.setToSite(siteService.read(stock.getToSite().getId()));
-
-		CustomUserDetails customUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		stock.setStockDate(Timestamp.valueOf(UtilDates.getUTCFromTimeZone(stock.getDisplayStockDateTime(), customUser.getUser().getTimezone())));
-
+		
 		return stockRepository.save(stock);
 	}
 
@@ -92,14 +85,11 @@ public class StockServiceImp implements StockService {
 			} else {
 				result = stockRepository.findAll(pageRequest);
 			}
-			CustomUserDetails customUser = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
 			for(Stock stock: result.getContent()){
-				stock.setDisplayStockDateTime(UtilDates.getLocalDateFromUTC(stock.getStockDate().toLocalDateTime(), customUser.getUser().getTimezone()));
+				stock.convertToLocalTime();
 			}
 			return Pair.of(result.getContent(), (int) result.getTotalElements());
 		}
 		return Pair.of(new ArrayList<>(), 0);
 	}
-
 }

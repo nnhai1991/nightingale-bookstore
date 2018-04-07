@@ -6,7 +6,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ page import="com.nightingale.Constants"%>
-<c:set var="types" value="<%=Constants.StockType.AVAILABLES%>"></c:set>
+<c:set var="types" value="<%=Constants.DiscountTypes.AVAILABLES%>"></c:set>
 <p class="text-danger">
 	<spring:message code="${error}" text="${error}" />
 </p>
@@ -19,14 +19,30 @@
 	</label>
 	<div class="col-sm-8">
 		<spring:message code="article" var="articlePlaceholder" />
-		<form:select path="article.id" type="text" class="form-control"
+		<form:select path="articles" type="text" class="form-control" multiple="true" 
 			placeholder="${articlePlaceholder}" items="${articles}"
-			itemLabel="name" itemValue="id" />
+			itemLabel="name" />
 	</div>
 	<p class="text-danger">
-		<form:errors path="article.id" />
+		<form:errors path="articles" />
 	</p>
 </div>
+<!-- description -->
+<div class="form-group">
+	<label class="col-sm-4 col-form-label">
+		<spring:message code="description" />
+	</label>
+	<div class="col-sm-8">
+		<spring:message code="description" var="descriptionPlaceholder" />
+		<form:input path="description" type="text" class="form-control"
+			placeholder="${descriptionPlaceholder}" />
+	</div>
+	<p class="text-danger">
+		<form:errors path="description" />
+	</p>
+</div>
+<!-- description -->
+
 <div class="form-group">
 	<label class="col-sm-4 col-form-label">
 		<spring:message code="type" />
@@ -39,67 +55,70 @@
 		<form:errors path="type" />
 	</p>
 </div>
+
+<!-- amount -->
 <div class="form-group">
 	<label class="col-sm-4 col-form-label">
-		<spring:message code="quantity" />
+		<spring:message code="amount" />
 	</label>
 	<div class="col-sm-8">
-		<spring:message code="quantity" var="quantityPlaceholder" />
-		<form:input path="quantity" type="number" class="form-control"
-			placeholder="${quantityPlaceholder}" />
+		<spring:message code="amount" var="amountPlaceholder" />
+		<form:input path="amount" type="number" class="form-control"
+			placeholder="${amountPlaceholder}" />
 	</div>
 	<p class="text-danger">
-		<form:errors path="quantity" />
+		<form:errors path="amount" />
 	</p>
 </div>
+
+<!-- start date -->
 <div class="form-group">
 	<label class="col-sm-4 col-form-label">
-		<spring:message code="stock_date_time" />
+		<spring:message code="start_date" />
 		(
 		<security:authentication property="principal.user.timezone" />
 		)
 	</label>
 	<div class="col-sm-8">
-		<spring:message code="stock_date" var="datePlaceholder" />
-		<form:input path="stockDateLocal" type="text"
-			class="form-control datetimepicker" placeholder="${datePlaceholder}" required="required" />
+		<spring:message code="start_date" var="start_datePlaceholder" />
+		<form:input path="startDateLocal" type="text"
+			class="form-control datetimepicker" placeholder="${start_datePlaceholder}" required="required" />
 	</div>
 	<p class="text-danger">
-		<form:errors path="stockDateLocal" />
+		<form:errors path="startDateLocal" />
 	</p>
 </div>
+
+<!-- end date -->
+
 <div class="form-group">
 	<label class="col-sm-4 col-form-label">
-		<spring:message code="fromSite" />
+		<spring:message code="end_date" />
+		(
+		<security:authentication property="principal.user.timezone" />
+		)
 	</label>
 	<div class="col-sm-8">
-		<spring:message code="fromSite" var="fromSitePlaceholder" />
-		<form:select path="fromSite.id" type="text" class="form-control"
-			placeholder="${fromSitePlaceholder}">
-			<form:option value="0">None</form:option>
-			<form:options items="${sites}" itemLabel="name" itemValue="id" />
-		</form:select>
+		<spring:message code="end_date" var="endDatePlaceholder" />
+		<form:input path="endDateLocal" type="text"
+			class="form-control datetimepicker" placeholder="${endDatePlaceholder}" required="required" />
 	</div>
 	<p class="text-danger">
-		<form:errors path="fromSite.id" />
+		<form:errors path="endDateLocal" />
 	</p>
 </div>
+<!-- enabled -->
 <div class="form-group">
-	<label class="col-sm-4 col-form-label">
-		<spring:message code="toSite" />
-	</label>
-	<div class="col-sm-8">
-		<spring:message code="toSite" var="toSitePlaceholder" />
-		<form:select path="toSite.id" type="text" class="form-control"
-			placeholder="${toSitePlaceholder}">
-			<form:option value="0">None</form:option>
-			<form:options items="${sites}" itemLabel="name" itemValue="id" />
-		</form:select>
+	<div class="col-sm-8 col-sm-offset-4">
+		<label class="form-check-label"> <form:checkbox path="enabled"
+				id="enabled" /> <spring:message code="enabled" />
+		</label>
+		<p class="text-danger">
+			<form:errors path="enabled" />
+		</p>
 	</div>
-	<p class="text-danger">
-		<form:errors path="toSite.id" />
-	</p>
 </div>
+
 <script type="text/javascript">
 	$(function() {
 		$('.datetimepicker').datetimepicker({

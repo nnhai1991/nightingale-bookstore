@@ -39,6 +39,12 @@ public class LoginController {
 
         return FOLDER + "/login";
     }
+    
+    @GetMapping("/logout")
+    public String logout(Model model, @RequestParam(required = false, defaultValue = "") String error) {
+
+        return FOLDER + "/login";
+    }
 
     @GetMapping("/reset-password")
     public String resetPassword(Model model,

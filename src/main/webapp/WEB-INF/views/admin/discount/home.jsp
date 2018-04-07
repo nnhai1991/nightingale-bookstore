@@ -9,8 +9,7 @@
 <%@ taglib uri="http://sargue.net/jsptags/time" prefix="javatime"%>
 <%@ page import="com.nightingale.util.DateFormat"%>
 
-<c:set var="dateTimeFormat"
-	value="<%=DateFormat.DISPLAY_DATE_TIME%>" />
+<c:set var="dateTimeFormat" value="<%=DateFormat.DISPLAY_DATE_TIME%>" />
 
 <tiles:insertDefinition name="admin-template">
 	<tiles:putAttribute name="body">
@@ -19,12 +18,13 @@
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><spring:message
 						code="administration" /></li>
-				<li class="breadcrumb-item active"><spring:message code="stock" /></li>
+				<li class="breadcrumb-item active"><spring:message
+						code="discount" /></li>
 			</ol>
 
 			<div id="notification" class="bg-green"></div>
 
-			<c:url value="/admin/stock/create" var="createURL" />
+			<c:url value="/admin/discount/create" var="createURL" />
 			<a class="btn btn-primary" href="${createURL}"> <i
 				class="fa fa-plus"></i> <spring:message code="create" />
 			</a> <br /> <br />
@@ -49,29 +49,34 @@
 					<tr>
 						<th><spring:message code="id" /></th>
 						<th><spring:message code="article" /></th>
+						<th><spring:message code="description" /></th>
 						<th><spring:message code="type" /></th>
-						<th><spring:message code="fromSite" /></th>
-						<th><spring:message code="toSite" /></th>
-						<th><spring:message code="quantity" /></th>
-						<th><spring:message code="stock_date_time" /></th>
+						<th><spring:message code="amount" /></th>
+						<th><spring:message code="start_date" /></th>
+						<th><spring:message code="end_date" /></th>
+						<th><spring:message code="enabled" /></th>
 						<th></th>
 					</tr>
 				</thead>
 				<tbody>
-					<c:forEach items="${stocks}" var="stock">
+					<c:forEach items="${discounts}" var="discount">
 						<tr>
-							<td>${stock.id}</td>
-							<td>${stock.article.name}</td>
-							<td>${stock.type}</td>
-							<td>${stock.fromSite.name}</td>
-							<td>${stock.toSite.name}</td>
-							<td>${stock.quantity}</td>
-                            <td>
-                            <javatime:format value="${stock.stockDateLocal}" pattern="dd/MM/yyyy HH:mm"/>
-                            (<security:authentication property="principal.user.timezone" />)
-                            </td>
-							<td><c:url value="/admin/stock/update" var="updateURL">
-									<c:param value="${stock.id}" name="stockId" />
+							<td>${discount.id}</td>
+							<td><c:forEach items="${discount.articles}" var="article"> ${article.name} <br/></c:forEach></td>
+							<td>${discount.description}</td>
+							<td>${discount.type}</td>
+							<td>${discount.amount}</td>
+							<td><javatime:format value="${discount.startDateLocal}"
+									pattern="dd/MM/yyyy HH:mm" /> (<security:authentication
+									property="principal.user.timezone" />)</td>
+							<td><javatime:format value="${discount.endDateLocal}"
+									pattern="dd/MM/yyyy HH:mm" /> (<security:authentication
+									property="principal.user.timezone" />)</td>
+							<td><spring:message code="${discount.enabled}" htmlEscape="false" />
+
+							</td>
+							<td><c:url value="/admin/discount/update" var="updateURL">
+									<c:param value="${discount.id}" name="discountId" />
 								</c:url> <a class="btn btn-default" href="${updateURL}"> <i
 									class="fa fa-pencil"></i>
 							</a></td>
@@ -84,7 +89,7 @@
 				<nav>
 					<ul class="pagination">
 
-						<c:url value="/admin/stock" var="pageURL">
+						<c:url value="/admin/discount" var="pageURL">
 							<c:param name="keyword" value="${keyword}" />
 						</c:url>
 						<li class="page-item"><a class="page-link"

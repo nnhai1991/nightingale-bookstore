@@ -30,7 +30,7 @@ public class Article extends BaseEntity {
 	private String code;
 
 	private String description;
-
+	
 	@NotNull
 	private float price;
 	
